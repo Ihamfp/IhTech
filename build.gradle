@@ -1,0 +1,91 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
+apply plugin: 'maven'
+
+file "build.properties" withReader {
+	def prop = new Properties()
+	prop.load(it)
+	ext.config = new ConfigSlurper().parse prop
+}
+
+version = "0.1"
+group= "com.ihamfp.IhTech" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "ihtech"
+
+sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.6"
+}
+
+minecraft {
+    version = "${config.minecraft.version}-${config.forge.version}"
+    runDir = "run"
+    
+    mappings = "snapshot_20161107"
+    
+    replaceIn "com/ihamfp/IhTech/IhTechMod.java"
+    replace "@VERSION@", "${config.thismod.version}"
+    
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+}
+
+repositories {
+    maven { // Waila
+        name "Mobius Repo"
+        url "http://www.mobiusstrip.eu/maven"
+    }
+    maven { // TOP
+        name "tterrag maven"
+        url "http://maven.tterrag.com/"
+    }
+    maven { // JEI
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        name "OC Repo"
+        url "http://maven.cil.li/"
+    }
+}
+
+dependencies {
+    deobfCompile "mcp.mobius.waila:Waila:${config.waila.version}"
+    deobfCompile "mezz.jei:jei_${config.minecraft.version}:${config.jei.version}:api"
+    deobfCompile "li.cil.oc:OpenComputers:MC${config.minecraft.version}-${config.oc.version}"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:${config.top.version}"
+    
+    runtime "mezz.jei:jei_${config.minecraft.version}:${config.jei.version}"
+    
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

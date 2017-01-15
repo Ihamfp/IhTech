@@ -1,0 +1,10 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": {
+      "layer0": "minecraft:stone",
+      "layer1": "ihtech:blocks/ore_layer",
+    }
+  }
+}
+

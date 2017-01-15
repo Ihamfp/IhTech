@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ihtech",
+  "name": "IhTech",
+  "description": "Make Minecraft great again.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Ihamfp"],
+  "credits": "\n  Nolifertu: logo and stuff",
+  "logoFile": "IhTech.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,0 +1,7 @@
+{
+  "parent": "ihtech:item/simpleItem",
+  "textures": {
+    "layer0": "ihtech:items/ingot_template",
+    "layer1": "ihtech:items/metalingot"
+  }
+}

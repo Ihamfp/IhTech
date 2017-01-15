@@ -1,0 +1,6 @@
+{
+  "parent": "ihtech:item/simpleItem",
+  "textures": {
+    "layer0": "ihtech:items/plate_template"
+  }
+}

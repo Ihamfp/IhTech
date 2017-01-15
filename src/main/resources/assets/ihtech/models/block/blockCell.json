@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "ihtech:blocks/electric_generic",
+    "up": "ihtech:blocks/electric_generic",
+    "north": "ihtech:blocks/electric_generic",
+    "east": "ihtech:blocks/electric_generic",
+    "south": "ihtech:blocks/electric_generic",
+    "west": "ihtech:blocks/electric_generic",
+    "particle": "ihtech:blocks/electric_generic"
+  }
+}
