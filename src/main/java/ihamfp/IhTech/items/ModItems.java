@@ -2,6 +2,8 @@ package ihamfp.IhTech.items;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.item.ItemElytra;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ihamfp.IhTech.ModIhTech;
@@ -12,6 +14,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import slimeknights.tconstruct.library.TinkerRegistry;
+
 public class ModItems {
 	//public static ItemWrench wrench1 = new ItemWrench("wrench1");
 	
@@ -20,6 +24,16 @@ public class ModItems {
 	public static ItemGenericResource dust = new ItemGenericResource("dust");
 	public static ItemGenericResource gem = new ItemGenericResource("gem");
 	public static ItemGenericResource plate = new ItemGenericResource("plate");
+	public static ItemGenericResource rod = new ItemGenericResource("rod");
+	
+	public static ItemBattery batSaline = new ItemBattery("SalineBattery", 2500, 0, 20);
+	public static ItemBattery batAlkaline = new ItemBattery("AlkalineBattery", 5000, 0, 40);
+	public static ItemBattery batRedstone = new ItemBattery("RedstoneBattery", 1000, 100, 100);
+	public static ItemBattery batLeadAcid = new ItemBattery("LeadAcidBattery", 50000, 500, 500);
+	public static ItemBattery batNickelZinc = new ItemBattery("NickelZincBattery", 7500, 1000, 1000);
+	public static ItemBattery batLithium = new ItemBattery("LithiumBattery", 12500, 1000, 2000);
+	public static ItemBattery batSupercap = new ItemBattery("Supercapacitor", 10000, 10000, 10000);
+	
 	
 	public static void preInit() {
 		//wrench1.register();
@@ -29,6 +43,15 @@ public class ModItems {
 		dust.register();
 		gem.register();
 		plate.register();
+		rod.register();
+		
+		batSaline.register();
+		batAlkaline.register();
+		batRedstone.register();
+		batLeadAcid.register();
+		batNickelZinc.register();
+		batLithium.register();
+		batSupercap.register();
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -38,6 +61,7 @@ public class ModItems {
 		dust.initModel();
 		gem.initModel();
 		plate.initModel();
+		rod.initModel();
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -49,5 +73,6 @@ public class ModItems {
 		itemColors.registerItemColorHandler(colorHandler, dust);
 		itemColors.registerItemColorHandler(colorHandler, gem);
 		itemColors.registerItemColorHandler(colorHandler, plate);
+		itemColors.registerItemColorHandler(colorHandler, rod);
 	}
 }

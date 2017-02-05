@@ -28,12 +28,20 @@ public class ResourceMaterial {
 		METAL,
 		DUST,
 		CRYSTAL,
+		ALL,
 		NONE, // will not add recipes
 	}
 	
 	public String name;
 	public int color;
-	public int toolDurability;
+	
+	// Mainly used for TConstruct
+	public int toolDurability = 0;
+	public int miningLevel = 0;
+	public float miningSpeed = 1;
+	public float attackDamages = 0;
+	public float handleModifier = 1.0f;
+	public int meltingPoint = 773; // 500°C
 	
 	public OreDrop oreDrop;
 	public StorageBlockType storageBlockType;
@@ -58,6 +66,7 @@ public class ResourceMaterial {
 			this.setHas("nugget");
 			this.setHas("dust");
 			this.setHas("plate");
+			this.setHas("rod");
 			this.setHas("block");
 			this.resourceType = type;
 			break;
@@ -72,6 +81,15 @@ public class ResourceMaterial {
 			this.setHas("dust");
 			this.setHas("block");
 			break;
+		
+		case ALL:
+			this.setHas("ingot");
+			this.setHas("nugget");
+			this.setHas("dust");
+			this.setHas("gem");
+			this.setHas("plate");
+			this.setHas("rod");
+			this.setHas("block");
 			
 		case NONE:
 		default:
@@ -81,7 +99,7 @@ public class ResourceMaterial {
 		return this;
 	}
 	
-	public boolean has(String thing) { // TODO: make it clean
+	public boolean has(String thing) {
 		if (this.hasThings.containsKey(thing)) {
 			return true;
 		}
@@ -104,6 +122,20 @@ public class ResourceMaterial {
 		}
 		this.items.put(thing, item);
 		
+		return this;
+	}
+	
+	public ResourceMaterial setToolProperties(int durability, int miningLevel, float miningSpeed, float attackDamages) {
+		this.toolDurability = durability;
+		this.miningLevel = miningLevel;
+		this.miningSpeed = miningSpeed;
+		this.attackDamages = attackDamages;
+		return this;
+	}
+	
+	/** In Kelvins */
+	public ResourceMaterial setMeltingPoint(int meltingPoint) {
+		this.meltingPoint = meltingPoint;
 		return this;
 	}
 	

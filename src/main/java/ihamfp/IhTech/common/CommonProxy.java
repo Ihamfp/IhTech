@@ -3,9 +3,11 @@ package ihamfp.IhTech.common;
 import java.io.File;
 
 import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.TOPCompatibility;
-import ihamfp.IhTech.WailaCompatibility;
+import ihamfp.IhTech.TileEntities.ModTileEntities;
 import ihamfp.IhTech.blocks.ModBlocks;
+import ihamfp.IhTech.compatibility.TConstructIntegration;
+import ihamfp.IhTech.compatibility.TOPCompatibility;
+import ihamfp.IhTech.compatibility.WailaCompatibility;
 import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 import ihamfp.IhTech.creativeTabs.TabResources;
 import ihamfp.IhTech.fluids.ModFluids;
@@ -27,23 +29,30 @@ public class CommonProxy implements IProxy {
 		config = new Configuration(new File(event.getModConfigurationDirectory().getPath(), "ihtech.cfg"));
 		Config.readConfig();
 		
-		ModCreativeTabs.preInit();
 		ModBlocks.preInit();
+		ModTileEntities.preInit();
 		ModItems.preInit();
 		ModFluids.preInit();
 		PacketHandler.registerMessages();
-		if (Loader.isModLoaded("Waila")) {
+		if (Loader.isModLoaded("Waila") && Config.WailaIntegration) {
 			WailaCompatibility.register();
 		}
-		if (Loader.isModLoaded("theoneprobe")) {
+		if (Loader.isModLoaded("theoneprobe") && Config.TOPIntegration) {
 			TOPCompatibility.register();
+		}
+		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
+			TConstructIntegration.moltenIntegration();
 		}
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {		
 		NetworkRegistry.INSTANCE.registerGuiHandler(ModIhTech.instance, new GuiHandler());
 		ModRecipes.addMaterialRecipes();
+		
+		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
+			TConstructIntegration.materialsIntegration();
+		}
 	}
 
 	@Override

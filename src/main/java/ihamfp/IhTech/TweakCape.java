@@ -14,11 +14,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -40,15 +44,32 @@ public class TweakCape {
 					addedList.put(player.getName(), true);
 				} else if (StringUtils.stripControlCodes(player.getName()).equals("Nolifertu")) {
 					addCape(player, noli);
+					addedList.put(player.getName(), true);
 				} else {
-					ModIhTech.logger.info("No cape for " + player.getName());
 					addedList.put(player.getName(), false);
 				}
 			}
 		}
 	}
 	
-	public void addCape(EntityPlayer player, ResourceLocation cape) {
+	@SubscribeEvent
+	public void worldUnloaded(WorldEvent.Unload event) {
+		if (addedList.containsValue(true)) {
+			ModIhTech.logger.info("Cleared capes list");
+			addedList.clear();
+		}
+	}
+	
+	private static void checkForCape(EntityPlayer player) {
+		if (player == null) return;
+		if (StringUtils.stripControlCodes(player.getName()).equals("_Firew0lf")) {
+			addCape(player, ihamfp);
+		} else if (StringUtils.stripControlCodes(player.getName()).equals("Nolifertu")) {
+			addCape(player, noli);
+		}
+	}
+	
+	private static void addCape(EntityPlayer player, ResourceLocation cape) {
 		if (!(player instanceof AbstractClientPlayer)) {
 			ModIhTech.logger.error("Player was not abstract enough.");
 			return;
@@ -61,7 +82,7 @@ public class TweakCape {
 			try {
 				met = AbstractClientPlayer.class.getDeclaredMethod("func_175155_b");
 			} catch (Exception ignore) {
-				ModIhTech.logger.error("Could not get normal meth");
+				ModIhTech.logger.warn("Could not get normal meth");
 			} finally {
 				met = AbstractClientPlayer.class.getDeclaredMethod("getPlayerInfo");
 			}
@@ -69,11 +90,17 @@ public class TweakCape {
 				ModIhTech.logger.error("Could not get any meth :(");
 				return;
 			}
-			ModIhTech.logger.info("Got meth.");
 			met.setAccessible(true);
 			
 			Object obj = met.invoke(aplayer);
-			if (!(obj instanceof NetworkPlayerInfo)) return;
+			if (!(obj instanceof NetworkPlayerInfo)) {
+				if (obj == null) {
+					ModIhTech.logger.error("Not Pointing Exception");
+				} else {
+					ModIhTech.logger.error("Not Pointed Exception");
+				}
+				return;
+			}
 		
 			NetworkPlayerInfo npi = (NetworkPlayerInfo)obj;
 			

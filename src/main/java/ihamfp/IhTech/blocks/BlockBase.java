@@ -31,10 +31,7 @@ public class BlockBase extends Block {
 	}
 	
 	public BlockBase(String name, Material material) {
-		super(material, material.getMaterialMapColor());
-		setRegistryName(ModIhTech.MODID, name);
-		setUnlocalizedName(getRegistryName().toString());
-		setDefaultState(blockState.getBaseState().withProperty(FACING,  EnumFacing.NORTH));
+		this(name, material, material.getMaterialMapColor());
 	}
 	
 	public void register() {

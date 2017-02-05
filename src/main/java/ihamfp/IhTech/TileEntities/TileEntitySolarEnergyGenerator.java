@@ -12,9 +12,9 @@ public class TileEntitySolarEnergyGenerator extends TileEntityEnergyStorage impl
 	
 	@Override
 	public void update() {
+		super.update();
 		int energyGenerated = this.getEnergyProducedPerTick();
-		this.energy.receiveEnergy(energyGenerated, false);
-		this.updateGlobalEnergySharing();
+		this.energyStorage.receiveEnergy(energyGenerated, false);
 		this.markDirty();
 	}
 	

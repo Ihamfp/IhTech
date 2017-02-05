@@ -1,5 +1,6 @@
-package ihamfp.IhTech;
+package ihamfp.IhTech.compatibility;
 
+import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.blocks.BlockEnergyStorage;
 import ihamfp.IhTech.interfaces.IWailaInfoProvider;
 
@@ -43,7 +44,7 @@ public class WailaCompatibility implements IWailaDataProvider {
 		if (registered) {
 			return;
 		}
-		FMLInterModComms.sendMessage("Waila", "register", "ihamfp.IhTech.WailaCompatibility.load");
+		FMLInterModComms.sendMessage("Waila", "register", "ihamfp.IhTech.compatibility.WailaCompatibility.load");
 		registered = true;
 	}
 

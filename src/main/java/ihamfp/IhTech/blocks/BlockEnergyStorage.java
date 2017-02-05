@@ -4,6 +4,7 @@ import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
 import ihamfp.IhTech.common.CommonProxy;
 import ihamfp.IhTech.common.Config;
+import ihamfp.IhTech.common.GuiHandler.EnumGUIs;
 import ihamfp.IhTech.interfaces.ITOPInfoProvider;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
 import ihamfp.IhTech.interfaces.IWailaInfoProvider;
@@ -36,13 +37,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider, IWailaInfoProvider, ITOPInfoProvider {
-	public static int GUI_ID;
+	public static int GUI_ID = EnumGUIs.GUI_NONE.ordinal();
 	
-	public int capacity;
+	public int capacity = 1;
 	
 	public BlockEnergyStorage(String name, Material material, MapColor mapColor, int capacity) {
 		super(name, material, mapColor);
@@ -65,11 +67,10 @@ public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		TileEntityEnergyStorage te = new TileEntityEnergyStorage();
-		te.setEnergyStorage(new EnergyStorage(this.capacity));
 		return te;
 	}
 	
-	@Override
+	/*@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (world.isRemote)
 			return true;
@@ -79,6 +80,11 @@ public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider
 			return false;
 		
 		return true;
+	}*/
+	
+	public BlockEnergyStorage setCapacity(int cap) {
+		this.capacity = cap;
+		return this;
 	}
 	
 	// Texture
@@ -86,14 +92,15 @@ public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider
 	public void initModel() {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
-
+	
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		TileEntity te = accessor.getTileEntity();
 		if (!(te instanceof ITileEntityEnergyStorage))
 			return currenttip;
 		
-		EnergyStorage es = ((ITileEntityEnergyStorage)accessor.getTileEntity()).getEnergyStorage();
+		IEnergyStorage es = ((ITileEntityEnergyStorage)accessor.getTileEntity()).getEnergyStorage();
+		if (es == null) return currenttip;
 		currenttip.add("Energy stored: " + es.getEnergyStored() + "/" + es.getMaxEnergyStored() + " " + Config.energyUnitName);
 		return currenttip;
 	}
@@ -101,11 +108,11 @@ public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider
 	@Override
 	public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
 		TileEntity te = world.getTileEntity(data.getPos());
-		if (te instanceof ITileEntityEnergyStorage) {
-			EnergyStorage energy = ((ITileEntityEnergyStorage)te).getEnergyStorage();
-			probeInfo.horizontal()
-				.text("Energy stored:")
-				.progress(energy.getEnergyStored(), energy.getMaxEnergyStored(), probeInfo.defaultProgressStyle().suffix(Config.energyUnitName));
-		}
+		if (!(te instanceof ITileEntityEnergyStorage)) return;
+		IEnergyStorage energy = ((ITileEntityEnergyStorage)te).getEnergyStorage();
+		if (energy == null) return;
+		probeInfo.horizontal()
+			.text("Energy stored:")
+			.progress(energy.getEnergyStored(), energy.getMaxEnergyStored(), probeInfo.defaultProgressStyle().suffix(Config.energyUnitName));
 	}
 }

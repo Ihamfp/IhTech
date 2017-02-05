@@ -27,6 +27,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ItemGenericResource extends ItemBase implements IItemColored {
 	
 	private String type;
+	ItemDye d;
 	
 	public ItemGenericResource(String type) {
 		super(type);
@@ -45,10 +46,15 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 			if (material.has(this.type) && material.getItemFor(this.type) == null) { // only add if not present
 				if (OreDictionary.getOres("" + this.type + material.name).size() == 0 || Config.alwaysAddResources) { // Item doesn't exist in the game
 					ItemStack stack = new ItemStack(this, 1, i);
-					Materials.materials.get(i).setItemFor(this.type, stack);
+					material.setItemFor(this.type, stack);
 					OreDictionary.registerOre("" + this.type + material.name, stack);
+					if (Materials.oreDictAliasses.containsKey(material.name)) {
+						for (String alias : Materials.oreDictAliasses.get(material.name)) {
+							OreDictionary.registerOre("" + this.type + alias, stack);
+						}
+					}
 				} else { // Item already exists (another mod added it)
-					Materials.materials.get(i).setItemFor(this.type, OreDictionary.getOres("" + this.type + material.name).get(0));
+					material.setItemFor(this.type, OreDictionary.getOres("" + this.type + material.name).get(0));
 				}
 			}
 		}
@@ -95,16 +101,16 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	@SideOnly(Side.CLIENT)
 	public int getColor(ItemStack stack) {
 		int meta = stack.getMetadata();
-		if (meta < Materials.materials.size()) {
+		if (meta < Materials.materials.size() && !Materials.materials.get(meta).customRenders.containsKey(this.type)) {
 			return Materials.materials.get(meta).color;
 		}
 		return Color.WHITE.getRGB();
 	}
 	
 	@SideOnly(Side.CLIENT)
+	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {
-		for (int i=0; i<Materials.materials.size(); ++i) {
-			if (Materials.materials.get(i).name == "Undefined") continue;
+		for (int i=1; i<Materials.materials.size(); ++i) {
 			if (Materials.materials.get(i).has(this.type) && Materials.materials.get(i).getItemFor(this.type) != null && Materials.materials.get(i).getItemFor(this.type).getItem() instanceof ItemGenericResource) {
 				ItemStack stack = new ItemStack(itemIn, 1, i);
 				subItems.add(stack);

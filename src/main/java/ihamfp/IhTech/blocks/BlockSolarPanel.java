@@ -23,7 +23,6 @@ public class BlockSolarPanel extends BlockEnergyStorage {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		TileEntitySolarEnergyGenerator te = new TileEntitySolarEnergyGenerator();
-		te.setEnergyStorage(new EnergyStorage(this.capacity));
 		te.energyPerTickPerLight = 10;
 		return te;
 	}

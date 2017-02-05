@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidTank;
 
 public class GuiContainerDecorated extends GuiContainer {
@@ -25,7 +26,9 @@ public class GuiContainerDecorated extends GuiContainer {
 		
 	}
 	
-	public void drawEnergyStorageLevel(int x, int y, int mouseX, int mouseY, EnergyStorage es) {
+	public void drawEnergyStorageLevel(int x, int y, int mouseX, int mouseY, IEnergyStorage es) {
+		if (es == null) return;
+		if (es.getMaxEnergyStored() == 0) return;
 		int energyLevel = 33*es.getEnergyStored()/es.getMaxEnergyStored();
 		mc.getTextureManager().bindTexture(decoration);
 		drawTexturedModalRect(x, y, 0, 0, 20, 35); // draw the decoration background
@@ -71,5 +74,31 @@ public class GuiContainerDecorated extends GuiContainer {
 	public void drawSlot(int x, int y) {
 		mc.getTextureManager().bindTexture(decoration);
 		drawTexturedModalRect(x, y, 1, 36, 17, 17);
+	}
+	
+	/** Temperature in Kelvins */
+	public void drawTemperature(int x, int y, int mouseX, int mouseY, int temperature, int tempMin, int tempScale) {
+		int tempLevel = (temperature-tempMin)/tempScale;
+		if (tempLevel < 0) tempLevel = 0;
+		if (tempLevel > 33) tempLevel = 33;
+		mc.getTextureManager().bindTexture(decoration);
+		drawTexturedModalRect(x, y, 75, 0, 5, 35);
+		drawTexturedModalRect(x+1, y+34-tempLevel, 80, 33-tempLevel, 3, tempLevel);
+		if ((mouseX >= x && mouseX <= x+5) && (mouseY >= y && mouseY <= y+35)) {
+			ArrayList<String> text = new ArrayList<String>();
+			if (Config.tempUnitName == "K") {
+				text.add(temperature + " K");
+			} else if (Config.tempUnitName == "F") {
+				text.add(((temperature*9/5)-460) + "°F");
+			} else {
+				text.add((temperature - 273) + "°C");
+			}
+			drawHoveringText(text, mouseX, mouseY);
+		}
+	}
+	
+	/** Standard thermometer, ranges from 273K to 603K (0°C to 330°C) */
+	public void drawTemperature(int x, int y, int mouseX, int mouseY, int temperature) {
+		drawTemperature(x, y, mouseX, mouseY, temperature, 273, 10);
 	}
 }

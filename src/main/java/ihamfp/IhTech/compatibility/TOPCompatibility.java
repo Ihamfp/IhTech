@@ -1,5 +1,6 @@
-package ihamfp.IhTech;
+package ihamfp.IhTech.compatibility;
 
+import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.interfaces.ITOPInfoProvider;
 
 import javax.annotation.Nullable;
@@ -23,7 +24,7 @@ public class TOPCompatibility {
 		if (registered)
 			return;
 		registered = true;
-		FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "ihamfp.IhTech.TOPCompatibility$GetTheOneProbe");
+		FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "ihamfp.IhTech.compatibility.TOPCompatibility$GetTheOneProbe");
 	}
 	
 	public static class GetTheOneProbe implements com.google.common.base.Function<ITheOneProbe, Void> {

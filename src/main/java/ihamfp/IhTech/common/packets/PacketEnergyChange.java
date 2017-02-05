@@ -66,6 +66,7 @@ public class PacketEnergyChange implements IMessage {
 			TileEntity tile = player.worldObj.getTileEntity(message.blockPos);
 			if (tile instanceof ITileEntityEnergyStorage) {
 				IEnergyStorage e = ((ITileEntityEnergyStorage) tile).getEnergyStorage();
+				if (e == null) return;
 				if (e.getEnergyStored() < message.level) {
 					e.receiveEnergy(message.level-e.getEnergyStored(), false);
 				} else if (e.getEnergyStored() > message.level) {

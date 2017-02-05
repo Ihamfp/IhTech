@@ -1,37 +1,32 @@
 package ihamfp.IhTech.blocks;
 
-import java.util.List;
-
 import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
-import ihamfp.IhTech.TileEntities.TileEntityItemEnergyGenerator;
+import ihamfp.IhTech.TileEntities.TileEntityBatteryRack;
 import ihamfp.IhTech.common.GuiHandler.EnumGUIs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.ItemStackHandler;
 
-public class BlockSolidFuelEnergyGenerator extends BlockEnergyStorage {
+public class BlockBatteryRack extends BlockEnergyStorage {
+	
 	public static int GUI_ID = EnumGUIs.GUI_ONESLOT.ordinal();
 	
-	public BlockSolidFuelEnergyGenerator(String name, Material material) {
-		super(name, material, 80000);
-		this.setFaced();
+	public BlockBatteryRack() {
+		super("blockBatteryRack", Material.IRON, 0);
 	}
 	
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		TileEntityItemEnergyGenerator te = new TileEntityItemEnergyGenerator();
+		TileEntityBatteryRack te = new TileEntityBatteryRack();
 		return te;
 	}
 	

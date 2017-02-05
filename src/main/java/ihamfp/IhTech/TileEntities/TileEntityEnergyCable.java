@@ -6,9 +6,10 @@ import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 
-public class TileEntityEnergyCable extends TileEntity implements ITileEntityEnergyStorage {
+public class TileEntityEnergyCable extends TileEntityEnergyStorage {
 	
 	enum EnumCableSideRenderType {
 		NONE, // not connected
@@ -17,33 +18,9 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 	}
 	
 	EnergyStorage energyStorage;
-	List<BlockPos> nodesList; // Add to this list ONLY if the block can exchange energy
-	boolean isMaster = false; /* there should be only 1 master which updates every node
-	                           * if the master is destroyed, just pick a random one in
-	                           * the nodesList. */
 	
 	public TileEntityEnergyCable() {
 		
-	}
-
-	@Override
-	public EnergyStorage getEnergyStorage() {
-		return this.energyStorage;
-	}
-
-	@Override
-	public void setEnergyStorage(EnergyStorage energy) {
-		this.energyStorage = energy;
-	}
-
-	@Override
-	public void setEnergyParameters(int capacity, int maxReceive, int maxExtract) {
-		
-	}
-
-	@Override
-	public void updateToClient() {
-		if (!isMaster) return;
 	}
 
 	@Override
@@ -55,16 +32,11 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		TileEntity otherTile = this.worldObj.getTileEntity(this.getPos().offset(face));
 		if (otherTile instanceof TileEntityEnergyCable) {
 			return EnumCableSideRenderType.CABLE;
-		} else if (otherTile instanceof ITileEntityEnergyStorage) {
+		} else if (otherTile.hasCapability(CapabilityEnergy.ENERGY, face.getOpposite())) {
 			return EnumCableSideRenderType.BLOCK;
 		} else {
 			return EnumCableSideRenderType.NONE;
 		}
-	}
-	
-	@Override
-	public void updateGlobalEnergySharing() {
-		// update the node here
 	}
 
 }

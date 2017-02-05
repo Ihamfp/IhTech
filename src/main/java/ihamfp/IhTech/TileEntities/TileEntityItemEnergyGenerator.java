@@ -23,8 +23,8 @@ public class TileEntityItemEnergyGenerator extends TileEntityEnergyStorage imple
 	//EnergyStorage energy;
 	public int ticksLeft = 0; // fuel ticks left
 	public int ticksMax = 1; // max ticks left for the last item used
-	int energyLevel = 80; // fuel's energy level
-	static int FUEL_SLOT = 0;
+	private int energyLevel = 80; // fuel's energy level
+	private static final int FUEL_SLOT = 0;
 	
 	public TileEntityItemEnergyGenerator() {}
 	
@@ -46,7 +46,7 @@ public class TileEntityItemEnergyGenerator extends TileEntityEnergyStorage imple
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) itemStackHandler;
+			return (T)itemStackHandler;
 		}
 		return super.getCapability(capability, facing);
 	}
@@ -62,22 +62,20 @@ public class TileEntityItemEnergyGenerator extends TileEntityEnergyStorage imple
 	
 	@Override
 	public void update() {
-		if (this.energy == null || this.getWorld().isRemote) {
+		super.update();
+		if (this.getWorld().isRemote) return;
+		
+		if (this.energyStorage == null || this.getWorld().isRemote) {
 			return;
 		}
 		if (this.ticksLeft > 0) {
-			this.energy.receiveEnergy(this.energyLevel, false);
+			this.energyStorage.receiveEnergy(this.energyLevel, false);
 			this.ticksLeft--;
-			
-			this.markDirty();
-		}
-		if (this.energy.getEnergyStored() > 0) {
-			this.updateGlobalEnergySharing();
 			this.updateToClient();
 			this.markDirty();
 		}
 		ItemStack itemStack = this.itemStackHandler.getStackInSlot(FUEL_SLOT);
-		if (this.ticksLeft == 0 && itemStack != null && getTicksPerItem(itemStack) > 0 && this.energy.getEnergyStored() < this.energy.getMaxEnergyStored()) {
+		if (this.ticksLeft == 0 && itemStack != null && getTicksPerItem(itemStack) > 0 && this.energyStorage.getEnergyStored() < this.energyStorage.getMaxEnergyStored()) {
 			this.ticksLeft = getTicksPerItem(itemStack);
 			this.ticksMax = this.ticksLeft;
 			this.itemStackHandler.extractItem(FUEL_SLOT, 1, false);

@@ -1,8 +1,11 @@
 package ihamfp.IhTech.recipes;
 
 import ihamfp.IhTech.Materials;
+import ihamfp.IhTech.blocks.BlockGenericResource;
 import ihamfp.IhTech.common.ResourceMaterial;
+import ihamfp.IhTech.common.ResourceMaterial.ResourceType;
 import ihamfp.IhTech.items.ItemGenericResource;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -17,6 +20,11 @@ public class ModRecipes {
 				ItemStack nineNuggets = ItemStack.copyItemStack(mat.getItemFor("nugget"));
 				nineNuggets.stackSize = 9;
 				GameRegistry.addRecipe(nineNuggets, "i", 'i', mat.getItemFor("ingot"));
+			}
+			
+			// dust => ingot in furnace
+			if (mat.has("dust") && mat.has("ingot") && mat.resourceType == ResourceType.METAL && mat.meltingPoint <= 1600) {
+				GameRegistry.addSmelting(mat.getItemFor("dust"), mat.getItemFor("ingot"), 1);
 			}
 		}
 	}
