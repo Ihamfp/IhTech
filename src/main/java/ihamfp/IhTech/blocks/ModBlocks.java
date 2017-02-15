@@ -8,18 +8,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModBlocks {
 	// Blocks
-	public static BlockEnergyStorage blockCell = new BlockEnergyStorage("blockCell", Material.ROCK, 400000).setCreativeTab(CreativeTabs.MISC);
 	public static BlockSolidFuelEnergyGenerator blockGen = new BlockSolidFuelEnergyGenerator("blockGen", Material.IRON);
-	public static BlockSolarPanel blockPanel = new BlockSolarPanel("blockPanel", Material.GLASS, 10000);
+	public static BlockSolarPanel blockPanel = new BlockSolarPanel("blockPanel", Material.GLASS);
 	public static BlockBatteryRack blockBattRack = new BlockBatteryRack();
 	
 	// machines
 	public static BlockMachineElectricFurnace blockElectricFurnace = new BlockMachineElectricFurnace("electricFurnace");
 	
-	public static void preInit() {
-		blockGen.setCapacity(10000);
-		
-		blockCell.register();
+	public static void preInit() {		
 		blockGen.register();
 		blockPanel.register();
 		blockBattRack.register();
@@ -29,7 +25,6 @@ public class ModBlocks {
 	
 	@SideOnly(Side.CLIENT)
 	public static void initModels() {
-		blockCell.initModel();
 		blockGen.initModel();
 		blockPanel.initModel();
 		blockBattRack.initModel();

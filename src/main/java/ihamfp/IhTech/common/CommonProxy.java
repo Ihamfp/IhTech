@@ -3,6 +3,7 @@ package ihamfp.IhTech.common;
 import java.io.File;
 
 import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.TweakPolarBear;
 import ihamfp.IhTech.TileEntities.ModTileEntities;
 import ihamfp.IhTech.blocks.ModBlocks;
 import ihamfp.IhTech.compatibility.TConstructIntegration;
@@ -14,6 +15,7 @@ import ihamfp.IhTech.fluids.ModFluids;
 import ihamfp.IhTech.interfaces.IProxy;
 import ihamfp.IhTech.items.ModItems;
 import ihamfp.IhTech.recipes.ModRecipes;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -57,6 +59,7 @@ public class CommonProxy implements IProxy {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.register(new TweakPolarBear());
 		if (config.hasChanged()) {
 			config.save();
 		}

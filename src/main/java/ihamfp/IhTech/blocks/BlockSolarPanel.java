@@ -16,8 +16,8 @@ import net.minecraftforge.energy.EnergyStorage;
 
 public class BlockSolarPanel extends BlockEnergyStorage {
 
-	public BlockSolarPanel(String name, Material material, int capacity) {
-		super(name, material, capacity);
+	public BlockSolarPanel(String name, Material material) {
+		super(name, material);
 	}
 	
 	@Override

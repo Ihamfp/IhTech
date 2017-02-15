@@ -36,7 +36,14 @@ import net.minecraftforge.items.CapabilityItemHandler;
  * Also, prefer using getEnergyStorage() over just this.energyStorage.
  */
 public class TileEntityEnergyStorage extends TileEntity implements ITileEntityEnergyStorage, ITickable {
-	protected EnergyStorage energyStorage;
+	public int capacity = 10000; // default capacity for all electric blocks
+	
+	protected EnergyStorage energyStorage = new EnergyStorage(capacity);
+	
+	
+	public void setCapacity(int cap) {
+		this.capacity = cap;
+	}
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
@@ -53,12 +60,6 @@ public class TileEntityEnergyStorage extends TileEntity implements ITileEntityEn
 		}
 		return super.getCapability(capability, facing);
 	}
-	
-	/*@Override
-	public void setEnergyParameters(int capacity, int maxReceive, int maxExtract) {
-		EnergyStorage newEnergyStorage = new EnergyStorage(capacity, maxReceive, maxExtract);
-		this.energyStorage = newEnergyStorage;
-	}*/
 	
 	@Override
 	public IEnergyStorage getEnergyStorage() {
@@ -171,8 +172,7 @@ public class TileEntityEnergyStorage extends TileEntity implements ITileEntityEn
 			ModIhTech.logger.debug("Tile at " + this.getPos() + " has no energy storage.");
 			Block thisBlock = this.getWorld().getBlockState(this.getPos()).getBlock();
 			if (thisBlock instanceof BlockEnergyStorage) {
-				this.energyStorage = new EnergyStorage(((BlockEnergyStorage)thisBlock).capacity);
-				ModIhTech.logger.debug("Set energy storage with capacity " + ((BlockEnergyStorage)thisBlock).capacity);
+				this.energyStorage = new EnergyStorage(this.capacity);
 			} else {
 				ModIhTech.logger.debug("Could not set energyStorage: block is not a BlockEnergyStorage");
 				return;
@@ -190,30 +190,45 @@ public class TileEntityEnergyStorage extends TileEntity implements ITileEntityEn
 		if (this.worldObj.isRemote)
 			return;
 		
-		if (this.getEnergyStorage() != null) {
+		/*if (this.getEnergyStorage() != null) {
 			PacketEnergyChange packet = new PacketEnergyChange(this.getPos(), this.getEnergyStorage().getEnergyStored());
 			PacketHandler.INSTANCE.sendToAllAround(packet, new TargetPoint(this.worldObj.provider.getDimension(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 64));
-		}
+		}*/
 		IBlockState bs = this.worldObj.getBlockState(this.getPos());
 		this.worldObj.notifyBlockUpdate(this.getPos(), bs, bs, 0);
 	}
 	
 	// NBT stuff
+	protected void readFromNBTBypassable(NBTTagCompound compound, boolean bypass) { // Yes, that is ugly
+		super.readFromNBT(compound);
+		if (!bypass) {
+			if (this.getEnergyStorage() == null) {
+				this.energyStorage = new EnergyStorage(this.capacity);
+			}
+			if (compound.hasKey("energy") && this.getEnergyStorage() != null && this.getEnergyStorage() == this.energyStorage) {
+				CapabilityEnergy.ENERGY.readNBT(this.getEnergyStorage(), null, compound.getTag("energy"));
+				if (this.getWorld() != null && !this.getWorld().isRemote) this.updateToClient();
+			}
+		}
+	}
+	
+	protected NBTTagCompound writeToNBTBypassable(NBTTagCompound compound, boolean bypass) { // tht too
+		super.writeToNBT(compound);
+		if (!bypass) {
+			if (this.getEnergyStorage() != null)
+				compound.setTag("energy", CapabilityEnergy.ENERGY.writeNBT(this.getEnergyStorage(), null));
+		}
+		return compound;
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		if (compound.hasKey("energy") && this.energyStorage != null) {
-			CapabilityEnergy.ENERGY.readNBT(this.getEnergyStorage(), null, compound.getTag("energy"));
-			if (!this.getWorld().isRemote) this.updateToClient();
-		}
+		this.readFromNBTBypassable(compound, false);
 	}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		if (this.getEnergyStorage() != null)
-			compound.setTag("energy", CapabilityEnergy.ENERGY.writeNBT(this.getEnergyStorage(), null));
-		return compound;
+		return this.writeToNBTBypassable(compound, false);
 	}
 	
 	// Networking stuff

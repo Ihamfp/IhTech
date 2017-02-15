@@ -25,7 +25,7 @@ public class BlockSolidFuelEnergyGenerator extends BlockEnergyStorage {
 	public static int GUI_ID = EnumGUIs.GUI_ONESLOT.ordinal();
 	
 	public BlockSolidFuelEnergyGenerator(String name, Material material) {
-		super(name, material, 80000);
+		super(name, material);
 		this.setFaced();
 	}
 	

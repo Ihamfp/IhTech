@@ -1,5 +1,3 @@
 itemGroup.ihtech.resources=IhTech Resources
 
 fluid.steam=Steam
-
-tile.ihtech:blockCell.name=Energy Cell

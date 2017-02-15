@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.common.Config;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.inventory.Container;
@@ -73,7 +74,28 @@ public class GuiContainerDecorated extends GuiContainer {
 	
 	public void drawSlot(int x, int y) {
 		mc.getTextureManager().bindTexture(decoration);
-		drawTexturedModalRect(x, y, 1, 36, 17, 17);
+		drawTexturedModalRect(x, y, 1, 36, 18, 18);
+	}
+	
+	public void drawLargeSlot(int x, int y) {
+		mc.getTextureManager().bindTexture(decoration);
+		drawTexturedModalRect(x, y, 49, 36, 26, 26);
+	}
+	
+	public void drawVertProgressBar(int x, int y, int progressMax, int progress, int color) {
+		int level = 16*progress/progressMax;
+		mc.getTextureManager().bindTexture(decoration);
+		drawTexturedModalRect(x, y, 81, 36, 3, 18);
+		if (progressMax > 0 && progress > 0)
+			drawTexturedModalRect(x+1, y+17-level, 84, 53-level, 1, level); // TODO: add color to this
+	}
+	
+	public void drawLargeVertProgressBar(int x, int y, int progressMax, int progress, int color) {
+		int level = 24*progress/progressMax;
+		mc.getTextureManager().bindTexture(decoration);
+		drawTexturedModalRect(x, y, 76, 36, 3, 26);
+		if (progressMax > 0 && progress > 0)
+			drawTexturedModalRect(x+1, y+25-level, 77, 60-level, 1, level);
 	}
 	
 	/** Temperature in Kelvins */

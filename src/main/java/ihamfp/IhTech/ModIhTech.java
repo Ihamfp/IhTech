@@ -77,7 +77,6 @@ public class ModIhTech {
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new TweakPolarBear());
 		// Proxy
 		proxy.postInit(event);
 	}

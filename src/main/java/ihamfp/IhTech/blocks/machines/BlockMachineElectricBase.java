@@ -22,10 +22,10 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 	private final T teInstance;
 	private final Class<T> teClass;
 	
-	static final PropertyBool active = PropertyBool.create("active");
+	public static final PropertyBool active = PropertyBool.create("active");
 	
-	public BlockMachineElectricBase(String name, Material mat, int capacity, T te) {
-		super(name, mat, capacity);
+	public BlockMachineElectricBase(String name, Material mat, T te) {
+		super(name, mat);
 		this.setFaced();
 		this.setCreativeTab(ModCreativeTabs.MACHINES);
 		this.teInstance = te;
@@ -33,8 +33,8 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 		setDefaultState(blockState.getBaseState().withProperty(FACING,  EnumFacing.NORTH).withProperty(active, false));
 	}
 	
-	public BlockMachineElectricBase(String name, int capacity, T te) {
-		this(name, Material.IRON, capacity, te);
+	public BlockMachineElectricBase(String name, T te) {
+		this(name, Material.IRON, te);
 	}
 	
 	@Override
@@ -59,12 +59,12 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 		return new BlockStateContainer(this, FACING, active);
 	}
 	
-	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	protected boolean tryOpenGUI(World world, BlockPos pos, EntityPlayer player, int id) {
 		if (world.isRemote || player.isSneaking()) return true;
 		
-		if (this.teInstance instanceof ITileEntityInteractable && this.GUI_ID != EnumGUIs.GUI_NONE.ordinal()) {
-			player.openGui(ModIhTech.instance, GUI_ID, world, pos.getX(), pos.getY(), pos.getZ());
+		if (this.teInstance instanceof ITileEntityInteractable && id != EnumGUIs.GUI_NONE.ordinal()) {
+			player.openGui(ModIhTech.instance, id, world, pos.getX(), pos.getY(), pos.getZ());
+			return true;
 		}
 		return false;
 	}

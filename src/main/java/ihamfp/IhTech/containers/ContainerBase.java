@@ -28,10 +28,14 @@ public abstract class ContainerBase<T extends TileEntity> extends Container {
 	protected abstract void addOwnSlots();
 	
 	private void addPlayerSlots(IInventory playerInventory) {
+		this.addPlayerSlots(playerInventory, 8, 86); // default for "27" types GUIs
+	}
+	
+	private void addPlayerSlots(IInventory playerInventory, int invX, int invY) {
 		for (int row = 0; row < 3; ++row) {
 			for (int col = 0; col < 9; ++col) {
-				int x = 8 + col * 18;
-				int y = 86 + row * 18;
+				int x = invX + col * 18;
+				int y =invY + row * 18;
 				this.addSlotToContainer(new Slot(playerInventory, col + row * 9 + 9, x, y));
 			}
 		}

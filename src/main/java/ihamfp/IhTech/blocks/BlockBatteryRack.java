@@ -21,7 +21,7 @@ public class BlockBatteryRack extends BlockEnergyStorage {
 	public static int GUI_ID = EnumGUIs.GUI_ONESLOT.ordinal();
 	
 	public BlockBatteryRack() {
-		super("blockBatteryRack", Material.IRON, 0);
+		super("blockBatteryRack", Material.IRON);
 	}
 	
 	@Override

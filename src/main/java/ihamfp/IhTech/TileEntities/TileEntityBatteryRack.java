@@ -78,7 +78,7 @@ public class TileEntityBatteryRack extends TileEntityEnergyStorage implements IT
 	// NBT
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+		super.readFromNBTBypassable(compound, true);
 		if (compound.hasKey("items")) {
 			itemStackHandler.deserializeNBT((NBTTagCompound)compound.getTag("items"));
 		}
@@ -86,7 +86,7 @@ public class TileEntityBatteryRack extends TileEntityEnergyStorage implements IT
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+		super.writeToNBTBypassable(compound, true);
 		compound.setTag("items", itemStackHandler.serializeNBT());
 		return compound;
 	}

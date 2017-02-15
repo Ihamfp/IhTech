@@ -8,6 +8,7 @@ import ihamfp.IhTech.containers.ContainerOneSlot;
 import ihamfp.IhTech.containers.GuiContainerBurningGenerator;
 import ihamfp.IhTech.containers.GuiContainerOneSlot;
 import ihamfp.IhTech.containers.machines.ContainerElectricFurnace;
+import ihamfp.IhTech.containers.machines.GuiContainerElectricFurnace;
 import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -49,6 +50,9 @@ public class GuiHandler implements IGuiHandler {
 		switch(EnumGUIs.values()[ID]) {
 		case GUI_ONESLOT:
 			return new GuiContainerOneSlot(te, new ContainerOneSlot(player.inventory, te));
+		
+		case GUI_ELFURNACE:
+			return new GuiContainerElectricFurnace((TileEntityElectricFurnace)te, new ContainerElectricFurnace(player.inventory, (TileEntityElectricFurnace)te));
 		
 		default:
 			return null;

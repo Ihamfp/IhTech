@@ -14,8 +14,8 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	
 	// TODO: finish this
 	
-	public BlockEnergyCable(String name, Material material, int capacity) {
-		super(name, material, capacity);
+	public BlockEnergyCable(String name, Material material) {
+		super(name, material);
 	}
 
 	@Override

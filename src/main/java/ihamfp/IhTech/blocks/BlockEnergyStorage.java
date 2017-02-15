@@ -44,18 +44,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider, IWailaInfoProvider, ITOPInfoProvider {
 	public static int GUI_ID = EnumGUIs.GUI_NONE.ordinal();
 	
-	public int capacity = 1;
+	//public int capacity = 1;
 	
-	public BlockEnergyStorage(String name, Material material, MapColor mapColor, int capacity) {
+	public BlockEnergyStorage(String name, Material material, MapColor mapColor) {
 		super(name, material, mapColor);
-		this.capacity = capacity;
 		
 		this.isBlockContainer = true;
 	}
 	
-	public BlockEnergyStorage(String name, Material material, int capacity) {
+	public BlockEnergyStorage(String name, Material material) {
 		super(name, material);
-		this.capacity = capacity;
 	}
 	
 	@Override
@@ -81,11 +79,6 @@ public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider
 		
 		return true;
 	}*/
-	
-	public BlockEnergyStorage setCapacity(int cap) {
-		this.capacity = cap;
-		return this;
-	}
 	
 	// Texture
 	@SideOnly(Side.CLIENT)
