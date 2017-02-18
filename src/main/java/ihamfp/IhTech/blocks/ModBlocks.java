@@ -1,8 +1,19 @@
 package ihamfp.IhTech.blocks;
 
+import java.awt.List;
+import java.util.ArrayList;
+
+import li.cil.oc.common.block.Item;
+import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricFurnace;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -12,10 +23,31 @@ public class ModBlocks {
 	public static BlockSolarPanel blockPanel = new BlockSolarPanel("blockPanel", Material.GLASS);
 	public static BlockBatteryRack blockBattRack = new BlockBatteryRack();
 	
+	public static ArrayList<BlockGenericResource> blockResources = new ArrayList<BlockGenericResource>(Materials.materials.size());
+	public static ArrayList<BlockGenericResource> blockOres = new ArrayList<BlockGenericResource>(Materials.materials.size());
+	
 	// machines
 	public static BlockMachineElectricFurnace blockElectricFurnace = new BlockMachineElectricFurnace("electricFurnace");
 	
-	public static void preInit() {		
+	public static void preInit() {
+		for (int i=1; i<Materials.materials.size();++i) {
+			if (Materials.materials.get(i).has("block") && Materials.materials.get(i).getItemFor("block") == null) {
+				blockResources.add(i, new BlockGenericResource("blockStorage", i, Material.IRON));
+				blockResources.get(i).register();
+				Materials.materials.get(i).setItemFor("block", new ItemStack(blockResources.get(i), 1));
+			} else {
+				blockResources.add(i, null);
+			}
+			
+			if (Materials.materials.get(i).has("ore") && Materials.materials.get(i).getItemFor("ore") == null) {
+				blockOres.add(i, new BlockGenericResource("blockOre", i, Material.ROCK));
+				blockOres.get(i).register();
+			} else {
+				blockOres.add(i, null);
+			}
+			
+		}
+		
 		blockGen.register();
 		blockPanel.register();
 		blockBattRack.register();
@@ -28,5 +60,32 @@ public class ModBlocks {
 		blockGen.initModel();
 		blockPanel.initModel();
 		blockBattRack.initModel();
+		
+		for (int i=1;i<Materials.materials.size();++i) {
+			if (blockOres.get(i) != null) {
+				blockOres.get(i).initModel();
+			}
+			if (blockResources.get(i) != null) {
+				blockResources.get(i).initModel();
+			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void initColors() {
+		BlockColoredColor colorHandler = new BlockColoredColor();
+		ItemBlockColoredColor itemColorHandler = new ItemBlockColoredColor();
+		BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
+		ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
+		for (int i=0;i<Materials.materials.size();++i) {
+			if (blockOres.get(i) != null) {
+				blockColors.registerBlockColorHandler(colorHandler, blockOres.get(i));
+				itemColors.registerItemColorHandler(itemColorHandler, blockOres.get(i));
+			}
+			if (blockResources.get(i) != null) {
+				blockColors.registerBlockColorHandler(colorHandler, blockResources.get(i));
+				itemColors.registerItemColorHandler(itemColorHandler, blockResources.get(i));
+			}
+		}
 	}
 }

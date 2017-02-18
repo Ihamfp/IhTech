@@ -1,3 +1,30 @@
 itemGroup.ihtech.resources=IhTech Resources
 
 fluid.steam=Steam
+
+item.ihtech:ingot.Glass.name=Glass ingot
+item.ihtech:ingot.Copper.name=Copper ingot
+item.ihtech:ingot.Tin.name=Tin ingot
+item.ihtech:ingot.Zinc.name=Zinc ingot
+item.ihtech:ingot.Lead.name=Lead ingot
+item.ihtech:ingot.Silver.name=Silver ingot
+item.ihtech:ingot.Nickel.name=Nickel ingot
+item.ihtech:ingot.Bronze.name=Bronze ingot
+item.ihtech:ingot.Brass.name=Brass ingot
+item.ihtech:ingot.Cast iron.name=Cast iron ingot
+item.ihtech:ingot.Steel.name=Steel ingot
+item.ihtech:ingot.Plastic.name=Plastic ingot
+item.ihtech:ingot.Aluminium.name=Aluminium ingot
+item.ihtech:ingot.Tungsten.name=Tungsten ingot
+item.ihtech:ingot.Platinum.name=Platinum ingot
+item.ihtech:ingot.Silicon.name=Silicon ingot
+item.ihtech:ingot.Electrum.name=Electrum ingot
+item.ihtech:ingot.Meat.name=Meat ingot
+item.ihtech:ingot.Diamond-plated steel.name=Diamond-plated steel ingot
+item.ihtech:ingot.Uranium.name=Uranium ingot
+item.ihtech:ingot.Iridium.name=Iridium ingot
+item.ihtech:ingot.Plutonium.name=Plutonium ingot
+item.ihtech:ingot.Supraconductor.name=Supraconductor ingot
+item.ihtech:ingot.Black matter.name=Black matter ingot
+
+

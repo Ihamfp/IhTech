@@ -47,12 +47,6 @@ public class TConstructIntegration {
 				FluidRegistry.registerFluid(fluid);
 				FluidRegistry.addBucketForFluid(fluid);
 				
-				BlockFluidClassic fluidBlock = new BlockFluidClassic(fluid, MaterialLiquid.LAVA);//new MaterialLiquid(MapColor.ADOBE));
-				fluidBlock.setRegistryName(mat.name.toLowerCase());
-				fluidBlock.setUnlocalizedName("fluid.molten" + mat.name);
-				GameRegistry.register(fluidBlock);
-				mat.setItemFor("molten", new ItemStack(fluidBlock));
-				
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setString("fluid", fluid.getName());
 				tag.setString("ore", mat.name);

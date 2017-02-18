@@ -69,15 +69,6 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 		return super.getUnlocalizedName(stack) + "." + Materials.materials.get(meta).name;
 	}
 	
-	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
-		int meta = stack.getMetadata();
-		if (meta >= Materials.materials.size()) {
-			meta = 0;
-		}
-		return (Materials.materials.get(meta).name + " " + this.type);
-	}
-	
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
 		ModelResourceLocation resourceLocation = new ModelResourceLocation("ihtech:" + this.type + "_template", "inventory");

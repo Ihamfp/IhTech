@@ -34,6 +34,7 @@ public class ClientProxy extends CommonProxy {
 		super.postInit(event);
 		if (Config.showCapes)
 			MinecraftForge.EVENT_BUS.register(new TweakCape());
+		ModBlocks.initColors();
 		ModItems.initColors();
 	}
 }

@@ -1,10 +1,35 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/block",
   "textures": {
-    "all": {
-      "layer0": "minecraft:stone",
-      "layer1": "ihtech:blocks/ore_layer",
+    "stone": "blocks/stone",
+    "particle": "#stone",
+    "layer": "ihtech:blocks/ore_layer"
+  },
+  "elements": [
+    {
+      "from": [0,0,0],
+      "to": [16,16,16],
+      "faces": {
+        "down":  { "uv": [0,0,16,16], "texture": "#stone", "cullface": "down" },
+        "up":    { "uv": [0,0,16,16], "texture": "#stone", "cullface": "up" },
+        "north": { "uv": [0,0,16,16], "texture": "#stone", "cullface": "north" },
+        "south": { "uv": [0,0,16,16], "texture": "#stone", "cullface": "south" },
+        "east":  { "uv": [0,0,16,16], "texture": "#stone", "cullface": "east" },
+        "west":  { "uv": [0,0,16,16], "texture": "#stone", "cullface": "west" }
+      }
+    },
+    {
+    	"from": [0,0,0],
+      "to": [16,16,16],
+      "faces": {
+        "down":  { "uv": [0,0,16,16], "texture": "#layer", "tintindex": 0, "cullface": "down" },
+        "up":    { "uv": [0,0,16,16], "texture": "#layer", "tintindex": 0, "cullface": "up" },
+        "north": { "uv": [0,0,16,16], "texture": "#layer", "tintindex": 0, "cullface": "north" },
+        "south": { "uv": [0,0,16,16], "texture": "#layer", "tintindex": 0, "cullface": "south" },
+        "east":  { "uv": [0,0,16,16], "texture": "#layer", "tintindex": 0, "cullface": "east" },
+        "west":  { "uv": [0,0,16,16], "texture": "#layer", "tintindex": 0, "cullface": "west" }
+      }
     }
-  }
+  ]
 }
 

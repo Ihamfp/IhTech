@@ -44,6 +44,7 @@ public class ResourceMaterial {
 	public int meltingPoint = 773; // 500°C
 	
 	public OreDrop oreDrop;
+	public int oreLevel = 1; // mining level required to mine the ore
 	public StorageBlockType storageBlockType;
 	public ResourceType resourceType;
 	
@@ -136,6 +137,11 @@ public class ResourceMaterial {
 	/** In Kelvins */
 	public ResourceMaterial setMeltingPoint(int meltingPoint) {
 		this.meltingPoint = meltingPoint;
+		return this;
+	}
+	
+	public ResourceMaterial setOreLevel(int level) {
+		this.oreLevel = level;
 		return this;
 	}
 	
