@@ -16,6 +16,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+/***
+ * Contains everything to make facing blocks, only 1 metadata bit left if "setFaced" is called.
+ * You may want to use the Block class for simpler applications.
+ */
 public class BlockBase extends Block {
 	private String name;
 	private boolean isFaced = false;

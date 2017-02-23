@@ -9,5 +9,6 @@ public class ModTileEntities {
 		GameRegistry.registerTileEntity(TileEntityItemEnergyGenerator.class, ModIhTech.MODID + "_FuelEnergyGenerator");
 		GameRegistry.registerTileEntity(TileEntitySolarEnergyGenerator.class, ModIhTech.MODID + "_SolarEnergyGenerator");
 		GameRegistry.registerTileEntity(TileEntityBatteryRack.class, ModIhTech.MODID + "_BatteryRack");
+		GameRegistry.registerTileEntity(TileEntityEnergyCable.class, ModIhTech.MODID + "_EnergyCable");
 	}
 }

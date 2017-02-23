@@ -31,13 +31,18 @@ public class ModRecipes {
 			}
 			
 			// dust => ingot in furnace
-			if (mat.has("dust") && mat.has("ingot") && mat.resourceType == ResourceType.METAL && mat.meltingPoint <= 1600) {
+			if (mat.has("dust") && mat.has("ingot") && mat.resourceType == ResourceType.METAL && mat.meltingPoint <= 1600 && (mat.getItemFor("ingot").getItem() instanceof ItemGenericResource || mat.getItemFor("dust").getItem() instanceof ItemGenericResource)) {
 				GameRegistry.addSmelting(mat.getItemFor("dust"), mat.getItemFor("ingot"), 1);
 			}
 			
 			// ingot => dust grinding
 			if (mat.has("dust") && mat.has("ingot") && mat.resourceType == ResourceType.METAL) {
 				RecipesGrinding.registerGrinding(mat.getItemFor("ingot"), new ItemStack[] {mat.getItemFor("dust")}, 185);
+			}
+			
+			// ore => ingot in furnace
+			if (mat.has("ore") && mat.has("ingot") && mat.resourceType == ResourceType.METAL && mat.meltingPoint <= 1600 && (mat.getItemFor("ingot").getItem() instanceof ItemGenericResource || ((ItemBlock)(mat.getItemFor("ore").getItem())).getBlock() instanceof BlockGenericResource)) {
+				GameRegistry.addSmelting(mat.getItemFor("ore"), mat.getItemFor("ingot"), 1);
 			}
 		}
 	}

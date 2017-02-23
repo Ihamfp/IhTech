@@ -5,6 +5,8 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -22,7 +24,7 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 	private final T teInstance;
 	private final Class<T> teClass;
 	
-	public static final PropertyBool active = PropertyBool.create("active");
+	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockMachineElectricBase(String name, Material mat, T te) {
 		super(name, mat);
@@ -30,7 +32,7 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 		this.setCreativeTab(ModCreativeTabs.MACHINES);
 		this.teInstance = te;
 		this.teClass = (Class<T>)te.getClass();
-		setDefaultState(blockState.getBaseState().withProperty(FACING,  EnumFacing.NORTH).withProperty(active, false));
+		setDefaultState(blockState.getBaseState().withProperty(FACING,  EnumFacing.NORTH).withProperty(ACTIVE, false));
 	}
 	
 	public BlockMachineElectricBase(String name, T te) {
@@ -56,7 +58,7 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 	
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING, active);
+		return new BlockStateContainer(this, FACING, ACTIVE);
 	}
 	
 	protected boolean tryOpenGUI(World world, BlockPos pos, EntityPlayer player, int id) {

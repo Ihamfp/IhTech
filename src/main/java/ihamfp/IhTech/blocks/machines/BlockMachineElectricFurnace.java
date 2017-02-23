@@ -19,7 +19,6 @@ import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 
 public class BlockMachineElectricFurnace extends BlockMachineElectricBase<TileEntityElectricFurnace> {
 	public static int GUI_ID = EnumGUIs.GUI_ELFURNACE.ordinal();
-	//static final int ticksPerSmelt = 185; // default vanilla value
 	
 	public BlockMachineElectricFurnace(String name) {
 		super(name, new TileEntityElectricFurnace());
@@ -27,6 +26,6 @@ public class BlockMachineElectricFurnace extends BlockMachineElectricBase<TileEn
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		return tryOpenGUI(world, pos, player, this.GUI_ID);
+		return super.onBlockActivated(world, pos, state, player, hand, heldItem, side, hitX, hitY, hitZ) || tryOpenGUI(world, pos, player, this.GUI_ID);
 	}
 }

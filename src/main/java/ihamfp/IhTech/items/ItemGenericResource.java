@@ -71,10 +71,13 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
-		ModelResourceLocation resourceLocation = new ModelResourceLocation("ihtech:" + this.type + "_template", "inventory");
+		ModelResourceLocation resourceLocation = new ModelResourceLocation(ModIhTech.MODID + ":" + this.type + "_template", "inventory");
 		ModelResourceLocation metalIngot = null;
+		ModelResourceLocation dustPlate = null;
 		if (this.type == "ingot") {
-			metalIngot = new ModelResourceLocation("ihtech:metalingot_template", "inventory");
+			metalIngot = new ModelResourceLocation(ModIhTech.MODID + ":metalingot_template", "inventory");
+		} else if (this.type == "plate") {
+			dustPlate = new ModelResourceLocation(ModIhTech.MODID + ":dustplate_template", "inventory");
 		}
 		
 		for (int i=0; i<Materials.materials.size(); ++i) {
@@ -82,6 +85,8 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 				ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(Materials.materials.get(i).customRenders.get(this.type)));
 			} else if (this.type == "ingot" && Materials.materials.get(i).resourceType == ResourceType.METAL) {
 				ModelLoader.setCustomModelResourceLocation(this, i, metalIngot);
+			} else if (this.type == "plate" && (Materials.materials.get(i).resourceType == ResourceType.DUST || Materials.materials.get(i).resourceType == ResourceType.CRYSTAL)) {
+				ModelLoader.setCustomModelResourceLocation(this, i, dustPlate);
 			} else {
 				ModelLoader.setCustomModelResourceLocation(this, i, resourceLocation);
 			}

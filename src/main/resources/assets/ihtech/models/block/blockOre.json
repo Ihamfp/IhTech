@@ -1,7 +1,7 @@
 {
   "parent": "block/block",
   "textures": {
-    "stone": "blocks/stone",
+    "stone": "minecraft:blocks/stone",
     "particle": "#stone",
     "layer": "ihtech:blocks/ore_layer"
   },

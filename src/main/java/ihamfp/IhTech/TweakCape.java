@@ -10,6 +10,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.resources.SkinManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -40,11 +41,9 @@ public class TweakCape {
 			for (EntityPlayer player : mc.theWorld.playerEntities) {
 				if (addedList.containsKey(player.getName())) continue;
 				if (StringUtils.stripControlCodes(player.getName()).equals("_Firew0lf")) {
-					addCape(player, ihamfp);
-					addedList.put(player.getName(), true);
+					if (addCape(player, ihamfp)) addedList.put(player.getName(), true);
 				} else if (StringUtils.stripControlCodes(player.getName()).equals("Nolifertu")) {
-					addCape(player, noli);
-					addedList.put(player.getName(), true);
+					if (addCape(player, noli)) addedList.put(player.getName(), true);
 				} else {
 					addedList.put(player.getName(), false);
 				}
@@ -60,19 +59,20 @@ public class TweakCape {
 		}
 	}
 	
-	private static void checkForCape(EntityPlayer player) {
-		if (player == null) return;
+	/*private static boolean checkForCape(EntityPlayer player) {
+		if (player == null) return false;
 		if (StringUtils.stripControlCodes(player.getName()).equals("_Firew0lf")) {
-			addCape(player, ihamfp);
+			return addCape(player, ihamfp);
 		} else if (StringUtils.stripControlCodes(player.getName()).equals("Nolifertu")) {
-			addCape(player, noli);
+			return addCape(player, noli);
 		}
-	}
+		return false;
+	}*/
 	
-	private static void addCape(EntityPlayer player, ResourceLocation cape) {
+	private static boolean addCape(EntityPlayer player, ResourceLocation cape) {
 		if (!(player instanceof AbstractClientPlayer)) {
 			ModIhTech.logger.error("Player was not abstract enough.");
-			return;
+			return false;
 		}
 		
 		AbstractClientPlayer aplayer = (AbstractClientPlayer)player;
@@ -88,7 +88,7 @@ public class TweakCape {
 			}
 			if (met == null) {
 				ModIhTech.logger.error("Could not get any meth :(");
-				return;
+				return false;
 			}
 			met.setAccessible(true);
 			
@@ -99,7 +99,7 @@ public class TweakCape {
 				} else {
 					ModIhTech.logger.error("Not Pointed Exception");
 				}
-				return;
+				return false;
 			}
 		
 			NetworkPlayerInfo npi = (NetworkPlayerInfo)obj;
@@ -120,7 +120,9 @@ public class TweakCape {
 			
 		} catch (Exception e) {
 			ModIhTech.logger.error("I failed. " + e.getMessage());
-			return;
+			return false;
 		}
+		
+		return true;
 	}
 }

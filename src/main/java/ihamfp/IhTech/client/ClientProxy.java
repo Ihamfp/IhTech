@@ -1,6 +1,7 @@
 package ihamfp.IhTech.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -14,6 +15,7 @@ import ihamfp.IhTech.interfaces.IProxy;
 import ihamfp.IhTech.items.ItemColoredColor;
 import ihamfp.IhTech.items.ItemGenericResource;
 import ihamfp.IhTech.items.ModItems;
+import ihamfp.IhTech.models.CableModelsLoader;
 
 public class ClientProxy extends CommonProxy {
 	@Override
@@ -27,6 +29,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
+		ModBlocks.initItemModels();
 	}
 	
 	@Override

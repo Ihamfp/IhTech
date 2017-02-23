@@ -18,7 +18,7 @@ public abstract class TileEntityElectricMachine extends TileEntityEnergyStorage 
 	
 	protected void setBlockStateActive(boolean active) {
 		IBlockState blockState = this.worldObj.getBlockState(this.pos);
-		this.worldObj.setBlockState(this.pos, blockState.withProperty(BlockMachineElectricBase.active, active));
+		this.worldObj.setBlockState(this.pos, blockState.withProperty(BlockMachineElectricBase.ACTIVE, active));
 	}
 	
 	@SideOnly(Side.CLIENT)

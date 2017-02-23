@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import li.cil.oc.common.block.Item;
 import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricFurnace;
+import ihamfp.IhTech.models.CableModelsLoader;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -14,8 +15,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ModBlocks {
 	// Blocks
@@ -27,14 +30,17 @@ public class ModBlocks {
 	public static ArrayList<BlockGenericResource> blockOres = new ArrayList<BlockGenericResource>(Materials.materials.size());
 	
 	// machines
-	public static BlockMachineElectricFurnace blockElectricFurnace = new BlockMachineElectricFurnace("electricFurnace");
+	public static BlockMachineElectricFurnace blockElectricFurnace = new BlockMachineElectricFurnace("blockElectricFurnace");
 	
-	public static void preInit() {
-		for (int i=1; i<Materials.materials.size();++i) {
+	public static BlockEnergyCable blockCable = new BlockEnergyCable("blockCable", Material.IRON);
+	
+	public static void preInit() {		
+		for (int i=0; i<Materials.materials.size();++i) {
 			if (Materials.materials.get(i).has("block") && Materials.materials.get(i).getItemFor("block") == null) {
 				blockResources.add(i, new BlockGenericResource("blockStorage", i, Material.IRON));
 				blockResources.get(i).register();
 				Materials.materials.get(i).setItemFor("block", new ItemStack(blockResources.get(i), 1));
+				OreDictionary.registerOre("block" + Materials.materials.get(i).name, blockResources.get(i));
 			} else {
 				blockResources.add(i, null);
 			}
@@ -42,6 +48,8 @@ public class ModBlocks {
 			if (Materials.materials.get(i).has("ore") && Materials.materials.get(i).getItemFor("ore") == null) {
 				blockOres.add(i, new BlockGenericResource("blockOre", i, Material.ROCK));
 				blockOres.get(i).register();
+				Materials.materials.get(i).setItemFor("ore", new ItemStack(blockOres.get(i), 1));
+				OreDictionary.registerOre("ore" + Materials.materials.get(i).name, blockOres.get(i));
 			} else {
 				blockOres.add(i, null);
 			}
@@ -53,15 +61,23 @@ public class ModBlocks {
 		blockBattRack.register();
 		
 		blockElectricFurnace.register();
+		
+		blockCable.register();
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void initModels() {
+		ModelLoaderRegistry.registerLoader(new CableModelsLoader());
+		
 		blockGen.initModel();
 		blockPanel.initModel();
 		blockBattRack.initModel();
 		
-		for (int i=1;i<Materials.materials.size();++i) {
+		blockElectricFurnace.initModel();
+		
+		blockCable.initModel();
+		
+		for (int i=0;i<Materials.materials.size();++i) {
 			if (blockOres.get(i) != null) {
 				blockOres.get(i).initModel();
 			}
@@ -69,6 +85,11 @@ public class ModBlocks {
 				blockResources.get(i).initModel();
 			}
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void initItemModels()	{
+		blockCable.initItemModel();
 	}
 	
 	@SideOnly(Side.CLIENT)

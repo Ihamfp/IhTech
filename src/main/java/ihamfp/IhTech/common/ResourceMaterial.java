@@ -61,6 +61,7 @@ public class ResourceMaterial {
 	}
 	
 	public ResourceMaterial setType(ResourceType type) {
+		this.resourceType = type;
 		switch (type) {
 		case METAL: // ex: iron
 			this.setHas("ingot");
@@ -69,7 +70,6 @@ public class ResourceMaterial {
 			this.setHas("plate");
 			this.setHas("rod");
 			this.setHas("block");
-			this.resourceType = type;
 			break;
 		
 		case DUST: // ex: redstone, glowstone
