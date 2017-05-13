@@ -6,9 +6,9 @@ import ihamfp.IhTech.common.ResourceMaterial.ResourceType;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import li.cil.oc.common.block.Item;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 

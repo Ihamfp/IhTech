@@ -3,7 +3,6 @@ package ihamfp.IhTech.blocks;
 import java.awt.List;
 import java.util.ArrayList;
 
-import li.cil.oc.common.block.Item;
 import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricFurnace;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricGrinder;
