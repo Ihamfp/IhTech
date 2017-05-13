@@ -24,8 +24,12 @@ public class ModItems {
 	public static ItemGenericResource dust = new ItemGenericResource("dust");
 	public static ItemGenericResource gem = new ItemGenericResource("gem");
 	public static ItemGenericResource plate = new ItemGenericResource("plate");
+	public static ItemGenericResource compressedPlate = new ItemGenericResource("compressedPlate", "plate");
 	public static ItemGenericResource rod = new ItemGenericResource("rod");
+	public static ItemGenericResource wire = new ItemGenericResource("wire");
+	public static ItemGenericResource coil = new ItemGenericResource("coil", "wire");
 	
+	public static ItemBattery batPotato = new ItemBattery("PotatoBattery", 12, 0, 1);
 	public static ItemBattery batSaline = new ItemBattery("SalineBattery", 2500, 0, 20);
 	public static ItemBattery batAlkaline = new ItemBattery("AlkalineBattery", 5000, 0, 40);
 	public static ItemBattery batRedstone = new ItemBattery("RedstoneBattery", 1000, 100, 100);
@@ -33,7 +37,6 @@ public class ModItems {
 	public static ItemBattery batNickelZinc = new ItemBattery("NickelZincBattery", 7500, 1000, 1000);
 	public static ItemBattery batLithium = new ItemBattery("LithiumBattery", 12500, 1000, 2000);
 	public static ItemBattery batSupercap = new ItemBattery("Supercapacitor", 10000, 10000, 10000);
-	
 	
 	public static void preInit() {
 		//wrench1.register();
@@ -43,8 +46,12 @@ public class ModItems {
 		dust.register();
 		gem.register();
 		plate.register();
+		compressedPlate.register();
 		rod.register();
+		wire.register();
+		coil.register();
 		
+		batPotato.register();
 		batSaline.register();
 		batAlkaline.register();
 		batRedstone.register();
@@ -61,7 +68,10 @@ public class ModItems {
 		dust.initModel();
 		gem.initModel();
 		plate.initModel();
+		compressedPlate.initModel();
 		rod.initModel();
+		wire.initModel();
+		coil.initModel();
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -73,6 +83,9 @@ public class ModItems {
 		itemColors.registerItemColorHandler(colorHandler, dust);
 		itemColors.registerItemColorHandler(colorHandler, gem);
 		itemColors.registerItemColorHandler(colorHandler, plate);
+		itemColors.registerItemColorHandler(colorHandler, compressedPlate);
 		itemColors.registerItemColorHandler(colorHandler, rod);
+		itemColors.registerItemColorHandler(colorHandler, wire);
+		itemColors.registerItemColorHandler(colorHandler, coil);
 	}
 }

@@ -30,7 +30,7 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		BLOCK, // connected to an energy-compatible block
 	}
 	
-	public int energyCapacity = 120; // default, for test, TODO make this modular
+	public int energyCapacity = 0;
 	
 	public EnergyStorage energyStorage; // common energy storage to all the cables in the network
 	public Set<BlockPos> network; // list of connected cables
@@ -154,6 +154,10 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 	@Override
 	public void update() {
 		if (this.worldObj.isRemote) return;
+		
+		if (this.energyCapacity == 0) {
+			this.energyCapacity = ((BlockEnergyCable)this.getBlockType()).energyCapacity*((int)Math.pow(2, this.getBlockMetadata()));
+		}
 		
 		if (this.energyStorage == null || this.network == null || this.network.size() == 0) {
 			this.updateFlag = true;

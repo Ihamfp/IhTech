@@ -1,6 +1,21 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/block",
   "textures": {
-    "all": "ihtech:blocks/blockStorage"
-  }
+    "base": "ihtech:blocks/blockStorage"
+  },
+  "elements": [
+    {
+    	"from": [1,1,1],
+      "to": [15,15,15],
+      "faces": {
+        "down":  { "uv": [0,0,16,16], "texture": "#base", "tintindex": 0, "cullface": "down" },
+        "up":    { "uv": [0,0,16,16], "texture": "#base", "tintindex": 0, "cullface": "up" },
+        "north": { "uv": [0,0,16,16], "texture": "#base", "tintindex": 0, "cullface": "north" },
+        "south": { "uv": [0,0,16,16], "texture": "#base", "tintindex": 0, "cullface": "south" },
+        "east":  { "uv": [0,0,16,16], "texture": "#base", "tintindex": 0, "cullface": "east" },
+        "west":  { "uv": [0,0,16,16], "texture": "#base", "tintindex": 0, "cullface": "west" }
+      }
+    }
+  ]
 }
+

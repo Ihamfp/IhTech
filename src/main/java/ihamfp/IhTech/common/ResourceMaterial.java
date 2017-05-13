@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ResourceMaterial {
 	public static enum OreDrop {
@@ -43,14 +45,22 @@ public class ResourceMaterial {
 	public float handleModifier = 1.0f;
 	public int meltingPoint = 773; // 500°C
 	
+	// Ore and storage block
 	public OreDrop oreDrop;
 	public int oreLevel = 1; // mining level required to mine the ore
 	public StorageBlockType storageBlockType;
 	public ResourceType resourceType;
+	public float hardness = 0.1f;
+	public float resistance = 0.1f;
 	
+	// Things
 	private Hashtable<String, Boolean> hasThings = new Hashtable<String, Boolean>();
 	public Hashtable<String, ItemStack> items = new Hashtable<String, ItemStack>();
 	public Hashtable<String, String> customRenders = new Hashtable<String, String>();
+	
+	// Energy
+	public int energyCableCapacity = 0;
+	public int burningEnergy = 0; // in ticks
 	
 	
 	// Please capitalize the first letter of the name
@@ -147,6 +157,22 @@ public class ResourceMaterial {
 	
 	public ResourceMaterial setCustomRender(String thing, String resourceLocation) {
 		this.customRenders.put(thing, resourceLocation);
+		return this;
+	}
+	
+	public ResourceMaterial setEnergyCableCapacity(int cap) {
+		this.energyCableCapacity = cap;
+		this.setHas("wire");
+		return this;
+	}
+	
+	public ResourceMaterial setBurningEnergy(int ticks) {
+		this.burningEnergy = ticks;
+		return this;
+	}
+	
+	public ResourceMaterial setBurningEnergy(Item reference, int mult) {
+		this.burningEnergy = TileEntityFurnace.getItemBurnTime(new ItemStack(Items.COAL))*mult;
 		return this;
 	}
 }

@@ -15,6 +15,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -24,6 +25,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -34,15 +36,18 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.TileEntityEnergyCable;
 import ihamfp.IhTech.blocks.properties.UnlistedPropertyBoolean;
 import ihamfp.IhTech.blocks.properties.UnlistedPropertyCableSide;
+import ihamfp.IhTech.common.Config;
+import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
 import ihamfp.IhTech.models.ExampleBakedModel;
 
 public class BlockEnergyCable extends BlockEnergyStorage {
-	public static final PropertyInteger STACKED_CABLES_LEVEL = PropertyInteger.create("stacked_cables_level", 1, 3); // stacked = level^2
+	public static final PropertyInteger STACKED_CABLES_LEVEL = PropertyInteger.create("stacked_cables_level", 0, 2); // stacked = level^2
 	
 	public static final UnlistedPropertyCableSide NORTH = new UnlistedPropertyCableSide("north");
 	public static final UnlistedPropertyCableSide SOUTH = new UnlistedPropertyCableSide("south");
@@ -51,13 +56,40 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	public static final UnlistedPropertyCableSide UP = new UnlistedPropertyCableSide("up");
 	public static final UnlistedPropertyCableSide DOWN = new UnlistedPropertyCableSide("down");
 	
-	public BlockEnergyCable(String name, Material material) {
-		super(name, material);
+	public int energyCapacity = 0;
+	
+	public BlockEnergyCable(String prefix, int matID) {
+		super(prefix + Materials.materials.get(matID).name, Material.IRON);
+		this.energyCapacity = Materials.materials.get(matID).energyCableCapacity;
+		if (this.energyCapacity == 0) {
+			ModIhTech.logger.error("Cable of material " + Materials.materials.get(matID).name + " is not conductive !!! This is an error !!!");
+		}
 		this.setHardness(0.5f);
 		this.setResistance(0.5f);
 		this.setDefaultState(blockState.getBaseState().withProperty(STACKED_CABLES_LEVEL, 1));
+		this.setCreativeTab(ModCreativeTabs.MACHINES);
 	}
-
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+		int multiplier = (int)Math.pow(2, stack.getMetadata());
+		tooltip.add(this.energyCapacity*multiplier + " " + Config.energyUnitName + "/t");
+	}
+	
+	@SideOnly(Side.CLIENT)
+    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+		for (int i=0;i<3;i++) {
+			list.add(new ItemStack(itemIn, 1, i));
+		}
+	}
+	
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (worldIn.isRemote) return false;
+		TileEntityEnergyCable te = (TileEntityEnergyCable) worldIn.getTileEntity(pos);
+		playerIn.addChatMessage(new TextComponentString("Conductivity: " + te.energyCapacity));
+		return false;
+	}
+	
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		TileEntityEnergyCable te = new TileEntityEnergyCable();
@@ -93,6 +125,7 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		world.markBlockRangeForRenderUpdate(pos.add(-1,-1,-1), pos.add(1,1,1));
+		world.setBlockState(pos, state.withProperty(STACKED_CABLES_LEVEL, stack.getMetadata()));
 	}
 	
 	@Override
@@ -135,9 +168,6 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		if (meta == 0) {
-			return super.getStateFromMeta(meta).withProperty(STACKED_CABLES_LEVEL, 1);
-		}
 		return super.getStateFromMeta(meta).withProperty(STACKED_CABLES_LEVEL, (meta&3));
 	}
 	
@@ -149,8 +179,9 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void initModel()	{
-		//ModIhTech.logger.info("Initialized model for " + this.getRegistryName());
-		// Working !
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(ModIhTech.MODID + ":blockCable1x", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 1, new ModelResourceLocation(ModIhTech.MODID + ":blockCable2x", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 2, new ModelResourceLocation(ModIhTech.MODID + ":blockCable4x", "inventory"));
 		StateMapperBase stateMap = new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
@@ -166,7 +197,7 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	@SideOnly(Side.CLIENT)
 	public void initItemModel() {
 		Item itemBlock = Item.REGISTRY.getObject(new ResourceLocation(ModIhTech.MODID, "blockCable"));
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(this.getRegistryName(), "inventory");
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("blockCable", "inventory");
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, 0, itemModelResourceLocation);
 	}
 }

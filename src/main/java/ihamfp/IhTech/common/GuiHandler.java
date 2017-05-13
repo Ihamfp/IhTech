@@ -4,11 +4,14 @@ import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.TileEntityBatteryRack;
 import ihamfp.IhTech.TileEntities.TileEntityItemEnergyGenerator;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricFurnace;
+import ihamfp.IhTech.TileEntities.machines.TileEntityElectricGrinder;
 import ihamfp.IhTech.containers.ContainerOneSlot;
 import ihamfp.IhTech.containers.GuiContainerBurningGenerator;
 import ihamfp.IhTech.containers.GuiContainerOneSlot;
 import ihamfp.IhTech.containers.machines.ContainerElectricFurnace;
+import ihamfp.IhTech.containers.machines.ContainerElectricGrinder;
 import ihamfp.IhTech.containers.machines.GuiContainerElectricFurnace;
+import ihamfp.IhTech.containers.machines.GuiContainerElectricGrinder;
 import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -21,6 +24,7 @@ public class GuiHandler implements IGuiHandler {
 		GUI_NONE,
 		GUI_ONESLOT,
 		GUI_ELFURNACE,
+		GUI_ELGRINDER,
 		// add GUIs here
 	}
 	
@@ -35,6 +39,9 @@ public class GuiHandler implements IGuiHandler {
 		
 		case GUI_ELFURNACE:
 			return new ContainerElectricFurnace(player.inventory, (TileEntityElectricFurnace)te);
+		
+		case GUI_ELGRINDER:
+			return new ContainerElectricGrinder(player.inventory, (TileEntityElectricGrinder)te);
 		
 		default:
 			return null;
@@ -53,6 +60,9 @@ public class GuiHandler implements IGuiHandler {
 		
 		case GUI_ELFURNACE:
 			return new GuiContainerElectricFurnace((TileEntityElectricFurnace)te, new ContainerElectricFurnace(player.inventory, (TileEntityElectricFurnace)te));
+		
+		case GUI_ELGRINDER:
+			return new GuiContainerElectricGrinder((TileEntityElectricGrinder)te, new ContainerElectricGrinder(player.inventory, (TileEntityElectricGrinder)te));
 		
 		default:
 			return null;

@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy implements IProxy {
 	public static Configuration config;
@@ -51,6 +52,7 @@ public class CommonProxy implements IProxy {
 	public void init(FMLInitializationEvent event) {		
 		NetworkRegistry.INSTANCE.registerGuiHandler(ModIhTech.instance, new GuiHandler());
 		ModRecipes.addMaterialRecipes();
+		GameRegistry.registerFuelHandler(new FuelHandler());
 		
 		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
 			TConstructIntegration.materialsIntegration();

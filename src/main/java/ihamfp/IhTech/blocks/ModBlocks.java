@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import li.cil.oc.common.block.Item;
 import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricFurnace;
+import ihamfp.IhTech.blocks.machines.BlockMachineElectricGrinder;
 import ihamfp.IhTech.models.CableModelsLoader;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -28,11 +29,13 @@ public class ModBlocks {
 	
 	public static ArrayList<BlockGenericResource> blockResources = new ArrayList<BlockGenericResource>(Materials.materials.size());
 	public static ArrayList<BlockGenericResource> blockOres = new ArrayList<BlockGenericResource>(Materials.materials.size());
+	public static ArrayList<BlockEnergyCable> blockCables = new ArrayList<BlockEnergyCable>(Materials.materials.size());
 	
 	// machines
 	public static BlockMachineElectricFurnace blockElectricFurnace = new BlockMachineElectricFurnace("blockElectricFurnace");
+	public static BlockMachineElectricGrinder blockElectricGrinder = new BlockMachineElectricGrinder("blockElectricGrinder");
 	
-	public static BlockEnergyCable blockCable = new BlockEnergyCable("blockCable", Material.IRON);
+	//public static BlockEnergyCable blockCable = new BlockEnergyCable("blockCable", Material.IRON);
 	
 	public static void preInit() {		
 		for (int i=0; i<Materials.materials.size();++i) {
@@ -54,6 +57,13 @@ public class ModBlocks {
 				blockOres.add(i, null);
 			}
 			
+			if (Materials.materials.get(i).energyCableCapacity > 0) {
+				blockCables.add(new BlockEnergyCable("blockCable", i));
+				blockCables.get(i).register();
+			} else {
+				blockCables.add(i, null);
+			}
+			
 		}
 		
 		blockGen.register();
@@ -61,8 +71,7 @@ public class ModBlocks {
 		blockBattRack.register();
 		
 		blockElectricFurnace.register();
-		
-		blockCable.register();
+		blockElectricGrinder.register();
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -74,8 +83,9 @@ public class ModBlocks {
 		blockBattRack.initModel();
 		
 		blockElectricFurnace.initModel();
+		blockElectricGrinder.initModel();
 		
-		blockCable.initModel();
+		//blockCable.initModel();
 		
 		for (int i=0;i<Materials.materials.size();++i) {
 			if (blockOres.get(i) != null) {
@@ -84,12 +94,19 @@ public class ModBlocks {
 			if (blockResources.get(i) != null) {
 				blockResources.get(i).initModel();
 			}
+			if (blockCables.get(i) != null) {
+				blockCables.get(i).initModel();
+			}
 		}
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void initItemModels()	{
-		blockCable.initItemModel();
+		for (int i=0;i<Materials.materials.size();++i) {
+			if (blockCables.get(i)!=null) {
+				blockCables.get(i).initItemModel();
+			}
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -106,6 +123,9 @@ public class ModBlocks {
 			if (blockResources.get(i) != null) {
 				blockColors.registerBlockColorHandler(colorHandler, blockResources.get(i));
 				itemColors.registerItemColorHandler(itemColorHandler, blockResources.get(i));
+			}
+			if (blockCables.get(i) != null) {
+				itemColors.registerItemColorHandler(itemColorHandler, blockCables.get(i));
 			}
 		}
 	}

@@ -86,6 +86,7 @@ public class GuiContainerDecorated extends GuiContainer {
 		int level = 16*progress/progressMax;
 		mc.getTextureManager().bindTexture(decoration);
 		drawTexturedModalRect(x, y, 81, 36, 3, 18);
+		
 		if (progressMax > 0 && progress > 0)
 			drawTexturedModalRect(x+1, y+17-level, 84, 53-level, 1, level); // TODO: add color to this
 	}

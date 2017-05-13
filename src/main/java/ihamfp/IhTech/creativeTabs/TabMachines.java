@@ -16,6 +16,6 @@ public class TabMachines extends CreativeTabs {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getTabIconItem() {
-		return new ItemBlock(ModBlocks.blockElectricFurnace);
+		return Item.getItemFromBlock(ModBlocks.blockElectricFurnace);
 	}
 }

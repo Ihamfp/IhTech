@@ -79,6 +79,7 @@ public class ModIhTech {
 	public void postInit(FMLPostInitializationEvent event) {
 		// Proxy
 		proxy.postInit(event);
+		ModIhTech.logger.info("Finished loading everything. Materials: " + Materials.materials.size());
 	}
 	
 }

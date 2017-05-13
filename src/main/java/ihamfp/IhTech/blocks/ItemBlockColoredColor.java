@@ -16,6 +16,8 @@ public class ItemBlockColoredColor implements IItemColor {
 		Block block = ((ItemBlock)stack.getItem()).getBlock();
 		if (block instanceof BlockGenericResource && tintIndex == 0) {
 			return Materials.materials.get(((BlockGenericResource)block).material).color;
+		} else if (block instanceof BlockEnergyCable && tintIndex == 0) {
+			return Materials.materials.get(ModBlocks.blockCables.indexOf(block)).color;
 		}
 		return Color.WHITE.getRGB();
 	}

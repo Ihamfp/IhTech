@@ -12,6 +12,7 @@ import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 import ihamfp.IhTech.interfaces.IItemColored;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.item.Item;
@@ -26,12 +27,21 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemGenericResource extends ItemBase implements IItemColored {
 	
-	private String type;
-	ItemDye d;
+	public String type;
+	private String hasMatch;
 	
 	public ItemGenericResource(String type) {
+		this(type, type);
+	}
+	
+	/***
+	 * @param type type of the resource (as in registry and in oreDict)
+	 * @param hasMatch resource "has" match type, see @ref:ModItems.densePlate
+	 */
+	public ItemGenericResource(String type, String hasMatch) {
 		super(type);
 		this.type = type;
+		this.hasMatch = hasMatch;
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
 		this.setCreativeTab(ModCreativeTabs.RESOURCES);
@@ -43,7 +53,7 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 		//this.setCreativeTab(ModCreativeTabs.RESOURCES);
 		for (int i=0; i<Materials.materials.size(); ++i) {
 			ResourceMaterial material = Materials.materials.get(i);
-			if (material.has(this.type) && material.getItemFor(this.type) == null) { // only add if not present
+			if (material.has(this.hasMatch) && material.getItemFor(this.type) == null) { // only add if not present
 				if (OreDictionary.getOres("" + this.type + material.name).size() == 0 || Config.alwaysAddResources) { // Item doesn't exist in the game
 					ItemStack stack = new ItemStack(this, 1, i);
 					material.setItemFor(this.type, stack);
@@ -71,9 +81,10 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
-		ModelResourceLocation resourceLocation = new ModelResourceLocation(ModIhTech.MODID + ":" + this.type + "_template", "inventory");
+		ModelResourceLocation resourceLocation = new ModelResourceLocation(ModIhTech.MODID + ":" + this.type.toLowerCase() + "_template", "inventory");
 		ModelResourceLocation metalIngot = null;
 		ModelResourceLocation dustPlate = null;
+		// TODO make this clean
 		if (this.type == "ingot") {
 			metalIngot = new ModelResourceLocation(ModIhTech.MODID + ":metalingot_template", "inventory");
 		} else if (this.type == "plate") {
