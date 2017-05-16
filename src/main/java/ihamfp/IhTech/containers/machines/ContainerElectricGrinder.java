@@ -12,7 +12,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerElectricGrinder extends ContainerBase<TileEntityElectricGrinder> {
-	private static final int SLOTS_COUNT = 3;
+	public static final int SLOTS_COUNT = 3;
 	
 	public ContainerElectricGrinder(IInventory playerInventory, TileEntityElectricGrinder te) {
 		super(playerInventory, te);

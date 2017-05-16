@@ -11,7 +11,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerElectricFurnace extends ContainerBase<TileEntityElectricFurnace> {
-	private static final int SLOTS_COUNT = 3;
+	public static final int SLOTS_COUNT = 3;
 	
 	public ContainerElectricFurnace(IInventory playerInventory, TileEntityElectricFurnace te) {
 		super(playerInventory, te);

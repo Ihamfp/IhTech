@@ -39,15 +39,40 @@ public class ModRecipes {
 				GameRegistry.addSmelting(mat.getItemFor("dust"), mat.getItemFor("ingot"), 1);
 			}
 			
-			// ingot => dust grinding
-			if (mat.has("dust") && mat.has("ingot") && mat.resourceType == ResourceType.METAL) {
-				RecipesGrinding.registerGrinding(mat.getItemFor("ingot"), new ItemStack[] {mat.getItemFor("dust")}, 185);
-			}
-			
 			// ore => ingot in furnace
 			if (mat.has("ore") && mat.has("ingot") && mat.resourceType == ResourceType.METAL && mat.meltingPoint <= 1600 && (mat.getItemFor("ingot").getItem() instanceof ItemGenericResource || ((ItemBlock)(mat.getItemFor("ore").getItem())).getBlock() instanceof BlockGenericResource)) {
 				GameRegistry.addSmelting(mat.getItemFor("ore"), mat.getItemFor("ingot"), 1);
 			}
+			
+			// ingot => dust grinding
+			if (mat.has("dust") && mat.has("ingot") && mat.resourceType == ResourceType.METAL) {
+				RecipesGrinding.registerGrinding(mat.getItemFor("ingot"), new ItemStack[] {mat.getItemFor("dust")}, 185, true);
+			}
+			
+			// block => dust grinding
+			if (mat.has("dust") && mat.has("block")) {
+				ItemStack dusts = ItemStack.copyItemStack(mat.getItemFor("dust"));
+				switch (mat.resourceType) {
+				case METAL:
+					dusts.stackSize = 9;
+					RecipesGrinding.registerGrinding(mat.getItemFor("block"), new ItemStack[] {dusts}, 185, true);
+					break;
+				
+				case CRYSTAL:
+					dusts.stackSize = 9;
+					RecipesGrinding.registerGrinding(mat.getItemFor("block"), new ItemStack[] {dusts}, 185*8, true).requiresDiamond();;
+				
+				default:
+					if (mat.name == "Wood") {
+						dusts.stackSize = 4;
+						RecipesGrinding.registerGrinding(mat.getItemFor("block"), new ItemStack[] {dusts}, 185*2);
+					}
+					break;
+				}
+				
+			}
+			
+			
 		}
 	}
 }

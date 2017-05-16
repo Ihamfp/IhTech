@@ -1,13 +1,17 @@
 package ihamfp.IhTech.containers;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.common.Config;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.energy.EnergyStorage;
@@ -83,20 +87,36 @@ public class GuiContainerDecorated extends GuiContainer {
 	}
 	
 	public void drawVertProgressBar(int x, int y, int progressMax, int progress, int color) {
+		if (progressMax == 0) return;
 		int level = 16*progress/progressMax;
 		mc.getTextureManager().bindTexture(decoration);
 		drawTexturedModalRect(x, y, 81, 36, 3, 18);
 		
-		if (progressMax > 0 && progress > 0)
-			drawTexturedModalRect(x+1, y+17-level, 84, 53-level, 1, level); // TODO: add color to this
+		if (progressMax > 0 && progress > 0) {
+			Color col = new Color(color);
+			int red = col.getRed();
+			int green = col.getGreen();
+			int blue = col.getBlue();
+			GlStateManager.color(red/255.0f, green/255.0f, blue/255.0f);
+			drawTexturedModalRect(x+1, y+17-level, 84, 53-level, 1, level);
+			GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		}
 	}
 	
 	public void drawLargeVertProgressBar(int x, int y, int progressMax, int progress, int color) {
+		if (progressMax == 0) return;
 		int level = 24*progress/progressMax;
 		mc.getTextureManager().bindTexture(decoration);
 		drawTexturedModalRect(x, y, 76, 36, 3, 26);
-		if (progressMax > 0 && progress > 0)
+		if (progressMax > 0 && progress > 0) {
+			Color col = new Color(color);
+			int red = col.getRed();
+			int green = col.getGreen();
+			int blue = col.getBlue();
+			GlStateManager.color(red/255.0f, green/255.0f, blue/255.0f);
 			drawTexturedModalRect(x+1, y+25-level, 77, 60-level, 1, level);
+			GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		}
 	}
 	
 	/** Temperature in Kelvins */

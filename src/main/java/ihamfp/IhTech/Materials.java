@@ -22,7 +22,7 @@ public class Materials {
 		});
 		
 		// Wood/stone age
-		add(new ResourceMaterial("Wood", "0x979702").setHas("dust").setHas("plate").setItemFor("block", new ItemStack(Blocks.LOG)).setItemFor("rod", new ItemStack(Items.STICK)).setBurningEnergy(Item.getItemFromBlock(Blocks.PLANKS), 1));
+		add(new ResourceMaterial("Wood", "0x979702").setHas("dust").setHas("plate").setItemFor("block", new ItemStack(Blocks.PLANKS)).setItemFor("rod", new ItemStack(Items.STICK)).setBurningEnergy(Item.getItemFromBlock(Blocks.PLANKS), 0.25f));
 		add(new ResourceMaterial("Stone", "0x6F6F6F").setHas("dust").setHas("plate").setItemFor("block", new ItemStack(Blocks.COBBLESTONE)));
 		add(new ResourceMaterial("Clay", "0x9F9F9F").setHas("dust").setItemFor("block", new ItemStack(Blocks.CLAY)));
 		add(new ResourceMaterial("Bricks", "0x706013").setHas("ingot").setHas("dust").setItemFor("ingot", new ItemStack(Items.BRICK)));

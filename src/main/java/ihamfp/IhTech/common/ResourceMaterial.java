@@ -49,7 +49,7 @@ public class ResourceMaterial {
 	public OreDrop oreDrop;
 	public int oreLevel = 1; // mining level required to mine the ore
 	public StorageBlockType storageBlockType;
-	public ResourceType resourceType;
+	public ResourceType resourceType = ResourceType.NONE;
 	public float hardness = 0.1f;
 	public float resistance = 0.1f;
 	
@@ -172,7 +172,12 @@ public class ResourceMaterial {
 	}
 	
 	public ResourceMaterial setBurningEnergy(Item reference, int mult) {
-		this.burningEnergy = TileEntityFurnace.getItemBurnTime(new ItemStack(Items.COAL))*mult;
+		this.burningEnergy = TileEntityFurnace.getItemBurnTime(new ItemStack(reference))*mult;
+		return this;
+	}
+	
+	public ResourceMaterial setBurningEnergy(Item reference, float mult) {
+		this.burningEnergy = (int) (TileEntityFurnace.getItemBurnTime(new ItemStack(reference))*mult);
 		return this;
 	}
 }

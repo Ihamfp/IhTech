@@ -25,6 +25,7 @@ public class ModItems {
 	public static ItemGenericResource gem = new ItemGenericResource("gem");
 	public static ItemGenericResource plate = new ItemGenericResource("plate");
 	public static ItemGenericResource compressedPlate = new ItemGenericResource("compressedPlate", "plate");
+	public static ItemGenericResource gear = new ItemGenericResource("gear", "plate");
 	public static ItemGenericResource rod = new ItemGenericResource("rod");
 	public static ItemGenericResource wire = new ItemGenericResource("wire");
 	public static ItemGenericResource coil = new ItemGenericResource("coil", "wire");
@@ -47,6 +48,7 @@ public class ModItems {
 		gem.register();
 		plate.register();
 		compressedPlate.register();
+		gear.register();
 		rod.register();
 		wire.register();
 		coil.register();
@@ -69,6 +71,7 @@ public class ModItems {
 		gem.initModel();
 		plate.initModel();
 		compressedPlate.initModel();
+		gear.initModel();
 		rod.initModel();
 		wire.initModel();
 		coil.initModel();
@@ -84,6 +87,7 @@ public class ModItems {
 		itemColors.registerItemColorHandler(colorHandler, gem);
 		itemColors.registerItemColorHandler(colorHandler, plate);
 		itemColors.registerItemColorHandler(colorHandler, compressedPlate);
+		itemColors.registerItemColorHandler(colorHandler, gear);
 		itemColors.registerItemColorHandler(colorHandler, rod);
 		itemColors.registerItemColorHandler(colorHandler, wire);
 		itemColors.registerItemColorHandler(colorHandler, coil);
