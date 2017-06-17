@@ -2,6 +2,7 @@ package ihamfp.IhTech.TileEntities.machines;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -14,6 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricBase;
 import ihamfp.IhTech.common.PacketHandler;
@@ -24,7 +26,12 @@ import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 public abstract class TileEntityElectricMachine extends TileEntityEnergyStorage implements ITileEntityInteractable {
 	
 	public int processTimeLeft = 0;
-	public int processTime = 0;
+	public int processTime = 1;
+	public ItemStack cookingItem = null;
+	
+	public static final int INPUT_SLOT = 0;
+	public static final int OUTPUT_SLOT = 1;
+	public static final int BATT_SLOT = 2; // Not working atm
 	
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
@@ -54,6 +61,76 @@ public abstract class TileEntityElectricMachine extends TileEntityEnergyStorage 
 	//@SideOnly(Side.SERVER)
 	public void sendSimpleUpdate(int value) {
 		PacketHandler.INSTANCE.sendToAllAround(new PacketMachineSimpleUpdate(this.pos,  this.processTimeLeft), new TargetPoint(this.worldObj.provider.getDimension(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 64.0));
+	}
+	
+	// indexes start from 0
+	protected abstract boolean hasOutput(ItemStack input);
+	protected abstract ItemStack getOutputStack(ItemStack input, int outputIndex);
+	protected abstract float getOutputProbability(ItemStack input, int outputIndex);
+	protected abstract int getProcessTime(ItemStack input);
+	
+	protected int getEnergyUsage(ItemStack input) {
+		return 80;
+	}
+	
+	public void update() {
+		super.update();
+		
+		ItemStack itemStack = this.getStackHandler().getStackInSlot(INPUT_SLOT);
+		
+		if (this.worldObj.isRemote) {
+			if (itemStack != null && !ItemStack.areItemsEqual(itemStack, cookingItem) && this.hasOutput(itemStack)) {
+				this.processTime = this.getProcessTime(itemStack);
+				this.cookingItem = new ItemStack(itemStack.getItem(), 64, itemStack.getMetadata());
+			}
+			return;
+		}
+		
+		if (itemStack != null && !ItemStack.areItemsEqual(itemStack, cookingItem)) { // the input item changed !
+			this.cookingItem = null;
+			this.processTimeLeft = 0;
+			if (!this.hasOutput(itemStack)) { // and it's not even processable !
+				this.setBlockStateActive(false);
+				this.markDirty();
+			}
+		}
+		
+		if (this.processTimeLeft > 0 && this.getEnergyStorage().getEnergyStored() > this.getEnergyUsage(cookingItem) && itemStack != null && ItemStack.areItemsEqual(itemStack, cookingItem)) { // process items
+			this.processTimeLeft--;
+			this.energyStorage.extractEnergy(this.getEnergyUsage(cookingItem), false);
+			if (this.processTimeLeft == 0) { // wow it's finished
+				ItemStack processed =  this.getOutputStack(itemStack.splitStack(1), 0).copy();
+				if (this.worldObj.rand.nextFloat() <= this.getOutputProbability(cookingItem, 0))
+					this.getStackHandler().insertItem(OUTPUT_SLOT, processed, false);
+				this.cookingItem = null;
+				if (itemStack.stackSize == 0) {
+					this.getStackHandler().setStackInSlot(INPUT_SLOT, null);
+					this.setBlockStateActive(false);
+				}
+				sendSimpleUpdate(this.processTimeLeft);
+				this.markDirty();
+				return;
+			}
+		} else if (this.processTimeLeft > 0 && cookingItem != null) { // Not enough energy, item changed or is not present
+			this.processTimeLeft = this.getProcessTime(cookingItem);
+			sendSimpleUpdate(this.processTimeLeft);
+			this.markDirty();
+			return;
+		}
+		
+		if (this.processTimeLeft == 0 && itemStack != null && this.hasOutput(itemStack)) { // start processing
+			if (this.getStackHandler().insertItem(OUTPUT_SLOT, this.getOutputStack(itemStack, 0), true) != null) return;
+			this.cookingItem = new ItemStack(itemStack.getItem(), 64, itemStack.getMetadata());
+			this.processTime = this.getProcessTime(cookingItem);
+			this.processTimeLeft = this.processTime;
+			this.setBlockStateActive(true);
+			this.markDirty();
+		}
+	}
+	
+	// I have no idea why this could be useful
+	protected void normalUpdate() {
+		super.update();
 	}
 	
 	protected abstract ItemStackHandler getStackHandler();

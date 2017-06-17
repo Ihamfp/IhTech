@@ -33,7 +33,7 @@ public class GuiContainerElectricFurnace extends GuiContainerDecorated {
 		drawSlot(guiLeft+61, guiTop+33); // input
 		drawLargeSlot(guiLeft+93, guiTop+29); // output
 		drawSlot(guiLeft+5, guiTop+40); // battery
-		drawVertProgressBar(guiLeft+80, guiTop+33, te.cookTime, (te.processTimeLeft>0)?te.cookTime-te.processTimeLeft:0, Color.YELLOW.getRGB()); // cooking bar
+		drawVertProgressBar(guiLeft+80, guiTop+33, te.processTime, (te.processTimeLeft>0)?te.processTime-te.processTimeLeft:0, Color.YELLOW.getRGB()); // cooking bar
 		drawBurningLevel(guiLeft+63, guiTop+52, (te.processTimeLeft>0)?1:0, 1);
 		drawEnergyStorageLevel(guiLeft+4, guiTop+4, mouseX, mouseY, te.getCapability(CapabilityEnergy.ENERGY, null));	
 	}

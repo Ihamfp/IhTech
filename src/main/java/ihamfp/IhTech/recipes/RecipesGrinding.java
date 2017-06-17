@@ -17,8 +17,8 @@ public class RecipesGrinding {
 		public ItemStack itemIn;
 		public ItemStack[] itemsOut;
 		public float[] probabilities; // 1.0 = 100%
-		public int ticksNeeded;
-		public boolean meta; // for the input item, false to ignore
+		public int ticksNeeded = 1;
+		public boolean meta = false; // for the input item, false to ignore
 		public boolean requiresDiamond = false; // TODO implement this in the grinders
 		
 		public GrindingRecipe requiresDiamond() {
@@ -56,6 +56,7 @@ public class RecipesGrinding {
 	}
 
 	private static GrindingRecipe getRecipe(ItemStack itemIn) {
+		if (itemIn == null) return null;
 		if (recipes.containsKey(itemIn.getItem())) {
 			List<GrindingRecipe> list = recipes.get(itemIn.getItem());
 			for (GrindingRecipe recipe : list) {

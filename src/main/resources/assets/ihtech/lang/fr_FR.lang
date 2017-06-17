@@ -1,0 +1,26 @@
+itemGroup.ihtech.resources=IhTech: Ressources
+
+gui.ihtech.jei.category.grinder=Broyeur
+
+fluid.steam=Vapeur
+
+fluid.tconstruct.cast iron.name=Molten cast iron
+fluid.tconstruct.platinum.name=Molten platinum
+fluid.tconstruct.iridium.name=Molten iridium
+fluid.tconstruct.enderium.name=Molten enderium
+fluid.tconstruct.plutonium.name=Molten plutonium
+fluid.tconstruct.uranium.name=Molten uranium
+
+item.ihtech:rod.plastic.name=Fanta-stick
+
+item.ihtech:ingot.format=Lingot de %s
+item.ihtech:nugget.format=Pépite de %s
+item.ihtech:dust.format=Poudre de %s
+item.ihtech:dusttiny.format=Petite poudre de %s
+item.ihtech:gem.format=%s
+item.ihtech:plate.format=Plaque de %s
+item.ihtech:compressedplate.format=Plaque de %s compressée
+item.ihtech:gear.format=Engrenage de %s
+item.ihtech:rod.format=Bâton de %s
+item.ihtech:wire.format=Fil de %s
+item.ihtech:coil.format=Bobine de %s

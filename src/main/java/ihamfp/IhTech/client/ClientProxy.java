@@ -3,6 +3,7 @@ package ihamfp.IhTech.client;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -11,6 +12,7 @@ import ihamfp.IhTech.blocks.ModBlocks;
 import ihamfp.IhTech.common.CommonProxy;
 import ihamfp.IhTech.common.Config;
 import ihamfp.IhTech.common.PacketHandler;
+import ihamfp.IhTech.compatibility.TConstructIntegration;
 import ihamfp.IhTech.interfaces.IProxy;
 import ihamfp.IhTech.items.ItemColoredColor;
 import ihamfp.IhTech.items.ItemGenericResource;
@@ -24,6 +26,9 @@ public class ClientProxy extends CommonProxy {
 		ModBlocks.initModels();
 		ModItems.initModels();
 		PacketHandler.registerClientMessages();
+		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
+			TConstructIntegration.moltenModels();
+		}
 	}
 	
 	@Override
@@ -38,6 +43,6 @@ public class ClientProxy extends CommonProxy {
 		if (Config.showCapes)
 			MinecraftForge.EVENT_BUS.register(new TweakCape());
 		ModBlocks.initColors();
-		ModItems.initColors();
+		ModItems.initColors();	
 	}
 }

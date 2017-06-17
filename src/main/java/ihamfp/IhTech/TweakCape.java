@@ -30,20 +30,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class TweakCape {
 	private static Minecraft mc = FMLClientHandler.instance().getClient();
-	private static ResourceLocation ihamfp = new ResourceLocation("ihtech:textures/capes/ihamfp.png");
-	private static ResourceLocation noli = new ResourceLocation("ihtech:textures/capes/noli.png");
 	
 	private static HashMap<String, Boolean> addedList = new HashMap<String, Boolean>();
+	private static HashMap<String, ResourceLocation> capesList = new HashMap<String, ResourceLocation>() {{
+		put("_Firew0lf", new ResourceLocation("ihtech:textures/capes/ihamfp.png"));
+		put("Nolifertu", new ResourceLocation("ihtech:textures/capes/noli.png"));
+	}};
 	
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
 		if (event.phase == Phase.START && mc.theWorld != null) {
 			for (EntityPlayer player : mc.theWorld.playerEntities) {
 				if (addedList.containsKey(player.getName())) continue;
-				if (StringUtils.stripControlCodes(player.getName()).equals("_Firew0lf")) {
-					if (addCape(player, ihamfp)) addedList.put(player.getName(), true);
-				} else if (StringUtils.stripControlCodes(player.getName()).equals("Nolifertu")) {
-					if (addCape(player, noli)) addedList.put(player.getName(), true);
+				if (capesList.containsKey(StringUtils.stripControlCodes(player.getName()))) {
+					if (addCape(player, capesList.get(StringUtils.stripControlCodes(player.getName())))) addedList.put(player.getName(), true);
 				} else {
 					addedList.put(player.getName(), false);
 				}

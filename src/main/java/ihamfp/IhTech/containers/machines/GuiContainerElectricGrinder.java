@@ -34,7 +34,7 @@ public class GuiContainerElectricGrinder extends GuiContainerDecorated {
 		drawSlot(guiLeft+61, guiTop+33); // input
 		drawLargeSlot(guiLeft+93, guiTop+29); // output
 		drawSlot(guiLeft+5, guiTop+40); // battery
-		drawVertProgressBar(guiLeft+80, guiTop+33, te.grindTime, (te.processTimeLeft>0)?te.grindTime-te.processTimeLeft:0, Color.YELLOW.getRGB()); // cooking bar
+		drawVertProgressBar(guiLeft+80, guiTop+33, te.processTime, (te.processTimeLeft>0)?te.processTime-te.processTimeLeft:0, Color.YELLOW.getRGB()); // cooking bar
 		drawEnergyStorageLevel(guiLeft+4, guiTop+4, mouseX, mouseY, te.getCapability(CapabilityEnergy.ENERGY, null));	
 	}
 

@@ -28,8 +28,8 @@ public class Materials {
 		add(new ResourceMaterial("Bricks", "0x706013").setHas("ingot").setHas("dust").setItemFor("ingot", new ItemStack(Items.BRICK)));
 		add(new ResourceMaterial("Sand", "0xFFAF9F").setHas("dust").setItemFor("block", new ItemStack(Blocks.SAND)));
 		add(new ResourceMaterial("Glass", "0xF7F7FF").setHas("ingot").setHas("dust").setHas("plate").setItemFor("block", new ItemStack(Blocks.GLASS)));
-		add(new ResourceMaterial("Coal", "0x3B3B3B").setHas("dust").setItemFor("gem", new ItemStack(Items.COAL)).setItemFor("ore", new ItemStack(Blocks.COAL_ORE)).setItemFor("block", new ItemStack(Blocks.COAL_BLOCK)).setBurningEnergy(Items.COAL, 1));
-		add(new ResourceMaterial("Coal coke", "0x7A7A7A").setHas("dust").setHas("gem").setBurningEnergy(Items.COAL, 2));
+		add(new ResourceMaterial("Coal", "0x3B3B3B").setType(ResourceType.COAL).setItemFor("gem", new ItemStack(Items.COAL)).setItemFor("ore", new ItemStack(Blocks.COAL_ORE)).setItemFor("block", new ItemStack(Blocks.COAL_BLOCK)).setBurningEnergy(Items.COAL, 1));
+		add(new ResourceMaterial("Coal coke", "0x7A7A7A").setType(ResourceType.COAL).setBurningEnergy(Items.COAL, 2));
 		add(new ResourceMaterial("Iron", "0xD8D8D8").setType(ResourceType.METAL).setItemFor("ingot", new ItemStack(Items.IRON_INGOT)).setItemFor("block", new ItemStack(Blocks.IRON_BLOCK)).setItemFor("ore", new ItemStack(Blocks.IRON_ORE)).setHas("nugget").setHas("dust").setHas("plate").setMeltingPoint(1811).setEnergyCableCapacity(192));
 		// Iron age
 		add(new ResourceMaterial("Copper", "0xAF7F00").setType(ResourceType.METAL).setHas("ore").setMeltingPoint(1357).setEnergyCableCapacity(800));
@@ -59,7 +59,7 @@ public class Materials {
 		add(new ResourceMaterial("Cast iron", "0x353333").setType(ResourceType.METAL).setMeltingPoint(1421).setEnergyCableCapacity(64));
 		add(new ResourceMaterial("Steel", "0xCACACA").setType(ResourceType.METAL).setMeltingPoint(1700).setEnergyCableCapacity(72));
 		// Steel age
-		add(new ResourceMaterial("Plastic", "0xCDCDCD").setHas("ingot").setHas("nugget").setHas("dust").setHas("plate"));
+		add(new ResourceMaterial("Plastic", "0xCDCDCD").setHas("ingot").setHas("nugget").setHas("dust").setHas("plate").setHas("rod"));
 		add(new ResourceMaterial("Aluminium", "0xCACADF").setHas("ore").setType(ResourceType.METAL).setMeltingPoint(932).setEnergyCableCapacity(512));
 		add(new ResourceMaterial("Tungsten", "0x82858C").setHas("ore").setType(ResourceType.METAL).setMeltingPoint(3695).setToolProperties(1080, 5, 8, 3).setEnergyCableCapacity(128));
 		add(new ResourceMaterial("Platinum", "0xFAFAFA").setHas("ore").setType(ResourceType.METAL).setMeltingPoint(2041).setEnergyCableCapacity(150));

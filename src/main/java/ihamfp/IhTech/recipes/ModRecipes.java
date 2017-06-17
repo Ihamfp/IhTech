@@ -34,6 +34,15 @@ public class ModRecipes {
 				GameRegistry.addRecipe(nineIngots, "b", 'b', mat.getItemFor("block"));
 			}
 			
+			// 9 tiny dusts <=> dust
+			if (mat.has("dust") && (mat.getItemFor("dust").getItem() instanceof ItemGenericResource || mat.getItemFor("dustTiny").getItem() instanceof ItemGenericResource)) {
+				GameRegistry.addRecipe(new ShapedOreRecipe(mat.getItemFor("dust"), "ttt", "ttt", "ttt", 't', "dustTiny"+mat.name));
+				
+				ItemStack nineTinyDusts = ItemStack.copyItemStack(mat.getItemFor("dustTiny"));
+				nineTinyDusts.stackSize = 9;
+				GameRegistry.addRecipe(nineTinyDusts, "d", 'd', mat.getItemFor("dust"));
+			}
+			
 			// dust => ingot in furnace
 			if (mat.has("dust") && mat.has("ingot") && mat.resourceType == ResourceType.METAL && mat.meltingPoint <= 2000 && (mat.getItemFor("ingot").getItem() instanceof ItemGenericResource || mat.getItemFor("dust").getItem() instanceof ItemGenericResource)) {
 				GameRegistry.addSmelting(mat.getItemFor("dust"), mat.getItemFor("ingot"), 1);

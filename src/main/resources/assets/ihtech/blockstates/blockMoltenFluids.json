@@ -1,0 +1,38 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "forge:fluid"
+	},
+	"variants": {
+		"chromium": [{
+			"custom": {"fluid": "chromium"}
+		}],
+		"castiron": [{
+			"custom": {"fluid": "castiron"}
+		}],
+		"tungsten": [{
+			"custom": {"fluid": "tungsten"}
+		}],
+		"platinum": [{
+			"custom": {"fluid": "platinum"}
+		}],
+		"silicon": [{
+			"custom": {"fluid": "silicon"}
+		}],
+		"uranium": [{
+  	  "custom": {"fluid": "uranium"}
+		}],
+		"iridium": [{
+			"custom": {"fluid": "iridium"}
+		}],
+		"plutonium": [{
+			"custom": {"fluid": "plutonium"}
+		}],
+		"enderium": [{
+			"custom": {"fluid": "enderium"}
+		}],
+		"supraconductor": [{
+			"custom": {"fluid": "supraconductor"}
+		}]
+	}
+}

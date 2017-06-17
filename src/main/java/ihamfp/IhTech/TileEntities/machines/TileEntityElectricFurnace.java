@@ -20,75 +20,37 @@ import ihamfp.IhTech.common.packets.PacketMachineSimpleUpdate;
 import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 
-public class TileEntityElectricFurnace extends TileEntityElectricMachine {
-	public static final int cookTime = 185;
-	public static final int energyUsage = 80; // will put this in config later
-	public Item cookingItem = null;
-	
-	private static final int INPUT_SLOT = 0;
-	private static final int OUTPUT_SLOT = 1;
-	private static final int BATT_SLOT = 2; // Not working atm
-	
+public class TileEntityElectricFurnace extends TileEntityElectricMachine {	
 	protected ItemStackHandler itemStackHandler = new ItemStackHandler(3) {
 		@Override
 		protected void onContentsChanged(int slot) {
 			TileEntityElectricFurnace.this.markDirty();
 		}
 	};
-	
-	//public TileEntityElectricFurnace() {}
-	
-	@Override
-	public void update() {
-		super.update();
-		if (this.worldObj.isRemote) return;
-		
-		ItemStack itemStack = this.itemStackHandler.getStackInSlot(INPUT_SLOT);
-		
-		if (itemStack != null && itemStack.getItem() != this.cookingItem) { // Someone changed the item ! reset everything
-			this.cookingItem = null;
-			this.processTimeLeft = 0;
-			if (FurnaceRecipes.instance().getSmeltingResult(itemStack) == null) { // If it's not even cookable, just disable the cooking (logic)
-				this.setBlockStateActive(false);
-				this.markDirty();
-			}
-		}
-		
-		if (this.processTimeLeft > 0 && this.getEnergyStorage().getEnergyStored() >= this.energyUsage && itemStack != null && itemStack.getItem() == this.cookingItem) { // cook item
-			this.processTimeLeft--;
-			this.getEnergyStorage().extractEnergy(this.energyUsage, false);
-			if (this.processTimeLeft == 0) { // wow it's finished
-				ItemStack cooked = FurnaceRecipes.instance().getSmeltingResult(itemStack.splitStack(1)).copy();
-				this.itemStackHandler.insertItem(OUTPUT_SLOT, cooked, false);
-				this.cookingItem = null;
-				if (itemStack.stackSize == 0) { // nothing left in slot
-					this.itemStackHandler.setStackInSlot(INPUT_SLOT, null);
-					this.setBlockStateActive(false);
-				}
-			}
-			sendSimpleUpdate(this.processTimeLeft);
-			this.markDirty();
-			return;
-		} else if (this.processTimeLeft > 0) { // Not enough energy, item changed or is not present
-			this.processTimeLeft = this.cookTime; // reset cooking
-			sendSimpleUpdate(this.processTimeLeft);
-			this.markDirty();
-			return;
-		}
-		
-		if (processTimeLeft == 0 && itemStack != null && FurnaceRecipes.instance().getSmeltingResult(itemStack) != null) { // start cooking
-			if (this.itemStackHandler.insertItem(OUTPUT_SLOT, FurnaceRecipes.instance().getSmeltingResult(itemStack).copy(), true) != null) return; // do not cook if output slot full/incompatible
-			//this.cookingItem = itemStack.splitStack(1);
-			this.cookingItem = itemStack.getItem();
-			this.processTimeLeft = this.cookTime;
-			this.setBlockStateActive(true);
-			this.markDirty();
-		}
-	}
 
 	@Override
 	protected ItemStackHandler getStackHandler() {
 		return this.itemStackHandler;
+	}
+
+	@Override
+	protected ItemStack getOutputStack(ItemStack input, int outputIndex) {
+		return FurnaceRecipes.instance().getSmeltingResult(input).copy();
+	}
+
+	@Override
+	protected float getOutputProbability(ItemStack input, int outputIndex) {
+		return 1.0f;
+	}
+
+	@Override
+	protected int getProcessTime(ItemStack input) {
+		return 185;
+	}
+
+	@Override
+	protected boolean hasOutput(ItemStack input) {
+		return (FurnaceRecipes.instance().getSmeltingResult(input) != null);
 	}
 
 }

@@ -19,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -50,7 +51,6 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	@Override
 	public void register() {
 		GameRegistry.register(this);
-		//this.setCreativeTab(ModCreativeTabs.RESOURCES);
 		for (int i=0; i<Materials.materials.size(); ++i) {
 			ResourceMaterial material = Materials.materials.get(i);
 			if (material.has(this.hasMatch) && material.getItemFor(this.type) == null) { // only add if not present
@@ -79,6 +79,24 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 		return super.getUnlocalizedName(stack) + "." + Materials.materials.get(meta).name;
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public String getItemStackDisplayName(ItemStack stack) {
+		int meta = stack.getMetadata();
+		if (meta >= Materials.materials.size()) {
+			meta = 0;
+		}
+		
+		String key = "item." + ModIhTech.MODID + ":" + this.type.toLowerCase() + ".format";
+		if (I18n.hasKey(getUnlocalizedName(stack).toLowerCase() + ".name")) {
+			return I18n.format(getUnlocalizedName(stack).toLowerCase() + ".name");
+		} else if (I18n.hasKey(key)) {
+			return I18n.format(key, Materials.materials.get(meta).name);
+		} else {
+			return this.getUnlocalizedName(stack);
+		}
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public void initModel() {		
 		for (int i=0; i<Materials.materials.size(); ++i) {
@@ -90,6 +108,12 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 			} else if (this.type == "plate" && (Materials.materials.get(i).resourceType == ResourceType.DUST || Materials.materials.get(i).resourceType == ResourceType.CRYSTAL)) {
 				ModelResourceLocation dustPlate = new ModelResourceLocation(ModIhTech.MODID + ":dustplate_template", "inventory");
 				ModelLoader.setCustomModelResourceLocation(this, i, dustPlate);
+			} else if (this.type == "gem" && Materials.materials.get(i).resourceType == ResourceType.COAL) {
+				ModelResourceLocation coalGem = new ModelResourceLocation(ModIhTech.MODID + ":coal_template", "inventory");
+				ModelLoader.setCustomModelResourceLocation(this, i, coalGem);
+			} else if (this.type == "gem") {
+				ModelResourceLocation gem = new ModelResourceLocation(ModIhTech.MODID + ":gem_template", "inventory");
+				ModelLoader.setCustomModelResourceLocation(this, i, gem);
 			} else {
 				ModelResourceLocation resourceLocation = new ModelResourceLocation(ModIhTech.MODID + ":" + this.type.toLowerCase() + "_template", "inventory");
 				ModelLoader.setCustomModelResourceLocation(this, i, resourceLocation);

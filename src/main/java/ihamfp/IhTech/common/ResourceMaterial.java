@@ -29,6 +29,7 @@ public class ResourceMaterial {
 	public static enum ResourceType {
 		METAL,
 		DUST,
+		COAL,
 		CRYSTAL,
 		ALL,
 		NONE, // will not add recipes
@@ -87,6 +88,7 @@ public class ResourceMaterial {
 			this.setHas("block");
 			break;
 		
+		case COAL: // ex: coal, coke...
 		case CRYSTAL: // ex: diamond, emerald
 			this.setHas("gem");
 			this.setHas("dust");
