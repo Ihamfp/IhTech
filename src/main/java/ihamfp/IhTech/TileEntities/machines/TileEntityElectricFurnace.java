@@ -1,5 +1,6 @@
 package ihamfp.IhTech.TileEntities.machines;
 
+import scala.actors.threadpool.Arrays;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,17 +17,13 @@ import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
 import ihamfp.IhTech.TileEntities.TileEntityItemEnergyGenerator;
 import ihamfp.IhTech.common.PacketHandler;
+import ihamfp.IhTech.common.Utils;
 import ihamfp.IhTech.common.packets.PacketMachineSimpleUpdate;
 import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 
-public class TileEntityElectricFurnace extends TileEntityElectricMachine {	
-	protected ItemStackHandler itemStackHandler = new ItemStackHandler(3) {
-		@Override
-		protected void onContentsChanged(int slot) {
-			TileEntityElectricFurnace.this.markDirty();
-		}
-	};
+public class TileEntityElectricFurnace extends TileEntityElectricMachine {
+	protected ItemStackHandler itemStackHandler = new MachineItemStackHandler(3);
 
 	@Override
 	protected ItemStackHandler getStackHandler() {
@@ -34,23 +31,25 @@ public class TileEntityElectricFurnace extends TileEntityElectricMachine {
 	}
 
 	@Override
-	protected ItemStack getOutputStack(ItemStack input, int outputIndex) {
-		return FurnaceRecipes.instance().getSmeltingResult(input).copy();
+	protected ItemStack getOutputStack(ItemStack[] input, int outputIndex) {
+		return FurnaceRecipes.instance().getSmeltingResult(input[0]).copy();
 	}
 
 	@Override
-	protected float getOutputProbability(ItemStack input, int outputIndex) {
+	protected float getOutputProbability(ItemStack[] input, int outputIndex) {
 		return 1.0f;
 	}
 
 	@Override
-	protected int getProcessTime(ItemStack input) {
+	protected int getProcessTime(ItemStack[] input) {
 		return 185;
 	}
 
 	@Override
-	protected boolean hasOutput(ItemStack input) {
-		return (FurnaceRecipes.instance().getSmeltingResult(input) != null);
+	protected boolean hasOutput(ItemStack[] input) {
+		for (int i=0;i<input.length;i++) {
+			if (input[i] == null) return false;
+		}
+		return (FurnaceRecipes.instance().getSmeltingResult(input[0]) != null);
 	}
-
 }

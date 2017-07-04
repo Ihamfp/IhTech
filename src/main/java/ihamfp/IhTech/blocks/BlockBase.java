@@ -31,7 +31,7 @@ public class BlockBase extends Block {
 		this.name = name;
 		setRegistryName(ModIhTech.MODID, name);
 		setUnlocalizedName(getRegistryName().toString());
-		setDefaultState(blockState.getBaseState().withProperty(FACING,  EnumFacing.NORTH));
+		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 	}
 	
 	public BlockBase(String name, Material material) {

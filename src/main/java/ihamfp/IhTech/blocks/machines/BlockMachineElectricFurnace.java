@@ -17,7 +17,7 @@ import ihamfp.IhTech.common.Config;
 import ihamfp.IhTech.common.GuiHandler.EnumGUIs;
 import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 
-public class BlockMachineElectricFurnace extends BlockMachineElectricBase<TileEntityElectricFurnace> {
+public class BlockMachineElectricFurnace extends BlockMachineBase<TileEntityElectricFurnace> {
 	public static int GUI_ID = EnumGUIs.GUI_ELFURNACE.ordinal();
 	
 	public BlockMachineElectricFurnace(String name) {

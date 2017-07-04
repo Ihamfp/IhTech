@@ -19,7 +19,7 @@ Minecraft mod.
  - Q: "Why is everything so ugly ?"
   - A: I can't draw
  - Q: "When will you update to 1.11 ?"
-  - A: When OpenComputers and Waila or TOP are updated
+  - A: When OpenComputers and Waila or TOP are updated (and not in alpha)
 
 ## License
  * You can use parts of the code, if you want to learn how to make mods (and only _learn_, don't copy everything)

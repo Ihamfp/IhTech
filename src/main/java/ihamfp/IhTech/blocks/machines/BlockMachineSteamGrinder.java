@@ -8,18 +8,18 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricGrinder;
+import ihamfp.IhTech.TileEntities.machines.TileEntitySteamGrinder;
 import ihamfp.IhTech.common.GuiHandler.EnumGUIs;
 
-public class BlockMachineElectricGrinder extends BlockMachineBase<TileEntityElectricGrinder> {
-	public static int GUI_ID = EnumGUIs.GUI_ELGRINDER.ordinal();
-
-	public BlockMachineElectricGrinder(String name) {
-		super(name, new TileEntityElectricGrinder());
+public class BlockMachineSteamGrinder extends BlockMachineBase<TileEntitySteamGrinder> {
+	public static int GUI_ID = EnumGUIs.GUI_STGRINDER.ordinal();
+	
+	public BlockMachineSteamGrinder(String name) {
+		super(name, new TileEntitySteamGrinder());
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		return super.onBlockActivated(world, pos, state, player, hand, heldItem, side, hitX, hitY, hitZ) || tryOpenGUI(world, pos, player, this.GUI_ID);
 	}
-
 }

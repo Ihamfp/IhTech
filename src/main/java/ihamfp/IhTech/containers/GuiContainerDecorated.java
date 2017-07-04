@@ -12,11 +12,17 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidUtil;
 
 public class GuiContainerDecorated extends GuiContainer {
 	
@@ -53,6 +59,9 @@ public class GuiContainerDecorated extends GuiContainer {
 		// draw fluid texture here
 		if (fs.getFluidAmount() > 0) {
 			TextureAtlasSprite fluidTexture = mc.getTextureMapBlocks().getTextureExtry(fs.getFluid().getFluid().getStill().toString());
+			if (fluidTexture == null) {
+				fluidTexture = mc.getTextureMapBlocks().getTextureExtry(FluidRegistry.WATER.getStill().toString());
+			}
 			mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			drawTexturedModalRect(x+2, y+33-fluidLevel, fluidTexture, 16, fluidLevel);
 			

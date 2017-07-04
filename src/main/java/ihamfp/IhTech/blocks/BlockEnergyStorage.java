@@ -44,8 +44,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider, IWailaInfoProvider, ITOPInfoProvider {
 	public static int GUI_ID = EnumGUIs.GUI_NONE.ordinal();
 	
-	//public int capacity = 1;
-	
 	public BlockEnergyStorage(String name, Material material, MapColor mapColor) {
 		super(name, material, mapColor);
 		
@@ -67,18 +65,6 @@ public class BlockEnergyStorage extends BlockBase implements ITileEntityProvider
 		TileEntityEnergyStorage te = new TileEntityEnergyStorage();
 		return te;
 	}
-	
-	/*@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (world.isRemote)
-			return true;
-		
-		TileEntity te = world.getTileEntity(pos);
-		if (!(te instanceof ITileEntityEnergyStorage))
-			return false;
-		
-		return true;
-	}*/
 	
 	// Texture
 	@SideOnly(Side.CLIENT)

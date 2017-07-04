@@ -134,9 +134,10 @@ public class TConstructIntegration {
 			
 			Fluid moltenFluid = FluidRegistry.getFluid(stripName(mat.name));
 			matTC.setFluid(moltenFluid);
+			if (mat.resourceType == ResourceType.METAL) matTC.setCastable(true);
 			
 			MaterialIntegration matInt = new MaterialIntegration(matTC, moltenFluid, mat.name);
-			matInt.toolforge();
+			//if (mat.resourceType == ResourceType.METAL) matInt.toolforge();
 			matInt.integrate();
 			//matInt.integrateRecipes();
 		}

@@ -31,6 +31,62 @@ public class ModItems {
 	public static ItemGenericResource wire = new ItemGenericResource("wire");
 	public static ItemGenericResource coil = new ItemGenericResource("coil", "wire");
 	
+	public static ItemMulti upgrade = (ItemMulti) new ItemMulti("upgrade", new String[]{
+			"speedup",
+			"slowdown",
+			"eefficiency",
+			"fefficiency",
+			"fortune",
+			"void",
+			"blast",
+			
+			"diamondGrind",
+			"nitroxygen",
+			"alimentary",
+			
+			"coil1",
+			"coil2",
+			"coil3",
+	}).setCreativeTab(ModCreativeTabs.MACHINES);
+	
+	public static ItemMulti elecTube = new ItemMulti("elecTube", new String[]{
+			"diode",
+			"logic",
+	});
+	
+	public static ItemMulti elecChip = (ItemMulti) new ItemMulti("elecChip", new String[]{
+			"diode",
+			"transistor",
+			"logic",
+			"analogic",
+			"powerRegulator",
+			"rom",
+			"ram",
+			"eeprom",
+			"alu",
+			"controlUnit",
+			"microcontroller",
+			"cpu",
+			"gpu",
+			"fpga",
+			"quantumProcessor",
+	}).setCreativeTab(ModCreativeTabs.RESOURCES);
+	
+	public static ItemMulti elecDisplay = (ItemMulti) new ItemMulti("elecDisplay", new String[]{
+			"vfd",
+			"crt",
+			"lcd",
+			"holo",
+			"holo2",
+	}).setCreativeTab(ModCreativeTabs.RESOURCES);
+	
+	public static ItemMulti elecPackage = (ItemMulti) new ItemMulti("elecPackage", new String[]{
+			"ceramic",
+			"whiteCeramic",
+			"plastic",
+			"metal",
+	}).setCreativeTab(ModCreativeTabs.RESOURCES);
+	
 	/*public static ItemBattery batPotato = new ItemBattery("PotatoBattery", 12, 0, 1);
 	public static ItemBattery batSaline = new ItemBattery("SalineBattery", 2500, 0, 20);
 	public static ItemBattery batAlkaline = new ItemBattery("AlkalineBattery", 5000, 0, 40);
@@ -54,6 +110,13 @@ public class ModItems {
 		rod.register();
 		wire.register();
 		coil.register();
+		
+		upgrade.register();
+		
+		elecTube.register();
+		elecChip.register();
+		elecDisplay.register();
+		elecPackage.register();
 		
 		/*batPotato.register();
 		batSaline.register();

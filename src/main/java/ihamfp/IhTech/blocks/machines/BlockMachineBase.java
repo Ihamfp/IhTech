@@ -1,9 +1,18 @@
 package ihamfp.IhTech.blocks.machines;
 
+import java.util.List;
+
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -13,20 +22,26 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.blocks.BlockBase;
 import ihamfp.IhTech.blocks.BlockEnergyStorage;
 import ihamfp.IhTech.common.GuiHandler.EnumGUIs;
 import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
+import ihamfp.IhTech.interfaces.ITOPInfoProvider;
 import ihamfp.IhTech.interfaces.ITileEntityInteractable;
+import ihamfp.IhTech.interfaces.IWailaInfoProvider;
 
-public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyStorage {
+public class BlockMachineBase<T extends TileEntity> extends BlockBase implements ITileEntityProvider, IWailaInfoProvider, ITOPInfoProvider {
 	private final T teInstance;
 	private final Class<T> teClass;
 	
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
-	public BlockMachineElectricBase(String name, Material mat, T te) {
+	public BlockMachineBase(String name, Material mat, T te) {
 		super(name, mat);
 		this.setFaced();
 		this.setCreativeTab(ModCreativeTabs.MACHINES);
@@ -35,7 +50,7 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 		setDefaultState(blockState.getBaseState().withProperty(FACING,  EnumFacing.NORTH).withProperty(ACTIVE, false));
 	}
 	
-	public BlockMachineElectricBase(String name, T te) {
+	public BlockMachineBase(String name, T te) {
 		this(name, Material.IRON, te);
 	}
 	
@@ -43,6 +58,12 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 	public void register() {
 		super.register();
 		GameRegistry.registerTileEntity(this.teClass, ModIhTech.MODID + "_TE_" + this.getRegistryName());
+	}
+	
+	// Texture
+	@SideOnly(Side.CLIENT)
+	public void initModel() {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
 	
 	@Override
@@ -69,5 +90,16 @@ public class BlockMachineElectricBase<T extends TileEntity> extends BlockEnergyS
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+		
+	}
+
+	@Override
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+		
+		return currenttip;
 	}
 }

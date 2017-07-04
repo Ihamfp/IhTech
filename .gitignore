@@ -32,3 +32,4 @@ forge-1.10.2-12.18.2.2099-changelog.txt
 gradle
 gradlew
 gradlew.bat
+*.old.*

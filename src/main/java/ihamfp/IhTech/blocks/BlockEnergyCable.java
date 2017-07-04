@@ -67,7 +67,7 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 		this.setHardness(0.5f);
 		this.setResistance(0.5f);
 		this.setDefaultState(blockState.getBaseState().withProperty(STACKED_CABLES_LEVEL, 1));
-		this.setCreativeTab(ModCreativeTabs.MACHINES);
+		this.setCreativeTab(ModCreativeTabs.PIPES);
 	}
 	
 	@Override

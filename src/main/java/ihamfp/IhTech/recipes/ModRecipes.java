@@ -34,6 +34,15 @@ public class ModRecipes {
 				GameRegistry.addRecipe(nineIngots, "b", 'b', mat.getItemFor("block"));
 			}
 			
+			// 9 gems <=> block
+			if (mat.has("gem") && mat.has("block") && (mat.getItemFor("gem").getItem() instanceof ItemGenericResource || ((ItemBlock)(mat.getItemFor("block").getItem())).getBlock() instanceof BlockGenericResource)) {
+				GameRegistry.addRecipe(new ShapedOreRecipe(mat.getItemFor("block"), "iii", "iii", "iii", 'i', "gem"+mat.name));
+				
+				ItemStack nineIngots = ItemStack.copyItemStack(mat.getItemFor("gem"));
+				nineIngots.stackSize = 9;
+				GameRegistry.addRecipe(nineIngots, "b", 'b', mat.getItemFor("block"));
+			}
+			
 			// 9 tiny dusts <=> dust
 			if (mat.has("dust") && (mat.getItemFor("dust").getItem() instanceof ItemGenericResource || mat.getItemFor("dustTiny").getItem() instanceof ItemGenericResource)) {
 				GameRegistry.addRecipe(new ShapedOreRecipe(mat.getItemFor("dust"), "ttt", "ttt", "ttt", 't', "dustTiny"+mat.name));
@@ -58,18 +67,36 @@ public class ModRecipes {
 				RecipesGrinding.registerGrinding(mat.getItemFor("ingot"), new ItemStack[] {mat.getItemFor("dust")}, 185, true);
 			}
 			
+			// gem => dust grinding
+			if (mat.has("dust") && mat.has("gem")) {
+				switch (mat.resourceType) {
+				case COAL:
+					RecipesGrinding.registerGrinding(mat.getItemFor("gem"), new ItemStack[] {mat.getItemFor("dust")}, 185, true);
+					break;
+				
+				case CRYSTAL:
+					RecipesGrinding.registerGrinding(mat.getItemFor("gem"), new ItemStack[] {mat.getItemFor("dust")}, 185, true).requiresDiamond();
+					break;
+				
+				default:
+					break;
+				}
+			}
+			
 			// block => dust grinding
 			if (mat.has("dust") && mat.has("block")) {
 				ItemStack dusts = ItemStack.copyItemStack(mat.getItemFor("dust"));
 				switch (mat.resourceType) {
 				case METAL:
+				case COAL:
 					dusts.stackSize = 9;
-					RecipesGrinding.registerGrinding(mat.getItemFor("block"), new ItemStack[] {dusts}, 185, true);
+					RecipesGrinding.registerGrinding(mat.getItemFor("block"), new ItemStack[] {dusts}, 185*8, true);
 					break;
 				
 				case CRYSTAL:
 					dusts.stackSize = 9;
-					RecipesGrinding.registerGrinding(mat.getItemFor("block"), new ItemStack[] {dusts}, 185*8, true).requiresDiamond();;
+					RecipesGrinding.registerGrinding(mat.getItemFor("block"), new ItemStack[] {dusts}, 185*8, true).requiresDiamond();
+					break;
 				
 				default:
 					if (mat.name == "Wood") {
@@ -78,10 +105,7 @@ public class ModRecipes {
 					}
 					break;
 				}
-				
 			}
-			
-			
 		}
 	}
 }

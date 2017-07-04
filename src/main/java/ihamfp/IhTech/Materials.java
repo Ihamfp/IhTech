@@ -10,7 +10,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class Materials {
 	public static ArrayList<ResourceMaterial> materials = new ArrayList<ResourceMaterial>() {{
@@ -52,6 +51,7 @@ public class Materials {
 		add(new ResourceMaterial("Quartz", "0xFFFFFF").setType(ResourceType.CRYSTAL).setItemFor("gem", new ItemStack(Items.QUARTZ)).setItemFor("block", new ItemStack(Blocks.QUARTZ_BLOCK)).setHas("plate"));
 		add(new ResourceMaterial("Glowstone", "0xFFFF00").setType(ResourceType.DUST).setItemFor("dust", new ItemStack(Items.GLOWSTONE_DUST)).setItemFor("block", new ItemStack(Blocks.GLOWSTONE)).setHas("plate"));
 		add(new ResourceMaterial("Soul sand", "0xA27F7F").setItemFor("block", new ItemStack(Blocks.SOUL_SAND)).setHas("dust"));
+		add(new ResourceMaterial("Manganese", "0x4D566E").setType(ResourceType.METAL).setMeltingPoint(1519).setEnergyCableCapacity(12));
 		add(new ResourceMaterial("Netherrack", "0x7F0000").setItemFor("block", new ItemStack(Blocks.NETHERRACK)).setHas("dust"));
 		// End
 		add(new ResourceMaterial("End stone", "0x909090").setItemFor("block", new ItemStack(Blocks.END_STONE)).setHas("dust"));
@@ -77,7 +77,7 @@ public class Materials {
 		add(new ResourceMaterial("Supraconductor", "0xFF1414").setType(ResourceType.METAL).setEnergyCableCapacity(Integer.MAX_VALUE/8));
 		// Fusion age
 		add(new ResourceMaterial("Black hole matter", "0x010101").setHas("gem"));
-		add(new ResourceMaterial("Unbibinium", "0x12345601").setHas("plate"));
+		add(new ResourceMaterial("Unbibium", "0x12345601").setHas("plate"));
 		// Black hole age
 		add(new ResourceMaterial("Black matter", "0x000000").setHas("ingot").setHas("nugget").setHas("dust").setHas("gem").setHas("block").setToolProperties(Integer.MAX_VALUE/2, 6, 50.0f, 1000.0f));
 		add(new ResourceMaterial("Gregtekium", "0x000078")); // hidden material

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.common.ResourceMaterial.ResourceType;
 import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGrass;
@@ -53,14 +54,24 @@ public class BlockGenericResource extends Block {
 		return BlockRenderLayer.CUTOUT_MIPPED;
 	}
 	
+	private String getModel() {
+		if (prefix == "blockStorage" && Materials.materials.get(material).resourceType == ResourceType.CRYSTAL) {
+			return "blockStorageGem";
+		} else if (prefix == "blockStorage" && Materials.materials.get(material).resourceType == ResourceType.COAL) {
+			return "blockStorageCoal";
+		} else {
+			return prefix;
+		}
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
 		//ModelBakery.registerItemVariants(Item.getItemFromBlock(this), new ResourceLocation(ModIhTech.MODID + ":blockOre"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(ModIhTech.MODID + ":" + prefix, "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(ModIhTech.MODID + ":" + getModel(), "inventory"));
 		ModelLoader.setCustomStateMapper(this, new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState ibs) {
-				return new ModelResourceLocation(ModIhTech.MODID + ":" + prefix);
+				return new ModelResourceLocation(ModIhTech.MODID + ":" + getModel());
 			}
 		});
 	}

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricFurnace;
 import ihamfp.IhTech.blocks.machines.BlockMachineElectricGrinder;
+import ihamfp.IhTech.blocks.machines.BlockMachineSteamGrinder;
 import ihamfp.IhTech.models.CableModelsLoader;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -31,8 +32,11 @@ public class ModBlocks {
 	public static ArrayList<BlockEnergyCable> blockCables = new ArrayList<BlockEnergyCable>(Materials.materials.size());
 	
 	// machines
+	public static BlockMachineCasing blockMachineCasing = new BlockMachineCasing();
+	
 	public static BlockMachineElectricFurnace blockElectricFurnace = new BlockMachineElectricFurnace("blockElectricFurnace");
 	public static BlockMachineElectricGrinder blockElectricGrinder = new BlockMachineElectricGrinder("blockElectricGrinder");
+	public static BlockMachineSteamGrinder blockSteamGrinder = new BlockMachineSteamGrinder("blockSteamGrinder");
 	
 	//public static BlockEnergyCable blockCable = new BlockEnergyCable("blockCable", Material.IRON);
 	
@@ -69,8 +73,11 @@ public class ModBlocks {
 		blockPanel.register();
 		blockBattRack.register();
 		
+		blockMachineCasing.register();
+		
 		blockElectricFurnace.register();
 		blockElectricGrinder.register();
+		blockSteamGrinder.register();
 	}
 	
 	@SideOnly(Side.CLIENT)

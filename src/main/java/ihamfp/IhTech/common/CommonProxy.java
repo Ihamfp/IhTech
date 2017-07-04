@@ -36,6 +36,7 @@ public class CommonProxy implements IProxy {
 		ModTileEntities.preInit();
 		ModItems.preInit();
 		ModFluids.preInit();
+		ModAchievements.preInit();
 		PacketHandler.registerMessages();
 		if (Loader.isModLoaded("Waila") && Config.WailaIntegration) {
 			WailaCompatibility.register();
