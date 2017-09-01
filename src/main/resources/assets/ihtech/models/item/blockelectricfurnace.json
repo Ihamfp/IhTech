@@ -1,0 +1,6 @@
+{
+  "parent": "ihtech:block/blockelectricfurnace",
+  "textures": {
+    "front": "ihtech:blocks/electricsolidgenerator_front"
+  }
+}

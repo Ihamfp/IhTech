@@ -1,0 +1,6 @@
+{
+  "parent": "ihtech:block/blockElectricGrinder",
+  "textures": {
+    "front": "ihtech:blocks/electricGrinder_front"
+  }
+}

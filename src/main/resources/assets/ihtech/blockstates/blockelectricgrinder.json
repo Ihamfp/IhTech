@@ -1,0 +1,27 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "ihtech:blockelectricgrinder",
+    "textures": {
+      "front": "ihtech:blocks/electricgrinder_front"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "facing": {
+      "north": {},
+      "south": {"y": 180},
+      "west": {"y": 270},
+      "east": {"y": 90},
+      "up": {"x": -90},
+      "down": {"x": 90}
+    },
+    "active": {
+      "false": {},
+      "true": {
+        "textures": {"front": "ihtech:blocks/electricgrinder_front_on"}
+      }
+    }
+  }
+}
