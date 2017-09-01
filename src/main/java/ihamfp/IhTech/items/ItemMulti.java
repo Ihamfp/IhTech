@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import ihamfp.IhTech.Materials;
@@ -27,9 +28,10 @@ public class ItemMulti extends ItemBase {
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+		if (!tab.equals(this.getCreativeTab())) return;
 		for (int i=1; i<getItemsList().length; ++i) {
-			ItemStack stack = new ItemStack(itemIn, 1, i);
+			ItemStack stack = new ItemStack(this, 1, i);
 			subItems.add(stack);
 		}
 	}

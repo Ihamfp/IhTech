@@ -58,10 +58,10 @@ public abstract class TileEntityElectricMachine extends TileEntityMachine implem
 
 	@Override
 	public void updateToClient() {
-		if (this.worldObj.isRemote) return;
+		if (this.world.isRemote) return;
 		
-		IBlockState bs = this.worldObj.getBlockState(this.getPos());
-		this.worldObj.notifyBlockUpdate(this.getPos(), bs, bs, 0);
+		IBlockState bs = this.world.getBlockState(this.getPos());
+		this.world.notifyBlockUpdate(this.getPos(), bs, bs, 0);
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -50,7 +51,6 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	
 	@Override
 	public void register() {
-		GameRegistry.register(this);
 		for (int i=0; i<Materials.materials.size(); ++i) {
 			ResourceMaterial material = Materials.materials.get(i);
 			if (material.has(this.hasMatch) && material.getItemFor(this.type) == null) { // only add if not present
@@ -98,7 +98,8 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void initModel() {		
+	public void initModel() {
+		ModIhTech.logger.info("Loading generic resource item models");
 		for (int i=0; i<Materials.materials.size(); ++i) {
 			if (Materials.materials.get(i).customRenders.containsKey(this.type)) {
 				ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(Materials.materials.get(i).customRenders.get(this.type)));
@@ -131,13 +132,15 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 		return Color.WHITE.getRGB();
 	}
 	
-	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab, List subItems) {
-		for (int i=1; i<Materials.materials.size(); ++i) {
-			if (Materials.materials.get(i).has(this.type) && Materials.materials.get(i).getItemFor(this.type) != null && Materials.materials.get(i).getItemFor(this.type).getItem() instanceof ItemGenericResource) {
-				ItemStack stack = new ItemStack(itemIn, 1, i);
-				subItems.add(stack);
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		super.getSubItems(tab, items);
+		if (this.isInCreativeTab(tab)) {
+			for (int i=1; i<Materials.materials.size(); ++i) {
+				if (Materials.materials.get(i).has(this.type) && Materials.materials.get(i).getItemFor(this.type) != null && Materials.materials.get(i).getItemFor(this.type).getItem() instanceof ItemGenericResource) {
+					ItemStack stack = new ItemStack(this, 1, i);
+					items.add(stack);
+				}
 			}
 		}
 	}

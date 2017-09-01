@@ -97,6 +97,11 @@ public class TileEntityItemPipe extends TileEntity implements ITickable {
 			public void deserializeNBT(NBTTagCompound nbt) {
 				original.deserializeNBT(nbt);
 			}
+
+			@Override
+			public int getSlotLimit(int slot) {
+				return 64;
+			}
 		}
 		
 		public List<StackDir> stacks = new ArrayList<StackDir>(); // almost infinite stack capacity !
@@ -121,7 +126,7 @@ public class TileEntityItemPipe extends TileEntity implements ITickable {
 			stacks.clear();
 			for (int i=0;i<nbtList.tagCount();i++) {
 				NBTTagCompound tag = nbtList.getCompoundTagAt(i);
-				stacks.add(new StackDir(ItemStack.loadItemStackFromNBT(tag)));
+				//stacks.add(new StackDir(ItemStack.loadItemStackFromNBT(tag))); // TODO find a replacement for this
 			}
 		}
 
@@ -150,22 +155,22 @@ public class TileEntityItemPipe extends TileEntity implements ITickable {
 		public void insertItemInternal(int slot, ItemStack stack, boolean simulate, EnumFacing from) {
 			ItemStack copy = stack.copy();
 			for (StackDir s : stacks) {
-				if (s.stack.isItemEqual(copy) && s.stack.stackSize < copy.getMaxStackSize()) { // yup, we can insert
+				if (s.stack.isItemEqual(copy) && s.stack.getCount() < copy.getMaxStackSize()) { // yup, we can insert
 					ItemStack dest = (simulate)?s.stack.copy():s.stack;
-					int finalAmount = dest.stackSize + copy.stackSize;
+					int finalAmount = dest.getCount() + copy.getCount();
 					if (finalAmount < dest.getMaxStackSize()) { // easy case
-						dest.stackSize = finalAmount;
-						copy.stackSize = 0;
+						dest.setCount(finalAmount);
+						copy.setCount(0);
 						break;
 					} else {
-						dest.stackSize = dest.getMaxStackSize();
-						copy.stackSize = finalAmount - dest.stackSize;
-						if (copy.stackSize <= 0) break;
+						dest.setCount(dest.getMaxStackSize());;
+						copy.setCount(finalAmount - dest.getCount());;
+						if (copy.getCount() <= 0) break;
 					}
 				}
 			}
 			
-			if (copy.stackSize > 0 && !simulate) {
+			if (!copy.isEmpty() && !simulate) {
 				stacks.add(new StackDir(copy, from));
 			}
 		}
@@ -188,6 +193,11 @@ public class TileEntityItemPipe extends TileEntity implements ITickable {
 		
 		public long getTime() {
 			return TileEntityItemPipe.this.getWorld().getTotalWorldTime();
+		}
+
+		@Override
+		public int getSlotLimit(int slot) {
+			return 64;
 		}
 	}
 	
@@ -219,15 +229,15 @@ public class TileEntityItemPipe extends TileEntity implements ITickable {
 		EnumFacing to = null;
 		List<EnumFacing> validFaces = new ArrayList<EnumFacing>();
 		for (EnumFacing f : EnumFacing.values()) {
-			if (this.worldObj.getTileEntity(this.pos.offset(f)) != null) {
+			if (this.world.getTileEntity(this.pos.offset(f)) != null) {
 				validFaces.add(f);
 			}
 		}
 		
-		to = validFaces.get(this.worldObj.rand.nextInt(validFaces.size()));
+		to = validFaces.get(this.world.rand.nextInt(validFaces.size()));
 		
 		if (to != null) {
-			TileEntity te = this.worldObj.getTileEntity(this.pos.offset(to));
+			TileEntity te = this.world.getTileEntity(this.pos.offset(to));
 			if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, to.getOpposite())) {
 				IItemHandler teItems = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, to.getOpposite());
 				
@@ -236,23 +246,23 @@ public class TileEntityItemPipe extends TileEntity implements ITickable {
 				}
 			}
 		}
-		if (s.stack != null && s.stack.stackSize > 0) { // what to do with remaining items ?
+		if (s.stack != null && !s.stack.isEmpty()) { // what to do with remaining items ?
 			BlockPos dest = this.pos.offset(s.from.getOpposite());
-			EntityItem eis = new EntityItem(this.worldObj, dest.getX(), dest.getY(), dest.getZ(), s.stack.copy());
+			EntityItem eis = new EntityItem(this.world, dest.getX(), dest.getY(), dest.getZ(), s.stack.copy());
 			s.stack = null;
 		}
 	}
 	
 	@Override
 	public void update() {
-		if (this.worldObj.isRemote) return;
+		if (this.world.isRemote) return;
 		
-		long currentTime = this.worldObj.getTotalWorldTime();
+		long currentTime = this.world.getTotalWorldTime();
 		for (StackDir s : this.itemStackHandler.stacks) {
 			if (currentTime - s.time > this.getItemSpeed()) { // stack ready to go
 				distributeItem(s);
 			}
-			if (s.stack == null || s.stack.stackSize == 0) {
+			if (s.stack == null || s.stack.isEmpty()) {
 				this.itemStackHandler.stacks.remove(s);
 			}
 		}

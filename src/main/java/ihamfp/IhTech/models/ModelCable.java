@@ -27,17 +27,17 @@ public class ModelCable implements IModel {
 
 	@Override
 	public Collection<ResourceLocation> getTextures() {
-		return ImmutableSet.of(new ResourceLocation(ModIhTech.MODID, "blocks/blockStorage"));
-	}
-
-	@Override
-	public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
-		return new ExampleBakedModel(state, format, bakedTextureGetter);
+		return ImmutableSet.of(new ResourceLocation(ModIhTech.MODID, "blocks/blockstorage"));
 	}
 
 	@Override
 	public IModelState getDefaultState() {
 		return TRSRTransformation.identity();
+	}
+
+	@Override
+	public IBakedModel bake(IModelState state, VertexFormat format, java.util.function.Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+		return new ExampleBakedModel(state, format, bakedTextureGetter);
 	}
 
 }

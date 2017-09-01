@@ -12,13 +12,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
-import net.minecraft.stats.AchievementList;
-import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.oredict.OreDictionary;
+/*import net.minecraft.stats.Achievement;
+import net.minecraft.stats.AchievementList;
+import net.minecraftforge.common.AchievementPage;*/
 
 public class ModAchievements {
-	private static ArrayList<Achievement> achievements = new ArrayList<Achievement>(); 
+	/*private static ArrayList<Achievement> achievements = new ArrayList<Achievement>(); 
 	
 	private static class ModAchievement extends Achievement {
 		public ModAchievement(String id, int x, int y, Block blockIn, Achievement parent) {
@@ -81,10 +81,11 @@ public class ModAchievements {
 	public static Achievement universeFactory = new ModAchievement("universeFactory", 19, 1, Blocks.BOOKSHELF, blackHoleMatter);
 	public static Achievement blackMatter = new ModAchievement("blackMatter", 20, 1, Blocks.ANVIL, universeFactory);
 	public static Achievement jump = new ModAchievement("jump", 20, 2, Blocks.COBBLESTONE, universeFactory);
+	*/
 	
 	public static void preInit() {
-		Achievement[] list = new Achievement[achievements.size()];
+		/*Achievement[] list = new Achievement[achievements.size()];
 		list = achievements.toArray(list);
-		AchievementPage.registerAchievementPage(new AchievementPage("IhTech", list));
+		AchievementPage.registerAchievementPage(new AchievementPage("IhTech", list));*/
 	}
 }

@@ -17,7 +17,7 @@ public class ModFluids {
 		BlockFluidClassic steamBlock = new BlockFluidClassic(steam, Material.LAVA);
 		steamBlock.setRegistryName("fluidSteam");
 		steamBlock.setUnlocalizedName("fluid.steam");
-		GameRegistry.register(steamBlock);
+		//GameRegistry.register(steamBlock); // TODO register fluid block
 		FluidRegistry.addBucketForFluid(steam);
 	}
 }

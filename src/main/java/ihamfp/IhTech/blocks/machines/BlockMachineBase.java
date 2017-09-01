@@ -10,9 +10,11 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -39,11 +41,11 @@ public class BlockMachineBase<T extends TileEntity> extends BlockBase implements
 	private final T teInstance;
 	private final Class<T> teClass;
 	
+	public static final PropertyDirection FACING = PropertyDirection.create("facing");
 	public static final PropertyBool ACTIVE = PropertyBool.create("active");
 	
 	public BlockMachineBase(String name, Material mat, T te) {
 		super(name, mat);
-		this.setFaced();
 		this.setCreativeTab(ModCreativeTabs.MACHINES);
 		this.teInstance = te;
 		this.teClass = (Class<T>)te.getClass();
@@ -52,12 +54,6 @@ public class BlockMachineBase<T extends TileEntity> extends BlockBase implements
 	
 	public BlockMachineBase(String name, T te) {
 		this(name, Material.IRON, te);
-	}
-	
-	@Override
-	public void register() {
-		super.register();
-		GameRegistry.registerTileEntity(this.teClass, ModIhTech.MODID + "_TE_" + this.getRegistryName());
 	}
 	
 	// Texture
@@ -78,8 +74,27 @@ public class BlockMachineBase<T extends TileEntity> extends BlockBase implements
 	}
 	
 	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		world.setBlockState(pos, state.withProperty(FACING, EnumFacing.getFacingFromVector(
+			(float) (placer.posX - pos.getX()),
+			(float) (placer.posY - pos.getY()),
+			(float) (placer.posZ - pos.getZ())
+		)));
+	}
+	
+	@Override
 	public BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, FACING, ACTIVE);
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 7)); // 7 = 0b111
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(FACING).getIndex();
 	}
 	
 	protected boolean tryOpenGUI(World world, BlockPos pos, EntityPlayer player, int id) {

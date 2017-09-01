@@ -60,10 +60,10 @@ public class PacketMachineSimpleUpdate implements IMessage {
 		}
 		
 		private void handle(PacketMachineSimpleUpdate message, MessageContext ctx) {
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			if (player == null || player.worldObj == null)
+			EntityPlayer player = Minecraft.getMinecraft().player;
+			if (player == null || player.world == null)
 				return;
-			TileEntity tile = player.worldObj.getTileEntity(message.pos);
+			TileEntity tile = player.world.getTileEntity(message.pos);
 			if (tile instanceof TileEntityElectricMachine) {
 				((TileEntityElectricMachine)tile).simpleUpdate(message.progress);
 			}

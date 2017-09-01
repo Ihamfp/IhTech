@@ -19,7 +19,7 @@ public class TileEntitySolarEnergyGenerator extends TileEntityEnergyStorage impl
 	}
 	
 	public int getEnergyProducedPerTick() {
-		int lightLevel = this.worldObj.getLightFor(EnumSkyBlock.SKY, this.getPos().up()) - this.worldObj.calculateSkylightSubtracted(1.0f);
+		int lightLevel = this.world.getLightFor(EnumSkyBlock.SKY, this.getPos().up()) - this.world.calculateSkylightSubtracted(1.0f);
 		int gen = this.energyPerTickPerLight * lightLevel;
 		if (gen < 0) return 0;
 		return gen;

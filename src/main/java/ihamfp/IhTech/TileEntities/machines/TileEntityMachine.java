@@ -26,6 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.TileEntities.ModTileEntities;
 import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
 import ihamfp.IhTech.blocks.machines.BlockMachineBase;
 import ihamfp.IhTech.common.PacketHandler;
@@ -34,7 +35,6 @@ import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 
 public abstract class TileEntityMachine extends TileEntity implements ITileEntityInteractable, ITickable {
-	
 	protected class MachineItemStackHandler extends ItemStackHandler {
 		public MachineItemStackHandler(int size) {
 			super(size);
@@ -46,7 +46,7 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 		}
 	}
 	
-	// TODO support this
+	// TODO support this (low priority)
 	public enum EnumSideConfig {
 		ENERGY,
 		INPUT,
@@ -72,12 +72,12 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 	}
 	
 	protected void setBlockStateActive(boolean active) {
-		IBlockState blockState = this.worldObj.getBlockState(this.pos);
-		this.worldObj.setBlockState(this.pos, blockState.withProperty(BlockMachineBase.ACTIVE, active));
+		IBlockState blockState = this.world.getBlockState(this.pos);
+		this.world.setBlockState(this.pos, blockState.withProperty(BlockMachineBase.ACTIVE, active));
 	}
 	
 	protected boolean getBlockStateActive() {
-		IBlockState blockState = this.worldObj.getBlockState(this.pos);
+		IBlockState blockState = this.world.getBlockState(this.pos);
 		return blockState.getValue(BlockMachineBase.ACTIVE);
 	}
 	
@@ -93,7 +93,7 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 	
 	//@SideOnly(Side.SERVER)
 	public void sendSimpleUpdate(int value) {
-		PacketHandler.INSTANCE.sendToAllAround(new PacketMachineSimpleUpdate(this.pos,  this.processTimeLeft), new TargetPoint(this.worldObj.provider.getDimension(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 64.0));
+		PacketHandler.INSTANCE.sendToAllAround(new PacketMachineSimpleUpdate(this.pos,  this.processTimeLeft), new TargetPoint(this.world.provider.getDimension(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 64.0));
 	}
 	
 	// indexes start from 0
@@ -145,8 +145,8 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 		ItemStackHandler sh = this.getStackHandler();
 		int[] is = this.getInputSlots();
 		for (int i=0;i<is.length;i++) {
-			if (cookingItems[i] == null && sh.getStackInSlot(is[i]) == null) continue; // don't care if they are both null
-			if (cookingItems[i] == null || sh.getStackInSlot(is[i]) == null) return true; // the precedent statement implies that only one of them is null
+			if (cookingItems[i] == ItemStack.EMPTY && sh.getStackInSlot(is[i]) == ItemStack.EMPTY) continue; // don't care if they are both null
+			if (cookingItems[i] == ItemStack.EMPTY || sh.getStackInSlot(is[i]) == ItemStack.EMPTY) return true; // the precedent statement implies that only one of them is null
 			if (!ItemStack.areItemsEqual(cookingItems[i], sh.getStackInSlot(is[i]))) return true;
 		}
 		return false;
@@ -158,8 +158,8 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 		ItemStackHandler sh = this.getStackHandler();
 		int[] is = this.getInputSlots();
 		for (int i=0;i<is.length;i++) {
-			if (sh.getStackInSlot(is[i]) != null && sh.getStackInSlot(is[i]).stackSize == 0) {
-				sh.setStackInSlot(is[i], null);
+			if (sh.getStackInSlot(is[i]) != ItemStack.EMPTY && sh.getStackInSlot(is[i]).getCount() == 0) {
+				sh.setStackInSlot(is[i], ItemStack.EMPTY);
 				hasCleaned = true;
 			}
 		}
@@ -174,8 +174,8 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 		
 		for (int i=0;i<is.length;i++) {
 			ItemStack iStack = sh.getStackInSlot(is[i]);
-			if (iStack == null) {
-				this.cookingItems[i] = null;
+			if (iStack == ItemStack.EMPTY) {
+				this.cookingItems[i] = ItemStack.EMPTY;
 				continue;
 			}
 			this.cookingItems[i] = new ItemStack(iStack.getItem(), 64, iStack.getMetadata());
@@ -184,13 +184,16 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 	
 	protected void clearCookingItems() {
 		this.cookingItems = new ItemStack[this.getInputSlots().length];
+		for (int i=0;i<this.cookingItems.length;i++) {
+			this.cookingItems[i] = ItemStack.EMPTY;
+		}
 	}
 	
 	// Big machine code
 	public void update() {
 		ItemStack[] inputStacks = this.getInputStacks();
 		
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			if (this.hasInputChanged()) {
 				if (this.hasOutput(inputStacks)) {
 					this.processTime = this.getProcessTime(inputStacks);
@@ -219,8 +222,8 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 				this.consumeInputItems(inputStacks);
 				for (int i=0;i<getOutputSlots().length;i++) { // in all output slots ...
 					ItemStack processed =  this.getOutputStack(inputStacks, i);
-					if (processed == null) break;
-					if (this.worldObj.rand.nextFloat() <= (this.getOutputProbability(cookingItems, i) * this.getProbabilityMultiplier())) // checking for probabilities
+					if (processed == ItemStack.EMPTY) break;
+					if (this.world.rand.nextFloat() <= (this.getOutputProbability(cookingItems, i) * this.getProbabilityMultiplier())) // checking for probabilities
 						this.getStackHandler().insertItem(OUTPUT_SLOT, processed.copy(), false);
 				}
 				
@@ -232,15 +235,15 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 				this.markDirty();
 				return;
 			}
-		} else if (this.processTimeLeft > 0 && cookingItems[0] != null) { // Not enough energy, item changed or is not present
+		} else if (this.processTimeLeft > 0 && cookingItems[0] != ItemStack.EMPTY) { // Not enough energy, item changed or is not present
 			this.processTimeLeft = this.getProcessTime(cookingItems);
 			sendSimpleUpdate(this.processTimeLeft); // sent as integer as it won't make a huge difference on the client side.
 			this.markDirty();
 			return;
 		}
 		
-		if (this.processTimeLeft == 0 && inputStacks[0] != null && this.hasOutput(inputStacks)) { // start processing
-			if (this.getStackHandler().insertItem(OUTPUT_SLOT, this.getOutputStack(inputStacks, 0), true) != null) return;
+		if (this.processTimeLeft == 0 && inputStacks[0] != ItemStack.EMPTY && this.hasOutput(inputStacks)) { // start processing
+			if (this.getStackHandler().insertItem(OUTPUT_SLOT, this.getOutputStack(inputStacks, 0), true) != ItemStack.EMPTY) return;
 			this.refreshCookingItems();
 			this.processTime = this.getProcessTime(cookingItems);
 			this.processTimeLeft = this.processTime;

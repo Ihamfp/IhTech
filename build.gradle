@@ -4,7 +4,7 @@ buildscript {
         maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -21,16 +21,16 @@ version = "0.1"
 group= "com.ihamfp.IhTech" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ihtech"
 
-sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.6"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
     version = "${config.minecraft.version}-${config.forge.version}"
     runDir = "run"
     
-    mappings = "snapshot_20161107"
+    mappings = "snapshot_${config.mappings}"
     
     replaceIn "com/ihamfp/IhTech/IhTechMod.java"
     replace "@VERSION@", "${config.thismod.version}"
@@ -50,25 +50,33 @@ repositories {
     maven { // JEI
         url "http://dvs1.progwml6.com/files/maven"
     }
-    maven {
+    maven { // OC
         name "OC Repo"
         url "http://maven.cil.li/"
     }
-    maven {
+    maven { // jeséplu
         name "DVS1 Maven FS"
         url "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        name "CoFH maven"
+        url "http://maven.covers1624.net"
+    }
+    maven {
+         name "Tehnut maven"
+         url "http://tehnut.info/maven"
     }
 }
 
 dependencies {
-    deobfCompile "mcp.mobius.waila:Waila:${config.waila.version}"
+    deobfCompile "mcp.mobius.waila:Hwyla:${config.waila.version}"
     deobfCompile "mezz.jei:jei_${config.minecraft.version}:${config.jei.version}:api"
-    deobfCompile "li.cil.oc:OpenComputers:MC${config.minecraft.version}-${config.oc.version}"
-    deobfCompile "mcjty.theoneprobe:TheOneProbe:${config.top.version}"
-    deobfCompile "slimeknights.mantle:Mantle:${config.minecraft.version}-${config.mantle.version}"
-    deobfCompile "slimeknights:TConstruct:${config.minecraft.version}-${config.tcon.version}"
-    
     runtime "mezz.jei:jei_${config.minecraft.version}:${config.jei.version}"
+    deobfCompile "li.cil.oc:OpenComputers:MC${config.minecraft.version}-${config.oc.version}"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:${config.top.version}"
+    deobfCompile "slimeknights.mantle:Mantle:${config.minecraft.shortversion}-${config.mantle.version}"
+    deobfCompile "slimeknights:TConstruct:${config.minecraft.shortversion}-${config.tcon.version}"
+    deobfCompile "cofh:RedstoneFlux:${config.redstoneflux.version}:universal"
     
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

@@ -23,8 +23,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
-		ModBlocks.initModels();
-		ModItems.initModels();
 		PacketHandler.registerClientMessages();
 		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
 			TConstructIntegration.moltenModels();
@@ -34,7 +32,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		ModBlocks.initItemModels();
+		//ModBlocks.initModels();
+		//ModBlocks.initItemModels();
 	}
 	
 	@Override
@@ -43,6 +42,6 @@ public class ClientProxy extends CommonProxy {
 		if (Config.showCapes)
 			MinecraftForge.EVENT_BUS.register(new TweakCape());
 		ModBlocks.initColors();
-		ModItems.initColors();	
+		ModItems.initColors();
 	}
 }

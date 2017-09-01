@@ -34,15 +34,15 @@ import net.minecraftforge.common.property.IExtendedBlockState;
  */
 public class ExampleBakedModel implements IBakedModel {
 	
-	public static final ModelResourceLocation BAKED_MODEL = new ModelResourceLocation(ModIhTech.MODID + ":blockCable1x");
+	public static final ModelResourceLocation BAKED_MODEL = new ModelResourceLocation(ModIhTech.MODID + ":blockcable1x");
 	
     private TextureAtlasSprite sprite;
     private VertexFormat format;
 
-    public ExampleBakedModel(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+    public ExampleBakedModel(IModelState state, VertexFormat format, java.util.function.Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
         ModIhTech.logger.info("Created the baked model ...");
     	this.format = format;
-        sprite = bakedTextureGetter.apply(new ResourceLocation(ModIhTech.MODID, "blocks/blockStorage"));
+        sprite = bakedTextureGetter.apply(new ResourceLocation(ModIhTech.MODID, "blocks/blockstorage"));
     }
 
     private void putVertex(UnpackedBakedQuad.Builder builder, Vec3d normal, double x, double y, double z, float u, float v, int color) {
@@ -63,7 +63,7 @@ public class ExampleBakedModel implements IBakedModel {
                         break;
                     }
                 case NORMAL:
-                    builder.put(e, (float) normal.xCoord, (float) normal.yCoord, (float) normal.zCoord, 0f);
+                    builder.put(e, (float) normal.x, (float) normal.y, (float) normal.z, 0f);
                     break;
                 default:
                     builder.put(e);
@@ -77,10 +77,10 @@ public class ExampleBakedModel implements IBakedModel {
 
         UnpackedBakedQuad.Builder builder = new UnpackedBakedQuad.Builder(format);
         builder.setTexture(sprite);
-        putVertex(builder, normal, v1.xCoord, v1.yCoord, v1.zCoord, 0, 0, color);
-        putVertex(builder, normal, v2.xCoord, v2.yCoord, v2.zCoord, 0, 16, color);
-        putVertex(builder, normal, v3.xCoord, v3.yCoord, v3.zCoord, 16, 16, color);
-        putVertex(builder, normal, v4.xCoord, v4.yCoord, v4.zCoord, 16, 0, color);
+        putVertex(builder, normal, v1.x, v1.y, v1.z, 0, 0, color);
+        putVertex(builder, normal, v2.x, v2.y, v2.z, 0, 16, color);
+        putVertex(builder, normal, v3.x, v3.y, v3.z, 16, 16, color);
+        putVertex(builder, normal, v4.x, v4.y, v4.z, 16, 0, color);
         return builder.build();
     }
 

@@ -39,12 +39,12 @@ public class ItemBattery extends ItemBase {
 		return new CapabilityEnergyProvider(this.capacity, this.maxReceive, this.maxSend);
 	}
 	
-	@Override
+	/*@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		if (!stack.hasCapability(CapabilityEnergy.ENERGY, null)) return;
 		IEnergyStorage storage = stack.getCapability(CapabilityEnergy.ENERGY, null);
 		tooltip.add("Energy stored: " + storage.getEnergyStored() + "/" + storage.getMaxEnergyStored() + " " + Config.energyUnitName);
-	}
+	}*/
 	
 	@Override
 	public String getHighlightTip(ItemStack item, String displayName) {

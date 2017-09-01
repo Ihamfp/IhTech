@@ -1,5 +1,5 @@
 {
-  "parent": "ihtech:item/simpleItem",
+  "parent": "ihtech:item/simpleitem",
   "textures": {
     "layer0": "ihtech:items/ingot_template",
     "layer1": "ihtech:items/metalingot"

@@ -2,10 +2,16 @@ package ihamfp.IhTech.items;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemElytra;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.common.ResourceMaterial;
 import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
@@ -97,7 +103,17 @@ public class ModItems {
 	public static ItemBattery batSupercap = new ItemBattery("Supercapacitor", 10000, 10000, 10000);*/
 	
 	public static void preInit() {
-		//wrench1.register();
+		MinecraftForge.EVENT_BUS.register(new ModItems());
+	}
+	
+	@SubscribeEvent
+	public void registerItems(RegistryEvent.Register<Item> event) {
+		ModIhTech.logger.info("Loaded and registered items");
+		event.getRegistry().registerAll(
+			ingot, nugget, dust, dustTiny, gem, plate, compressedPlate, gear, rod, wire, coil,
+			upgrade, 
+			elecTube, elecChip, elecDisplay, elecPackage
+		);
 		
 		ingot.register();
 		nugget.register();
@@ -110,22 +126,12 @@ public class ModItems {
 		rod.register();
 		wire.register();
 		coil.register();
-		
-		upgrade.register();
-		
-		elecTube.register();
-		elecChip.register();
-		elecDisplay.register();
-		elecPackage.register();
-		
-		/*batPotato.register();
-		batSaline.register();
-		batAlkaline.register();
-		batRedstone.register();
-		batLeadAcid.register();
-		batNickelZinc.register();
-		batLithium.register();
-		batSupercap.register();*/
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void registerItemModels(ModelRegistryEvent event) {
+		this.initModels();
 	}
 	
 	@SideOnly(Side.CLIENT)

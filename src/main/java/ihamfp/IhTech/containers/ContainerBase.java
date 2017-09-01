@@ -46,7 +46,6 @@ public abstract class ContainerBase<T extends TileEntity> extends Container {
 		}
 	}
 	
-	@Nullable
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		Slot slot = this.inventorySlots.get(index);
@@ -56,24 +55,24 @@ public abstract class ContainerBase<T extends TileEntity> extends Container {
 		ItemStack itemStack1 = slot.getStack();
 		ItemStack itemStack = itemStack1.copy();
 
-		if (playerIn.worldObj.isRemote) {
-			return null;
+		if (playerIn.world.isRemote) {
+			return ItemStack.EMPTY;
 		}
 		
 		if (index < SLOTS_COUNT) { // TE to inv.
 			if (!mergeItemStack(itemStack1, SLOTS_COUNT, slotsCount, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 		} else { // inv to TE
 			if (!mergeItemStack(itemStack1, 0, SLOTS_COUNT, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 		}
 		
-		if (itemStack1.stackSize == 0) {
+		if (itemStack1.isEmpty()) {
 			slot.putStack((ItemStack)null);
-		} else if (itemStack.stackSize == itemStack1.stackSize) {
-			return null;
+		} else if (itemStack.getCount() == itemStack1.getCount()) {
+			return ItemStack.EMPTY;
 		} else {
 			slot.onSlotChanged();
 		}

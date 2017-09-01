@@ -12,6 +12,6 @@ public class ItemBase extends Item {
 	}
 	
 	public void register() {
-		GameRegistry.register(this);
+		
 	}
 }

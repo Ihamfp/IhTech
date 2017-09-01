@@ -45,7 +45,7 @@ public abstract class TileEntitySteamMachine extends TileEntityMachine {
 	int lastEnergy = 0;
 	@Override
 	public void update() {
-		if (!this.worldObj.isRemote && this.getEnergyStorage().canFill()) {
+		if (!this.world.isRemote && this.getEnergyStorage().canFill()) {
 			ItemStack steamStack = this.getStackHandler().getStackInSlot(STEAM_SLOT);
 			if (steamStack != null && steamStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) { // bucket
 				IFluidHandler itemFluid = steamStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
@@ -58,17 +58,17 @@ public abstract class TileEntitySteamMachine extends TileEntityMachine {
 			}
 		}
 		super.update();
-		if (!this.worldObj.isRemote && this.getEnergyStored() != lastEnergy) {
+		if (!this.world.isRemote && this.getEnergyStored() != lastEnergy) {
 			this.updateToClient();
 			lastEnergy = this.getEnergyStored();
 		}
 	}
 	
 	public void updateToClient() {
-		if (this.worldObj.isRemote) return;
+		if (this.world.isRemote) return;
 		
-		IBlockState bs = this.worldObj.getBlockState(this.getPos());
-		this.worldObj.notifyBlockUpdate(this.getPos(), bs, bs, 0);
+		IBlockState bs = this.world.getBlockState(this.getPos());
+		this.world.notifyBlockUpdate(this.getPos(), bs, bs, 0);
 	}
 	
 	public FluidTank getEnergyStorage() {

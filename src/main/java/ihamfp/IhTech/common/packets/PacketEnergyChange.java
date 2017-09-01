@@ -61,10 +61,10 @@ public class PacketEnergyChange implements IMessage {
 		
 		private void handle(PacketEnergyChange message, MessageContext ctx) {
 			//EntityPlayer player = ctx.getServerHandler().playerEntity;
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			if (player == null || player.worldObj == null)
+			EntityPlayer player = Minecraft.getMinecraft().player;
+			if (player == null || player.world == null)
 				return;
-			TileEntity tile = player.worldObj.getTileEntity(message.blockPos);
+			TileEntity tile = player.world.getTileEntity(message.blockPos);
 			if (tile instanceof ITileEntityEnergyStorage) {
 				IEnergyStorage e = ((ITileEntityEnergyStorage) tile).getEnergyStorage();
 				if (e == null) return;

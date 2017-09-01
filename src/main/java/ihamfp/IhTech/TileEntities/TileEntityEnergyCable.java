@@ -60,7 +60,7 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 	}
 	
 	public EnumCableSideRenderType getSideRenderType(EnumFacing face) {
-		TileEntity otherTile = this.worldObj.getTileEntity(this.getPos().offset(face));
+		TileEntity otherTile = this.world.getTileEntity(this.getPos().offset(face));
 		if (otherTile != null && otherTile instanceof TileEntityEnergyCable) {
 			return EnumCableSideRenderType.CABLE;
 		} else if (otherTile != null && otherTile.hasCapability(CapabilityEnergy.ENERGY, face.getOpposite())) {
@@ -73,9 +73,9 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 	protected void checkForCablesAround(Set<BlockPos> network, Set<BlockPos> testedNetwork) {
 		for (EnumFacing side : EnumFacing.values()) {
 			BlockPos nextpos = this.pos.offset(side);
-			if (!this.worldObj.isBlockLoaded(nextpos)) continue; // Do not try to go through unloaded chunks.
+			if (!this.world.isBlockLoaded(nextpos)) continue; // Do not try to go through unloaded chunks.
 			if (network.contains(nextpos) || testedNetwork.contains(nextpos)) continue;
-			if (this.worldObj.getTileEntity(nextpos) instanceof TileEntityEnergyCable && ((TileEntityEnergyCable)this.worldObj.getTileEntity(nextpos)).energyCapacity == this.energyCapacity) {
+			if (this.world.getTileEntity(nextpos) instanceof TileEntityEnergyCable && ((TileEntityEnergyCable)this.world.getTileEntity(nextpos)).energyCapacity == this.energyCapacity) {
 				network.add(nextpos);
 			}
 		}
@@ -86,11 +86,11 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		for (EnumFacing side : EnumFacing.values()) {
 			BlockPos nextpos = this.pos.offset(side);
 			if (nodes.contains(nextpos) || this.network.contains(nextpos)) continue;
-			if (this.worldObj.getTileEntity(nextpos) == null) continue;
-			if (this.worldObj.getTileEntity(nextpos).hasCapability(CapabilityEnergy.ENERGY, side.getOpposite())) { // energy receiver found
-				if (this.worldObj.getTileEntity(nextpos) instanceof ITileEntityEnergyStorage && ((ITileEntityEnergyStorage)this.worldObj.getTileEntity(nextpos)).getEnergySideType(side.getOpposite()) == EnumEnergySideTypes.RECEIVE) {
+			if (this.world.getTileEntity(nextpos) == null) continue;
+			if (this.world.getTileEntity(nextpos).hasCapability(CapabilityEnergy.ENERGY, side.getOpposite())) { // energy receiver found
+				if (this.world.getTileEntity(nextpos) instanceof ITileEntityEnergyStorage && ((ITileEntityEnergyStorage)this.world.getTileEntity(nextpos)).getEnergySideType(side.getOpposite()) == EnumEnergySideTypes.RECEIVE) {
 					nodes.add(nextpos);
-				} else if (!(this.worldObj.getTileEntity(nextpos) instanceof ITileEntityEnergyStorage)) {
+				} else if (!(this.world.getTileEntity(nextpos) instanceof ITileEntityEnergyStorage)) {
 					nodes.add(nextpos);
 				}
 			}
@@ -103,9 +103,9 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 	}
 	
 	protected void updateNetwork() {
-		if (this.network != null && (this.network.size() == 0 || this.lastNetworkUpdate == this.worldObj.getTotalWorldTime())) return; // Something is already doing this
+		if (this.network != null && (this.network.size() == 0 || this.lastNetworkUpdate == this.world.getTotalWorldTime())) return; // Something is already doing this
 		if (this.network != null) this.network.clear(); // clearing the network also locks it, as nothing else can operate on it while size==0
-		this.lastNetworkUpdate = this.worldObj.getTotalWorldTime();
+		this.lastNetworkUpdate = this.world.getTotalWorldTime();
 		
 		Set<BlockPos> tempNetwork = Collections.newSetFromMap(new ConcurrentHashMap<BlockPos,Boolean>());
 		Set<BlockPos> testingNetwork = Collections.newSetFromMap(new ConcurrentHashMap<BlockPos,Boolean>());
@@ -115,7 +115,7 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		// Now we try to list *EVERY* cable on the network
 		while (testingNetwork.size() > 0) { // while there are tiles to test ...
 			for (BlockPos pos : testingNetwork) {
-				((TileEntityEnergyCable)this.worldObj.getTileEntity(pos)).checkForCablesAround(testingNetwork, tempNetwork);
+				((TileEntityEnergyCable)this.world.getTileEntity(pos)).checkForCablesAround(testingNetwork, tempNetwork);
 				tempNetwork.add(pos); // this pos is tested, it doesn't have to stay in the testing set
 				testingNetwork.remove(pos); // so we only test tiles' neighbors once
 			}
@@ -132,7 +132,7 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		Set<BlockPos> sharedNodes = Collections.newSetFromMap(new ConcurrentHashMap<BlockPos,Boolean>());
 		
 		for (BlockPos pos : tempNetwork) {
-			TileEntityEnergyCable teCable = ((TileEntityEnergyCable)this.worldObj.getTileEntity(pos));
+			TileEntityEnergyCable teCable = ((TileEntityEnergyCable)this.world.getTileEntity(pos));
 			teCable.network = tempNetwork;
 			teCable.lastNetworkUpdate = this.lastNetworkUpdate;
 			teCable.energyStorage = sharedES;
@@ -147,13 +147,13 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		if (this.nodes != null) this.nodes.clear();
 		
 		for (BlockPos pos : this.network) {
-			((TileEntityEnergyCable)this.worldObj.getTileEntity(pos)).checkForNodesAround(this.nodes);
+			((TileEntityEnergyCable)this.world.getTileEntity(pos)).checkForNodesAround(this.nodes);
 		}
 	}
 
 	@Override
 	public void update() {
-		if (this.worldObj.isRemote) return;
+		if (this.world.isRemote) return;
 		
 		if (this.energyCapacity == 0) {
 			this.energyCapacity = ((BlockEnergyCable)this.getBlockType()).energyCapacity*((int)Math.pow(2, this.getBlockMetadata()));
@@ -175,19 +175,20 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		}
 		
 		if (this.energyStorage.getEnergyStored() <= 0 || this.nodes.size() == 0) return; // No energy or no receivers ? No problem.
-		if (this.lastNetworkEnergyUpdate.longValue() == this.worldObj.getTotalWorldTime()) return; // something already updated the network.
-		this.lastNetworkEnergyUpdate.set(this.worldObj.getTotalWorldTime());
+		if (this.lastNetworkEnergyUpdate.longValue() == this.world.getTotalWorldTime()) return; // something already updated the network.
+		this.lastNetworkEnergyUpdate.set(this.world.getTotalWorldTime());
 		
 		// Count how many nodes can receive energy
 		int receivingCount = 0;
 		int maxSending = 0;
 		for (BlockPos pos : nodes) {
-			if (this.worldObj.getTileEntity(pos) == null) {
+			if (this.world.getTileEntity(pos) == null) {
 				this.nodes.remove(pos); // we don't need this anymore
 				continue;
 			}
-			if (!this.worldObj.getTileEntity(pos).hasCapability(CapabilityEnergy.ENERGY, null)) continue;
-			EnergyStorage nodeEnergy = (EnergyStorage)this.worldObj.getTileEntity(pos).getCapability(CapabilityEnergy.ENERGY, null);
+			if (!this.world.getTileEntity(pos).hasCapability(CapabilityEnergy.ENERGY, null)) continue;
+			if (!(this.world.getTileEntity(pos).getCapability(CapabilityEnergy.ENERGY, null) instanceof IEnergyStorage)) continue;
+			IEnergyStorage nodeEnergy = (IEnergyStorage)this.world.getTileEntity(pos).getCapability(CapabilityEnergy.ENERGY, null);
 			if (nodeEnergy == null) {
 				this.nodes.remove(pos);
 				continue;
@@ -205,8 +206,9 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 		
 		// Distribute energy equally to the nodes
 		for (BlockPos pos : nodes) {
-			if (!this.worldObj.getTileEntity(pos).hasCapability(CapabilityEnergy.ENERGY, null)) continue;
-			EnergyStorage nodeEnergy = (EnergyStorage)this.worldObj.getTileEntity(pos).getCapability(CapabilityEnergy.ENERGY, null);
+			if (!this.world.getTileEntity(pos).hasCapability(CapabilityEnergy.ENERGY, null)) continue;
+			if (!(this.world.getTileEntity(pos).getCapability(CapabilityEnergy.ENERGY, null) instanceof IEnergyStorage)) continue;
+			IEnergyStorage nodeEnergy = (IEnergyStorage)this.world.getTileEntity(pos).getCapability(CapabilityEnergy.ENERGY, null);
 			if (nodeEnergy == null) continue;
 			
 			int given = nodeEnergy.receiveEnergy(maxSending/receivingCount, false);
@@ -216,7 +218,7 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 	
 	public void separateFromNetworks() {
 		for (EnumFacing face : EnumFacing.values()) {
-			TileEntity te = this.worldObj.getTileEntity(this.pos.offset(face));
+			TileEntity te = this.world.getTileEntity(this.pos.offset(face));
 			if (te != null && te instanceof TileEntityEnergyCable) {
 				((TileEntityEnergyCable)te).network = null;
 			}

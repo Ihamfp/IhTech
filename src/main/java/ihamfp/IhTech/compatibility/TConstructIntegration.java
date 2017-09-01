@@ -86,7 +86,7 @@ public class TConstructIntegration {
 				FluidRegistry.registerFluid(fluid);
 				fluid.setTemperature(mat.meltingPoint);
 				
-				TinkerFluids.registerMoltenBlock(fluid);
+				//TinkerFluids.registerMoltenBlock(fluid); // TODO fix this
 				
 				addedMoltenFluids.add(fluid);
 				

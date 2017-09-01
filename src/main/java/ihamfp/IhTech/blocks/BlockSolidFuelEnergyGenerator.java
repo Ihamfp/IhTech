@@ -26,7 +26,6 @@ public class BlockSolidFuelEnergyGenerator extends BlockEnergyStorage {
 	
 	public BlockSolidFuelEnergyGenerator(String name, Material material) {
 		super(name, material);
-		this.setFaced();
 	}
 	
 	@Override
@@ -36,7 +35,7 @@ public class BlockSolidFuelEnergyGenerator extends BlockEnergyStorage {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (world.isRemote) {
 			return true;
 		}

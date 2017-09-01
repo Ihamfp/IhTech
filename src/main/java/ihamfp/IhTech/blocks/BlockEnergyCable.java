@@ -23,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -70,23 +71,24 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 		this.setCreativeTab(ModCreativeTabs.PIPES);
 	}
 	
+	/*
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 		int multiplier = (int)Math.pow(2, stack.getMetadata());
 		tooltip.add(this.energyCapacity*multiplier + " " + Config.energyUnitName + "/t");
-	}
+	}*/
 	
-	@SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	@Override
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i=0;i<3;i++) {
-			list.add(new ItemStack(itemIn, 1, i));
+			list.add(new ItemStack(this, 1, i));
 		}
 	}
 	
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) return false;
 		TileEntityEnergyCable te = (TileEntityEnergyCable) worldIn.getTileEntity(pos);
-		playerIn.addChatMessage(new TextComponentString("Conductivity: " + te.energyCapacity));
+		playerIn.sendMessage(new TextComponentString("Conductivity: " + te.energyCapacity)); // TODO remove this (low priority)
 		return false;
 	}
 	
@@ -108,7 +110,7 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	}
 	
 	@Override
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		((TileEntityEnergyCable)worldIn.getTileEntity(pos)).checkForNodesAround();
 	}
 	
@@ -168,20 +170,20 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return super.getStateFromMeta(meta).withProperty(STACKED_CABLES_LEVEL, (meta&3));
+		return this.getDefaultState().withProperty(STACKED_CABLES_LEVEL, (meta&3));
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (super.getMetaFromState(state) | state.getValue(STACKED_CABLES_LEVEL));
+		return state.getValue(STACKED_CABLES_LEVEL);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void initModel()	{
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(ModIhTech.MODID + ":blockCable1x", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 1, new ModelResourceLocation(ModIhTech.MODID + ":blockCable2x", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 2, new ModelResourceLocation(ModIhTech.MODID + ":blockCable4x", "inventory"));
+		for (int i=0;i<3;i++) {
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), i, new ModelResourceLocation(ModIhTech.MODID + ":blockcable" + (1<<i) + "x", "inventory"));
+		}
 		StateMapperBase stateMap = new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
@@ -196,8 +198,8 @@ public class BlockEnergyCable extends BlockEnergyStorage {
 	
 	@SideOnly(Side.CLIENT)
 	public void initItemModel() {
-		Item itemBlock = Item.REGISTRY.getObject(new ResourceLocation(ModIhTech.MODID, "blockCable"));
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("blockCable", "inventory");
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, 0, itemModelResourceLocation);
+		Item itemBlock = Item.getItemFromBlock(this);
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("blockcable", "inventory");
+		//Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, 0, itemModelResourceLocation);
 	}
 }

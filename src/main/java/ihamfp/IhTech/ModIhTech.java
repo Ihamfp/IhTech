@@ -2,8 +2,6 @@ package ihamfp.IhTech;
 
 import ihamfp.IhTech.interfaces.IProxy;
 import ihamfp.IhTech.items.ModItems;
-import net.minecraft.stats.Achievement;
-import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -16,10 +14,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ModIhTech.MODID, version = "@VERSION@",
-	dependencies = "required-after:Forge@[12.18.3.2185,);"
-	+ "after:OpenComputers@[1.6.1.6,);"
-	+ "after:TConstruct@[2.6.2,);"
-	+ "after:Waila@[1.7.0,);after:theoneprobe@[1.3.3,);")
+	dependencies = "required-after:forge@[14.22.0.2463,);"
+	+ "after:opencomputers@[1.7.0.4,);"
+//	+ "after:tconstruct@[2.7.2,);"
+)
 public class ModIhTech {
 	static {
 		FluidRegistry.enableUniversalBucket();
@@ -42,7 +40,7 @@ public class ModIhTech {
 		// Proxy
 		proxy.preInit(event);
 	}
-		
+	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		// Proxy

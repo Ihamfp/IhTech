@@ -82,7 +82,7 @@ public class TileEntityEnergyStorage extends TileEntity implements ITileEntityEn
 		boolean changed = false;
 		for (EnumFacing face : EnumFacing.values()) {
 			if (!this.hasCapability(CapabilityEnergy.ENERGY, face)) continue;
-			TileEntity te = this.worldObj.getTileEntity(this.getPos().offset(face));
+			TileEntity te = this.world.getTileEntity(this.getPos().offset(face));
 			if (te == null || te.isInvalid() || !te.hasCapability(CapabilityEnergy.ENERGY, face.getOpposite())) continue;
 			if (Config.limitEnergyCompatiblity && !(te instanceof ITileEntityEnergyStorage)) continue;
 			if (this.getEnergySideType(face) == EnumEnergySideTypes.BLOCKED || this.getEnergySideType(face) == EnumEnergySideTypes.RECEIVE) continue;
@@ -187,15 +187,15 @@ public class TileEntityEnergyStorage extends TileEntity implements ITileEntityEn
 	
 	@Override
 	public void updateToClient() {
-		if (this.worldObj.isRemote)
+		if (this.world.isRemote)
 			return;
 		
 		/*if (this.getEnergyStorage() != null) {
 			PacketEnergyChange packet = new PacketEnergyChange(this.getPos(), this.getEnergyStorage().getEnergyStored());
 			PacketHandler.INSTANCE.sendToAllAround(packet, new TargetPoint(this.worldObj.provider.getDimension(), this.pos.getX(), this.pos.getY(), this.pos.getZ(), 64));
 		}*/
-		IBlockState bs = this.worldObj.getBlockState(this.getPos());
-		this.worldObj.notifyBlockUpdate(this.getPos(), bs, bs, 0);
+		IBlockState bs = this.world.getBlockState(this.getPos());
+		this.world.notifyBlockUpdate(this.getPos(), bs, bs, 0);
 	}
 	
 	// NBT stuff

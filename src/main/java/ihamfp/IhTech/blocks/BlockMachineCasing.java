@@ -19,6 +19,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -83,6 +84,7 @@ public class BlockMachineCasing extends Block {
 	}
 	
 	public void register() {
+		/*
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this) {
 			@Override
@@ -96,7 +98,8 @@ public class BlockMachineCasing extends Block {
 					subItems.add(new ItemStack(itemIn, 1, i));
 				}
 			}
-		}.setRegistryName(this.getRegistryName()).setHasSubtypes(true));
+		}.setRegistryName(this.getRegistryName()).setHasSubtypes(true));*/
+		// TODO register
 	}
 	
 	@Override
@@ -126,9 +129,9 @@ public class BlockMachineCasing extends Block {
 	}
 
 	@Override
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
 		for (int i=0;i<CasingType.values().length;i++) {
-			list.add(new ItemStack(itemIn, 1, i));
+			list.add(new ItemStack(this, 1, i));
 		}
 	}
 }

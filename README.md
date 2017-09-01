@@ -2,7 +2,7 @@
 Minecraft mod.
 
 ## Main features:
- * Removes polar bears. Will also remove lamas in 1.11.
+ * Removes polar bears and llamas
  * Adds a lot of useless items. And badly drawn textures.
  * Unfinished code ... a lot
 
@@ -18,8 +18,6 @@ Minecraft mod.
   - A: No
  - Q: "Why is everything so ugly ?"
   - A: I can't draw
- - Q: "When will you update to 1.11 ?"
-  - A: When OpenComputers and Waila or TOP are updated (and not in alpha)
 
 ## License
  * You can use parts of the code, if you want to learn how to make mods (and only _learn_, don't copy everything)

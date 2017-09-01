@@ -10,7 +10,6 @@ import ihamfp.IhTech.compatibility.TConstructIntegration;
 import ihamfp.IhTech.compatibility.TOPCompatibility;
 import ihamfp.IhTech.compatibility.WailaCompatibility;
 import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
-import ihamfp.IhTech.creativeTabs.TabResources;
 import ihamfp.IhTech.fluids.ModFluids;
 import ihamfp.IhTech.interfaces.IProxy;
 import ihamfp.IhTech.items.ModItems;
@@ -33,10 +32,10 @@ public class CommonProxy implements IProxy {
 		Config.readConfig();
 		
 		ModBlocks.preInit();
-		ModTileEntities.preInit();
 		ModItems.preInit();
 		ModFluids.preInit();
 		ModAchievements.preInit();
+		ModRecipes.preInit();
 		PacketHandler.registerMessages();
 		if (Loader.isModLoaded("Waila") && Config.WailaIntegration) {
 			WailaCompatibility.register();
@@ -44,16 +43,16 @@ public class CommonProxy implements IProxy {
 		if (Loader.isModLoaded("theoneprobe") && Config.TOPIntegration) {
 			TOPCompatibility.register();
 		}
-		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
+		/*if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
 			TConstructIntegration.moltenIntegration();
-		}
+		}*/ // TODO fix this
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {		
 		NetworkRegistry.INSTANCE.registerGuiHandler(ModIhTech.instance, new GuiHandler());
-		ModRecipes.addMaterialRecipes();
-		GameRegistry.registerFuelHandler(new FuelHandler());
+		ModBlocks.init();
+		//GameRegistry.registerFuelHandler(new FuelHandler()); // TODO replace this
 		
 		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
 			TConstructIntegration.materialsIntegration();
@@ -63,6 +62,7 @@ public class CommonProxy implements IProxy {
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new TweakPolarBear());
+		ModBlocks.postInit();
 		if (config.hasChanged()) {
 			config.save();
 		}

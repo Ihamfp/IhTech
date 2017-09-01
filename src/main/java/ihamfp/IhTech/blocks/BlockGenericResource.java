@@ -45,8 +45,8 @@ public class BlockGenericResource extends Block {
 	}
 	
 	public void register() {
-		GameRegistry.register(this);
-		GameRegistry.register(new ItemBlock(this).setRegistryName(this.getRegistryName()));
+		/*GameRegistry.register(this);
+		GameRegistry.register(new ItemBlock(this).setRegistryName(this.getRegistryName()));*/
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -56,11 +56,11 @@ public class BlockGenericResource extends Block {
 	
 	private String getModel() {
 		if (prefix == "blockStorage" && Materials.materials.get(material).resourceType == ResourceType.CRYSTAL) {
-			return "blockStorageGem";
+			return "blockstoragegem";
 		} else if (prefix == "blockStorage" && Materials.materials.get(material).resourceType == ResourceType.COAL) {
-			return "blockStorageCoal";
+			return "blockstoragecoal";
 		} else {
-			return prefix;
+			return prefix.toLowerCase();
 		}
 	}
 	

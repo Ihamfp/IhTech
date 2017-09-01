@@ -48,8 +48,8 @@ public class TileEntityElectricFurnace extends TileEntityElectricMachine {
 	@Override
 	protected boolean hasOutput(ItemStack[] input) {
 		for (int i=0;i<input.length;i++) {
-			if (input[i] == null) return false;
+			if (input[i] == null || input[i] == ItemStack.EMPTY) return false;
 		}
-		return (FurnaceRecipes.instance().getSmeltingResult(input[0]) != null);
+		return (FurnaceRecipes.instance().getSmeltingResult(input[0]) != ItemStack.EMPTY);
 	}
 }

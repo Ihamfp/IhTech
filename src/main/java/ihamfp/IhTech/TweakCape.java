@@ -33,8 +33,8 @@ public class TweakCape {
 	
 	@SubscribeEvent
 	public void onTick(ClientTickEvent event) {
-		if (event.phase == Phase.START && mc.theWorld != null) {
-			for (EntityPlayer player : mc.theWorld.playerEntities) {
+		if (event.phase == Phase.START && mc.world != null) {
+			for (EntityPlayer player : mc.world.playerEntities) {
 				if (addedList.containsKey(player.getName())) continue;
 				if (capesList.containsKey(StringUtils.stripControlCodes(player.getName()))) {
 					if (addCape(player, capesList.get(StringUtils.stripControlCodes(player.getName())))) addedList.put(player.getName(), true);

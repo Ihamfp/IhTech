@@ -19,7 +19,7 @@ public class RecipesGrinding {
 		public float[] probabilities; // 1.0 = 100%
 		public int ticksNeeded = 1;
 		public boolean meta = false; // for the input item, false to ignore
-		public boolean requiresDiamond = false; // TODO implement this in the grinders
+		public boolean requiresDiamond = false; // TODO implement this in the grinders (low priority)
 		
 		public GrindingRecipe requiresDiamond() {
 			this.requiresDiamond = true;
