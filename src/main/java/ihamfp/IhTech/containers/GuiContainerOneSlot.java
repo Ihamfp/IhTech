@@ -1,21 +1,11 @@
 package ihamfp.IhTech.containers;
 
 import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.TileEntities.TileEntityItemEnergyGenerator;
-import ihamfp.IhTech.fluids.FluidSteam;
-import ihamfp.IhTech.fluids.ModFluids;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
-import ihamfp.IhTech.interfaces.ITileEntityInteractable;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 
 public class GuiContainerOneSlot extends GuiContainerDecorated {
 	public static final int WIDTH = 176;

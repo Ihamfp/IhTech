@@ -2,37 +2,26 @@ package ihamfp.IhTech.TileEntities.machines;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ihamfp.IhTech.blocks.machines.BlockMachineBase;
+import ihamfp.IhTech.common.PacketHandler;
+import ihamfp.IhTech.common.packets.PacketMachineSimpleUpdate;
+import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.TileEntities.ModTileEntities;
-import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
-import ihamfp.IhTech.blocks.machines.BlockMachineBase;
-import ihamfp.IhTech.common.PacketHandler;
-import ihamfp.IhTech.common.packets.PacketMachineSimpleUpdate;
-import ihamfp.IhTech.interfaces.ITileEntityInteractable;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 
 public abstract class TileEntityMachine extends TileEntity implements ITileEntityInteractable, ITickable {
 	protected class MachineItemStackHandler extends ItemStackHandler {

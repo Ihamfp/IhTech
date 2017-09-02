@@ -1,6 +1,5 @@
 package ihamfp.IhTech.blocks;
 
-import java.awt.List;
 import java.util.ArrayList;
 
 import ihamfp.IhTech.Materials;
@@ -16,12 +15,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
@@ -48,7 +44,6 @@ public class ModBlocks {
 	public static BlockMachineElectricGrinder blockElectricGrinder = new BlockMachineElectricGrinder("blockElectricGrinder");
 	public static BlockMachineSteamGrinder blockSteamGrinder = new BlockMachineSteamGrinder("blockSteamGrinder");
 	
-	// TODO empty on postLoad
 	private static ArrayList<Block> modBlocks = new ArrayList<Block>(); // will be emptied when the mod is loaded, only used for registration
 	
 	//public static BlockEnergyCable blockCable = new BlockEnergyCable("blockCable", Material.IRON);
@@ -57,7 +52,6 @@ public class ModBlocks {
 		for (int i=0; i<Materials.materials.size();++i) {
 			if (Materials.materials.get(i).has("block") && Materials.materials.get(i).getItemFor("block") == null) {
 				blockResources.add(i, new BlockGenericResource("blockStorage", i, Material.IRON));
-				Materials.materials.get(i).setItemFor("block", new ItemStack(blockResources.get(i), 1));
 				modBlocks.add(blockResources.get(i));
 			} else {
 				blockResources.add(i, null);
@@ -65,7 +59,6 @@ public class ModBlocks {
 			
 			if (Materials.materials.get(i).has("ore") && Materials.materials.get(i).getItemFor("ore") == null) {
 				blockOres.add(i, new BlockGenericResource("blockOre", i, Material.ROCK));
-				Materials.materials.get(i).setItemFor("ore", new ItemStack(blockOres.get(i), 1));
 				modBlocks.add(blockOres.get(i));
 			} else {
 				blockOres.add(i, null);
@@ -118,11 +111,13 @@ public class ModBlocks {
 		for (Block b : modBlocks) {
 			event.getRegistry().register(new ItemBlock(b).setRegistryName(b.getRegistryName()));
 			if (!oredicted) {
-				if (blockResources.contains(b)) { // OreDict for blocks
+				if (blockResources.contains(b)) {
 					ResourceMaterial m = Materials.materials.get(((BlockGenericResource)b).material);
+					m.setItemFor("block", new ItemStack(b));
 					OreDictionary.registerOre("block" + m.name, b);
-				} else if (blockOres.contains(b)) { // OreDict for ores
+				} else if (blockOres.contains(b)) {
 					ResourceMaterial m = Materials.materials.get(((BlockGenericResource)b).material);
+					m.setItemFor("ore", new ItemStack(b));
 					OreDictionary.registerOre("ore" + m.name, b);
 				}
 			}

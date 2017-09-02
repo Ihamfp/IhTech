@@ -1,7 +1,6 @@
 package ihamfp.IhTech.TileEntities.machines;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.ItemStackHandler;
 
 public abstract class TileEntityManualMachine extends TileEntityMachine {
 	

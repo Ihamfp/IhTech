@@ -3,12 +3,9 @@ package ihamfp.IhTech.TileEntities;
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.blocks.BlockEnergyStorage;
 import ihamfp.IhTech.common.Config;
-import ihamfp.IhTech.common.PacketHandler;
-import ihamfp.IhTech.common.packets.PacketEnergyChange;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -19,10 +16,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.CapabilityItemHandler;
 
 
 /* Rules for an energy system:

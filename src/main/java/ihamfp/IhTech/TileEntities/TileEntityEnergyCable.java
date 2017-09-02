@@ -1,16 +1,12 @@
 package ihamfp.IhTech.TileEntities;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.blocks.BlockEnergyCable;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -46,7 +42,7 @@ public class TileEntityEnergyCable extends TileEntity implements ITileEntityEner
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		if (capability == CapabilityEnergy.ENERGY) {
-			return true;
+			return (this.energyStorage != null);
 		}
 		return super.hasCapability(capability, facing);
 	}

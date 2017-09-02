@@ -1,12 +1,12 @@
 package ihamfp.IhTech.containers.machines;
 
+import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.TileEntities.machines.TileEntitySteamGrinder;
+import ihamfp.IhTech.containers.ContainerBase;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.TileEntities.machines.TileEntitySteamGrinder;
-import ihamfp.IhTech.containers.ContainerBase;
 
 public class ContainerSteamGrinder extends ContainerBase<TileEntitySteamGrinder> {
 	public static final int SLOTS_COUNT = 3;
@@ -29,5 +29,10 @@ public class ContainerSteamGrinder extends ContainerBase<TileEntitySteamGrinder>
 		addSlotToContainer(new SlotItemHandler(itemHandler, 0, 62, 34));
 		addSlotToContainer(new SlotItemHandler(itemHandler, 1, 98, 34));
 		addSlotToContainer(new SlotItemHandler(itemHandler, 2, 6, 41));
+	}
+	
+	@Override
+	protected int getOwnSlotsCount() {
+		return this.SLOTS_COUNT;
 	}
 }

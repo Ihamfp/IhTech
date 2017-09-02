@@ -1,6 +1,5 @@
 package ihamfp.IhTech.TileEntities;
 
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.EnumSkyBlock;

@@ -1,21 +1,12 @@
 package ihamfp.IhTech.TileEntities;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import scala.actors.threadpool.Arrays;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 

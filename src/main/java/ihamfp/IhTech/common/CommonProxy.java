@@ -4,12 +4,10 @@ import java.io.File;
 
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TweakPolarBear;
-import ihamfp.IhTech.TileEntities.ModTileEntities;
 import ihamfp.IhTech.blocks.ModBlocks;
 import ihamfp.IhTech.compatibility.TConstructIntegration;
 import ihamfp.IhTech.compatibility.TOPCompatibility;
 import ihamfp.IhTech.compatibility.WailaCompatibility;
-import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 import ihamfp.IhTech.fluids.ModFluids;
 import ihamfp.IhTech.interfaces.IProxy;
 import ihamfp.IhTech.items.ModItems;
@@ -21,7 +19,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy implements IProxy {
 	public static Configuration config;
@@ -52,7 +49,6 @@ public class CommonProxy implements IProxy {
 	public void init(FMLInitializationEvent event) {		
 		NetworkRegistry.INSTANCE.registerGuiHandler(ModIhTech.instance, new GuiHandler());
 		ModBlocks.init();
-		//GameRegistry.registerFuelHandler(new FuelHandler()); // TODO replace this
 		
 		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
 			TConstructIntegration.materialsIntegration();

@@ -2,13 +2,11 @@ package ihamfp.IhTech.containers.machines;
 
 import java.awt.Color;
 
-import net.minecraft.inventory.Container;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.energy.CapabilityEnergy;
 import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.TileEntities.machines.TileEntityElectricGrinder;
 import ihamfp.IhTech.TileEntities.machines.TileEntitySteamGrinder;
 import ihamfp.IhTech.containers.GuiContainerDecorated;
+import net.minecraft.inventory.Container;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiContainerSteamGrinder extends GuiContainerDecorated {
 	public static final int WIDTH = 176;

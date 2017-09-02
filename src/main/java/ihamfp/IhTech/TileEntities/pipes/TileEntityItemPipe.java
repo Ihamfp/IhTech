@@ -1,11 +1,9 @@
 package ihamfp.IhTech.TileEntities.pipes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import ihamfp.IhTech.TileEntities.pipes.TileEntityItemPipe.ItemStackHandlerPipe.StackDir;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,11 +15,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class TileEntityItemPipe extends TileEntity implements ITickable {
 	/***
@@ -126,7 +122,7 @@ public class TileEntityItemPipe extends TileEntity implements ITickable {
 			stacks.clear();
 			for (int i=0;i<nbtList.tagCount();i++) {
 				NBTTagCompound tag = nbtList.getCompoundTagAt(i);
-				//stacks.add(new StackDir(ItemStack.loadItemStackFromNBT(tag))); // TODO find a replacement for this
+				stacks.add(new StackDir(new ItemStack(tag)));
 			}
 		}
 

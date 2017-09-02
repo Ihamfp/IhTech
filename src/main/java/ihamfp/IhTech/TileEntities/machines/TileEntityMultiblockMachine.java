@@ -1,8 +1,5 @@
 package ihamfp.IhTech.TileEntities.machines;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.ItemStackHandler;
-
 public abstract class TileEntityMultiblockMachine extends TileEntityMachine {
 	public boolean isFormed = false;
 	

@@ -1,11 +1,10 @@
 package ihamfp.IhTech;
 
-import ihamfp.IhTech.common.ResourceMaterial;
-import ihamfp.IhTech.common.ResourceMaterial.ResourceType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ihamfp.IhTech.common.ResourceMaterial;
+import ihamfp.IhTech.common.ResourceMaterial.ResourceType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;

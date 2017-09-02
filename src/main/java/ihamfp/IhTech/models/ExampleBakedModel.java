@@ -1,18 +1,14 @@
 package ihamfp.IhTech.models;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.TileEntityEnergyCable.EnumCableSideRenderType;
 import ihamfp.IhTech.blocks.BlockEnergyCable;
 import ihamfp.IhTech.blocks.ModBlocks;
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.google.common.base.Function;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;

@@ -1,26 +1,16 @@
 package ihamfp.IhTech.items;
 
+import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemElytra;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.IForgeRegistryEntry;
-import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.common.ResourceMaterial;
-import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-
-import slimeknights.tconstruct.library.TinkerRegistry;
 
 public class ModItems {
 	//public static ItemWrench wrench1 = new ItemWrench("wrench1");

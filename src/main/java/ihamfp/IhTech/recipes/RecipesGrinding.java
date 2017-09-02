@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

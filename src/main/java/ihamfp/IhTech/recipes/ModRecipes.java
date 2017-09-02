@@ -36,28 +36,28 @@ public class ModRecipes {
 		ResourceLocation tiny2dust = new ResourceLocation(ModIhTech.MODID, "tiny2dust");
 		ResourceLocation dust2tiny = new ResourceLocation(ModIhTech.MODID, "dust2tiny");
 		
-		for (int i=0;i<Materials.materials.size();++i) {
+		for (int i=1;i<Materials.materials.size();++i) {
 			ResourceMaterial mat = Materials.materials.get(i);
 			
 			// 9 nuggets <=> ingot
 			if (mat.has("ingot") && mat.has("nugget") && (mat.getItemFor("ingot").getItem() instanceof ItemGenericResource || mat.getItemFor("nugget").getItem() instanceof ItemGenericResource)) {
-				IRecipe in2nu = new ShapedOreRecipe(ingot2nugget, mat.getItemFor("ingot"), "nnn", "nnn", "nnn", 'n', "nugget"+mat.name).setRegistryName(ModIhTech.MODID, "ingot2nugget"+mat.name);
+				IRecipe in2nu = new ShapedOreRecipe(nugget2ingot, mat.getItemFor("ingot"), "nnn", "nnn", "nnn", 'n', "nugget"+mat.name).setRegistryName(ModIhTech.MODID, "nugget2ingot"+mat.name);
 				
 				ItemStack nineNuggets = mat.getItemFor("nugget").copy();
 				nineNuggets.setCount(9);
-				IRecipe nu2in = new ShapelessOreRecipe(nugget2ingot, nineNuggets, mat.getItemFor("ingot")).setRegistryName(ModIhTech.MODID, "nugget2ingot"+mat.name);
+				IRecipe nu2in = new ShapelessOreRecipe(ingot2nugget, nineNuggets, mat.getItemFor("ingot")).setRegistryName(ModIhTech.MODID, "ingot2nugget"+mat.name);
 				
 				event.getRegistry().registerAll(in2nu, nu2in);
 			}
 			
-			// TODO port all the recipes
 			// 9 ingots <=> block
 			if (mat.has("ingot") && mat.has("block") && (mat.getItemFor("ingot").getItem() instanceof ItemGenericResource || ((ItemBlock)(mat.getItemFor("block").getItem())).getBlock() instanceof BlockGenericResource)) {
-				IRecipe bl2in = new ShapedOreRecipe(block2ingot, mat.getItemFor("block"), "iii", "iii", "iii", 'i', "ingot"+mat.name).setRegistryName(ModIhTech.MODID,  "block2ingot"+mat.name);
+				if (mat.getItemFor("block").isEmpty()) ModIhTech.logger.error("No block for " + mat.name);
+				IRecipe bl2in = new ShapedOreRecipe(ingot2block, mat.getItemFor("block"), "iii", "iii", "iii", 'i', "ingot"+mat.name).setRegistryName(ModIhTech.MODID, "ingot2block"+mat.name);
 				
 				ItemStack nineIngots = mat.getItemFor("ingot").copy();
 				nineIngots.setCount(9);
-				IRecipe in2bl = new ShapelessOreRecipe(ingot2block, nineIngots, mat.getItemFor("block")).setRegistryName(ModIhTech.MODID, "ingot2block"+mat.name);
+				IRecipe in2bl = new ShapelessOreRecipe(block2ingot, nineIngots, mat.getItemFor("block")).setRegistryName(ModIhTech.MODID, "block2ingot"+mat.name);
 				
 				event.getRegistry().registerAll(bl2in, in2bl);
 			}

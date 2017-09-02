@@ -1,13 +1,10 @@
 package ihamfp.IhTech.common;
 
 import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.TileEntities.TileEntityBatteryRack;
-import ihamfp.IhTech.TileEntities.TileEntityItemEnergyGenerator;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricFurnace;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricGrinder;
 import ihamfp.IhTech.TileEntities.machines.TileEntitySteamGrinder;
 import ihamfp.IhTech.containers.ContainerOneSlot;
-import ihamfp.IhTech.containers.GuiContainerBurningGenerator;
 import ihamfp.IhTech.containers.GuiContainerOneSlot;
 import ihamfp.IhTech.containers.machines.ContainerElectricFurnace;
 import ihamfp.IhTech.containers.machines.ContainerElectricGrinder;
@@ -15,7 +12,6 @@ import ihamfp.IhTech.containers.machines.ContainerSteamGrinder;
 import ihamfp.IhTech.containers.machines.GuiContainerElectricFurnace;
 import ihamfp.IhTech.containers.machines.GuiContainerElectricGrinder;
 import ihamfp.IhTech.containers.machines.GuiContainerSteamGrinder;
-import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

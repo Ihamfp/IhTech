@@ -7,9 +7,7 @@ import ihamfp.IhTech.TileEntities.machines.TileEntityElectricFurnace;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricGrinder;
 import ihamfp.IhTech.TileEntities.machines.TileEntityMachine;
 import ihamfp.IhTech.TileEntities.machines.TileEntitySteamGrinder;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import scala.actors.threadpool.Arrays;
 
 public class ModTileEntities {
 	

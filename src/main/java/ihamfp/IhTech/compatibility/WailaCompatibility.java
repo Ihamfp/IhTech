@@ -1,13 +1,16 @@
 package ihamfp.IhTech.compatibility;
 
-import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.blocks.BlockEnergyStorage;
-import ihamfp.IhTech.interfaces.IWailaInfoProvider;
-
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
+import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.blocks.BlockEnergyStorage;
+import ihamfp.IhTech.interfaces.IWailaInfoProvider;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -16,10 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaRegistrar;
 
 public class WailaCompatibility implements IWailaDataProvider {
 	

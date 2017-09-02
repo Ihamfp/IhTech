@@ -1,7 +1,8 @@
 package ihamfp.IhTech.items;
 
 import java.awt.Color;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import ihamfp.IhTech.Materials;
 import ihamfp.IhTech.ModIhTech;
@@ -10,19 +11,12 @@ import ihamfp.IhTech.common.ResourceMaterial;
 import ihamfp.IhTech.common.ResourceMaterial.ResourceType;
 import ihamfp.IhTech.creativeTabs.ModCreativeTabs;
 import ihamfp.IhTech.interfaces.IItemColored;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.inventory.ContainerFurnace;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -53,7 +47,7 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	public void register() {
 		for (int i=0; i<Materials.materials.size(); ++i) {
 			ResourceMaterial material = Materials.materials.get(i);
-			if (material.has(this.hasMatch) && material.getItemFor(this.type) == null) { // only add if not present
+			if (material.has(this.hasMatch) && (material.getItemFor(this.type) == null || material.getItemFor(this.type) == ItemStack.EMPTY)) { // only add if not present
 				if (OreDictionary.getOres("" + this.type + material.name).size() == 0 || Config.alwaysAddResources) { // Item doesn't exist in the game
 					ItemStack stack = new ItemStack(this, 1, i);
 					material.setItemFor(this.type, stack);
@@ -80,6 +74,27 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	}
 	
 	@Override
+	public int getItemBurnTime(ItemStack itemStack) {
+		final Map<String,Double> multipliers = new HashMap<String,Double>() {{
+			put("ingot", 1.0);
+			put("block", 9.1);
+			put("gem", 1.0);
+			put("nugget", 0.1);
+			put("dust", 0.9);
+			put("plate", 1.0);
+			put("rod", 0.5);
+		}};
+		
+		int base = Materials.materials.get(itemStack.getMetadata()).burningEnergy;
+		if (base == 0) return 0;
+		ItemGenericResource item = (ItemGenericResource)itemStack.getItem();
+		if (multipliers.containsKey(item.type)) {
+			return (int) (base*multipliers.get(item.type));
+		}
+		return 0;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public String getItemStackDisplayName(ItemStack stack) {
 		int meta = stack.getMetadata();
@@ -99,7 +114,6 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
-		ModIhTech.logger.info("Loading generic resource item models");
 		for (int i=0; i<Materials.materials.size(); ++i) {
 			if (Materials.materials.get(i).customRenders.containsKey(this.type)) {
 				ModelLoader.setCustomModelResourceLocation(this, i, new ModelResourceLocation(Materials.materials.get(i).customRenders.get(this.type)));
@@ -121,7 +135,7 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 			}
 		}
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColor(ItemStack stack) {
@@ -134,7 +148,7 @@ public class ItemGenericResource extends ItemBase implements IItemColored {
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		super.getSubItems(tab, items);
+		//super.getSubItems(tab, items);
 		if (this.isInCreativeTab(tab)) {
 			for (int i=1; i<Materials.materials.size(); ++i) {
 				if (Materials.materials.get(i).has(this.type) && Materials.materials.get(i).getItemFor(this.type) != null && Materials.materials.get(i).getItemFor(this.type).getItem() instanceof ItemGenericResource) {

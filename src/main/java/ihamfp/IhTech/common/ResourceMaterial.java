@@ -1,11 +1,8 @@
 package ihamfp.IhTech.common;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;

@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -18,8 +20,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
 @SideOnly(Side.CLIENT)
 public class TweakCape {
@@ -52,16 +52,6 @@ public class TweakCape {
 			addedList.clear();
 		}
 	}
-	
-	/*private static boolean checkForCape(EntityPlayer player) {
-		if (player == null) return false;
-		if (StringUtils.stripControlCodes(player.getName()).equals("_Firew0lf")) {
-			return addCape(player, ihamfp);
-		} else if (StringUtils.stripControlCodes(player.getName()).equals("Nolifertu")) {
-			return addCape(player, noli);
-		}
-		return false;
-	}*/
 	
 	private static boolean addCape(EntityPlayer player, ResourceLocation cape) {
 		if (!(player instanceof AbstractClientPlayer)) {

@@ -1,22 +1,5 @@
 package ihamfp.IhTech.common;
 
-import java.util.ArrayList;
-
-import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.blocks.BlockMachineCasing;
-import ihamfp.IhTech.blocks.ModBlocks;
-import ihamfp.IhTech.items.ModItems;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-/*import net.minecraft.stats.Achievement;
-import net.minecraft.stats.AchievementList;
-import net.minecraftforge.common.AchievementPage;*/
-
 public class ModAchievements {
 	/*private static ArrayList<Achievement> achievements = new ArrayList<Achievement>(); 
 	

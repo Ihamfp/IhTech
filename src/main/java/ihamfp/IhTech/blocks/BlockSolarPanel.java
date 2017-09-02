@@ -2,17 +2,14 @@ package ihamfp.IhTech.blocks;
 
 import java.util.List;
 
-import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
 import ihamfp.IhTech.TileEntities.TileEntitySolarEnergyGenerator;
 import ihamfp.IhTech.common.Config;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.EnergyStorage;
 
 public class BlockSolarPanel extends BlockEnergyStorage {
 

@@ -2,12 +2,12 @@ package ihamfp.IhTech.containers.machines;
 
 import java.awt.Color;
 
-import net.minecraft.inventory.Container;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.energy.CapabilityEnergy;
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricFurnace;
 import ihamfp.IhTech.containers.GuiContainerDecorated;
+import net.minecraft.inventory.Container;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.energy.CapabilityEnergy;
 
 public class GuiContainerElectricFurnace extends GuiContainerDecorated {
 	public static final int WIDTH = 176;

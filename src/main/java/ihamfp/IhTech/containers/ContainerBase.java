@@ -1,8 +1,5 @@
 package ihamfp.IhTech.containers;
 
-import javax.annotation.Nullable;
-
-import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.interfaces.ITileEntityInteractable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -10,12 +7,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
 public abstract class ContainerBase<T extends TileEntity> extends Container {
-	private static final int SLOTS_COUNT = 0;
+	public static final int SLOTS_COUNT = 0;
 	
 	protected T te;
 	
@@ -27,22 +21,26 @@ public abstract class ContainerBase<T extends TileEntity> extends Container {
 	
 	protected abstract void addOwnSlots();
 	
+	protected int getOwnSlotsCount() {
+		return SLOTS_COUNT;
+	}
+	
 	private void addPlayerSlots(IInventory playerInventory) {
 		this.addPlayerSlots(playerInventory, 8, 86); // default for "27" types GUIs
 	}
 	
 	private void addPlayerSlots(IInventory playerInventory, int invX, int invY) {
+		for (int row = 0; row < 9; ++row) {
+			int x = 8 + row * 18;
+			this.addSlotToContainer(new Slot(playerInventory, row, x, 144));
+		}
+		
 		for (int row = 0; row < 3; ++row) {
 			for (int col = 0; col < 9; ++col) {
 				int x = invX + col * 18;
 				int y =invY + row * 18;
 				this.addSlotToContainer(new Slot(playerInventory, col + row * 9 + 9, x, y));
 			}
-		}
-		
-		for (int row = 0; row < 9; ++row) {
-			int x = 8 + row * 18;
-			this.addSlotToContainer(new Slot(playerInventory, row, x, 144));
 		}
 	}
 	
@@ -59,18 +57,18 @@ public abstract class ContainerBase<T extends TileEntity> extends Container {
 			return ItemStack.EMPTY;
 		}
 		
-		if (index < SLOTS_COUNT) { // TE to inv.
-			if (!mergeItemStack(itemStack1, SLOTS_COUNT, slotsCount, false)) {
+		if (index < this.getOwnSlotsCount()) { // TE to inv.
+			if (!mergeItemStack(itemStack1, this.getOwnSlotsCount(), slotsCount, false)) {
 				return ItemStack.EMPTY;
 			}
 		} else { // inv to TE
-			if (!mergeItemStack(itemStack1, 0, SLOTS_COUNT, false)) {
+			if (!mergeItemStack(itemStack1, 0, this.getOwnSlotsCount(), false)) {
 				return ItemStack.EMPTY;
 			}
 		}
 		
 		if (itemStack1.isEmpty()) {
-			slot.putStack((ItemStack)null);
+			slot.putStack(ItemStack.EMPTY);
 		} else if (itemStack.getCount() == itemStack1.getCount()) {
 			return ItemStack.EMPTY;
 		} else {

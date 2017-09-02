@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ihamfp.IhTech.Materials;
-import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.items.ItemGenericResource;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;

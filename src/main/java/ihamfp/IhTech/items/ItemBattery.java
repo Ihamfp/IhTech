@@ -1,15 +1,9 @@
 package ihamfp.IhTech.items;
 
-import java.util.List;
-
-import slimeknights.tconstruct.TConstruct;
-import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.common.Config;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;

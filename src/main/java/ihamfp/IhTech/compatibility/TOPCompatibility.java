@@ -1,20 +1,19 @@
 package ihamfp.IhTech.compatibility;
 
-import ihamfp.IhTech.ModIhTech;
-import ihamfp.IhTech.interfaces.ITOPInfoProvider;
-
 import javax.annotation.Nullable;
 
 import org.apache.logging.log4j.Level;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
+import ihamfp.IhTech.ModIhTech;
+import ihamfp.IhTech.interfaces.ITOPInfoProvider;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import mcjty.theoneprobe.api.ProbeMode;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 public class TOPCompatibility {

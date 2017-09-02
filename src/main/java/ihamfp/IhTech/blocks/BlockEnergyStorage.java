@@ -1,24 +1,18 @@
 package ihamfp.IhTech.blocks;
 
-import ihamfp.IhTech.ModIhTech;
+import java.util.List;
+
 import ihamfp.IhTech.TileEntities.TileEntityEnergyStorage;
-import ihamfp.IhTech.common.CommonProxy;
 import ihamfp.IhTech.common.Config;
 import ihamfp.IhTech.common.GuiHandler.EnumGUIs;
 import ihamfp.IhTech.interfaces.ITOPInfoProvider;
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
 import ihamfp.IhTech.interfaces.IWailaInfoProvider;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -29,14 +23,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

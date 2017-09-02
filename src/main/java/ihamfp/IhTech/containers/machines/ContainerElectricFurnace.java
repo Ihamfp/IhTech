@@ -3,8 +3,6 @@ package ihamfp.IhTech.containers.machines;
 import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricFurnace;
 import ihamfp.IhTech.containers.ContainerBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -31,6 +29,11 @@ public class ContainerElectricFurnace extends ContainerBase<TileEntityElectricFu
 		addSlotToContainer(new SlotItemHandler(itemHandler, 0, 62, 34));
 		addSlotToContainer(new SlotItemHandler(itemHandler, 1, 98, 34));
 		addSlotToContainer(new SlotItemHandler(itemHandler, 2, 6, 41));
+	}
+	
+	@Override
+	protected int getOwnSlotsCount() {
+		return this.SLOTS_COUNT;
 	}
 
 }

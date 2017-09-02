@@ -1,9 +1,8 @@
 package ihamfp.IhTech.blocks;
 
-import ihamfp.IhTech.Materials;
-
 import java.awt.Color;
 
+import ihamfp.IhTech.Materials;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemBlock;

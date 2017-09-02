@@ -1,13 +1,11 @@
 package ihamfp.IhTech.models;
 
-import ihamfp.IhTech.ModIhTech;
-
 import java.util.Collection;
 import java.util.Collections;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 
+import ihamfp.IhTech.ModIhTech;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;

@@ -1,7 +1,6 @@
 package ihamfp.IhTech.TileEntities.machines;
 
 import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage;
-import ihamfp.IhTech.interfaces.ITileEntityEnergyStorage.EnumEnergySideTypes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +11,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.ItemStackHandler;
 
 public abstract class TileEntityElectricMachine extends TileEntityMachine implements ITileEntityEnergyStorage {
 

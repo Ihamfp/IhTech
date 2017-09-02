@@ -1,6 +1,5 @@
 package ihamfp.IhTech.common.packets;
 
-import ihamfp.IhTech.ModIhTech;
 import ihamfp.IhTech.TileEntities.machines.TileEntityElectricMachine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

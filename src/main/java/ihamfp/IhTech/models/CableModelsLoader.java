@@ -2,7 +2,6 @@ package ihamfp.IhTech.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import ihamfp.IhTech.ModIhTech;
 import net.minecraft.client.resources.IResourceManager;
@@ -26,7 +25,6 @@ public class CableModelsLoader implements ICustomModelLoader {
 	@Override
 	public boolean accepts(ResourceLocation modelLocation) {
 		if (!modelLocation.getResourceDomain().equals(ModIhTech.MODID)) return false;
-		ModIhTech.logger.info("Asking for loading " + modelLocation.getResourcePath());
 		if (!accepts.contains(modelLocation.getResourcePath())) return false;
 		return true;
 	}
