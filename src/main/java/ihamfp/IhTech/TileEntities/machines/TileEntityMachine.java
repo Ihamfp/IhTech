@@ -136,12 +136,14 @@ public abstract class TileEntityMachine extends TileEntity implements ITileEntit
 		for (int i=0;i<is.length;i++) {
 			if (cookingItems[i] == ItemStack.EMPTY && sh.getStackInSlot(is[i]) == ItemStack.EMPTY) continue; // don't care if they are both null
 			if (cookingItems[i] == ItemStack.EMPTY || sh.getStackInSlot(is[i]) == ItemStack.EMPTY) return true; // the precedent statement implies that only one of them is null
+			if (cookingItems[i] == null) return true;
 			if (!ItemStack.areItemsEqual(cookingItems[i], sh.getStackInSlot(is[i]))) return true;
 		}
 		return false;
 	}
 	
 	// returns true if a stack is cleared
+	// I'm pretty sure it's handled by forge now, but I'm too lazy for changing it
 	protected boolean clearEmptyStacks() {
 		boolean hasCleaned = false;
 		ItemStackHandler sh = this.getStackHandler();

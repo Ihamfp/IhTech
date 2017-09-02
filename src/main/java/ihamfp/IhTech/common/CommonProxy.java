@@ -40,9 +40,9 @@ public class CommonProxy implements IProxy {
 		if (Loader.isModLoaded("theoneprobe") && Config.TOPIntegration) {
 			TOPCompatibility.register();
 		}
-		/*if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
+		if (Loader.isModLoaded("tconstruct") && Config.TConstructIntegration) {
 			TConstructIntegration.moltenIntegration();
-		}*/ // TODO fix this
+		} // TODO fix this
 	}
 
 	@Override

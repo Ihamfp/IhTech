@@ -49,14 +49,10 @@ public abstract class ContainerBase<T extends TileEntity> extends Container {
 		Slot slot = this.inventorySlots.get(index);
 		int slotsCount = this.inventorySlots.size()-1;
 		
-		if (slot == null || !slot.getHasStack()) return null;
+		if (slot == null || !slot.getHasStack()) return ItemStack.EMPTY;
 		ItemStack itemStack1 = slot.getStack();
 		ItemStack itemStack = itemStack1.copy();
 
-		if (playerIn.world.isRemote) {
-			return ItemStack.EMPTY;
-		}
-		
 		if (index < this.getOwnSlotsCount()) { // TE to inv.
 			if (!mergeItemStack(itemStack1, this.getOwnSlotsCount(), slotsCount, false)) {
 				return ItemStack.EMPTY;

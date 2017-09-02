@@ -94,7 +94,7 @@ public class TConstructIntegration {
 			CustomFluidStateMapper mapper = new CustomFluidStateMapper(fluid);
 			ModelBakery.registerItemVariants(item);
 			ModelLoader.setCustomMeshDefinition(item, mapper);
-			ModelLoader.setCustomStateMapper(moltenBlock, mapper);
+			//ModelLoader.setCustomStateMapper(moltenBlock, mapper); // TODO fix crash
 		}
 	}
 	
